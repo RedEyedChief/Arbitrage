@@ -63,8 +63,8 @@ Class User_model extends CI_Model
     function register($data)
     {
         $query = $this->db->query("
-                                  INSERT INTO SITE.PROFILE (FIRSTNAME, SURNAME, RATING, PASSWORD, USERNAME )VALUES ('
-                                  ".$data['firstname']."','".$data['surname']."','0',MD5('".$data['password']."'),'".$data['mail']."')
+                                  INSERT INTO SITE.PROFILE (FIRSTNAME, SURNAME, PASSWORD, MAIL )VALUES ('
+                                  ".$data['firstname']."','".$data['surname']."',MD5('".$data['password']."'),'".$data['mail']."')
                                   ");
     }
 }
