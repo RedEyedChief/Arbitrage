@@ -81,3 +81,40 @@ footer {
 {
   margin-top: 0px;
 }
+
+/* ==================================
+ * Dashboard
+ * ================================== */
+
+.body-admin
+{
+  background: #E7E7E7;
+}
+
+.admin-panel
+{
+  background: #fff;
+  box-shadow: 2px 2px 2px 2px rgb(183, 182, 182);
+  margin: 20px;
+}
+
+.admin-panel-heading
+{
+  background: #fafafa;
+}
+#top-nav-admin
+{
+  background: #BA68C8;
+  box-shadow: 1px 1px 1px 1px rgb(200, 200, 200);
+  color: white;
+  border: 0;
+}
+
+.navbar-header-admin
+{
+}
+
+.admin-tabs
+{
+  background: white;
+}

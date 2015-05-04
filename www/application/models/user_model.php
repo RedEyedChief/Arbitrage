@@ -9,8 +9,8 @@ Class User_model extends CI_Model
      */
     function login($mail, $password)
     {
-        $query = $this -> db -> query("SELECT * FROM SITE.PROFILE
-                                      LEFT JOIN SITE.PROFILE_DETAILS ON profile.idProfile = profile_details.profile_idProfile
+        $query = $this -> db -> query("SELECT * FROM profile
+                                      LEFT JOIN profile_details ON profile.idProfile = profile_details.profile_idProfile
                                       WHERE mail='".$mail."' AND password=MD5('".$password."')
                                       LIMIT 1");
         
@@ -40,8 +40,8 @@ Class User_model extends CI_Model
      */
     function getProfileInfo($id)
     {
-        $query = $this -> db -> query("SELECT * FROM SITE.PROFILE
-                                      LEFT JOIN SITE.PROFILE_DETAILS ON profile.idProfile = profile_details.profile_idProfile
+        $query = $this -> db -> query("SELECT * FROM profile
+                                      LEFT JOIN profile_details ON profile.idProfile = profile_details.profile_idProfile
                                       WHERE idProfile='".$id."'
                                       LIMIT 1");
       
@@ -63,7 +63,7 @@ Class User_model extends CI_Model
     function register($data)
     {
         $query = $this->db->query("
-                                  INSERT INTO SITE.PROFILE (FIRSTNAME, SURNAME, PASSWORD, MAIL )VALUES ('
+                                  INSERT INTO profile (FIRSTNAME, SURNAME, PASSWORD, MAIL )VALUES ('
                                   ".$data['firstname']."','".$data['surname']."',MD5('".$data['password']."'),'".$data['mail']."')
                                   ");
     }

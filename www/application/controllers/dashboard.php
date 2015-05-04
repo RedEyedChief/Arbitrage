@@ -51,22 +51,52 @@ class Dashboard extends CI_Controller {
 	
 	function index()
 	{
-		$this->isLogged = $this->user_model->check_logged();	//Перевірка авторизованості
+		//$this->isLogged = $this->user_model->check_logged();	//Перевірка авторизованості
+		//
+		//$ajax = $this->input->post("ajax");
+		//$this->blocsBefore($ajax);
+		//
+		//$this->load->view('admin/splitters/start_row');
+		//$this->load->view('admin/toolbox');
+		//$this->load->view('admin/admin_upper');
+		//$this->load->view('admin/splitters/end_row');
+		//$this->data['users'] = $this->content_model->getUsers();
+		//$this->load->view('admin/user_list',$this->data);
+		
+		///*$this->data['polls'] = $this->content_model->getPolls();
+		//$this->load->view('admin/poll_list',$this->data);*/
+		//$this->load->view('admin/admin_view');
+		//
+		////$this->blocksAfter($ajax);
+		$this->isLogged = $this->user_model->check_logged();
 		
 		$ajax = $this->input->post("ajax");
-		$this->blocsBefore($ajax);
+		if($this->isLogged)
+		{
+			$this->data['profile'] = $this->session->userdata("profile");
+			$this->load->view('admin/admin_header',$this->data['profile']);
+		}
+		else
+		{
+			redirect('/', 'refresh');
+		}
+		
+		if ($this->data['profile']['role'] != 4) redirect('/', 'refresh');
 		
 		$this->load->view('admin/splitters/start_row');
 		$this->load->view('admin/toolbox');
-		$this->load->view('admin/admin_upper');
+		
+		//$this->load->view('admin/splitters/start_row');
+		//
+		//$this->data['news'] = $this->content_model->getNews();
+		//$this->load->view('admin/news_list',$this->data);
+		//
+		//$this->data['polls'] = $this->content_model->getPolls();
+		//$this->load->view('admin/poll_list',$this->data);
+		//
+		$this->data['users'] = $this->content_model->getUsers();
+		$this->load->view('admin/admin_upper',$this->data);
 		$this->load->view('admin/splitters/end_row');
-		$this->data['news'] = $this->content_model->getNews();
-		$this->load->view('admin/news_list',$this->data);
 		
-		$this->data['polls'] = $this->content_model->getPolls();
-		$this->load->view('admin/poll_list',$this->data);
-		$this->load->view('admin/admin_view');
-		
-		//$this->blocksAfter($ajax);
 	}
 }
