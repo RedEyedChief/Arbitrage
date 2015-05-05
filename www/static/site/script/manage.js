@@ -3,6 +3,7 @@ $('.confirm-delete').click(function(e) {
 });
 
 $('.remove-icon').click(function(e) {
+    alert();
     manage.id=$(this).attr("element-id")
 });
 

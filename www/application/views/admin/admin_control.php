@@ -11,13 +11,13 @@
 			</div>
 			
 			<div class="btn-group" data-toggle="buttons">
-			  <label class="btn btn-default active">
+			  <label class="btn btn-default">
 			    <input type="radio" name="options" id="option1" autocomplete="off"> Active
 			  </label>
 			  <label class="btn btn-default">
 			    <input type="radio" name="options" id="option2" autocomplete="off"> Service
 			  </label>
-			  <label class="btn btn-warning">
+			  <label class="btn btn-warning active">
 			    <input type="radio" name="options" id="option3" autocomplete="off" checked> Developer mode
 			  </label>
 			</div>

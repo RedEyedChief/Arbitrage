@@ -176,7 +176,7 @@ if (defined('ENVIRONMENT'))
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 
 	//Local or remote database
-	define('IS_LOCAL',false);
+	define('IS_LOCAL',true);
 	
 	// The path to the "application" folder
 	if (is_dir($application_folder))

@@ -8,7 +8,9 @@ class Dashboard extends CI_Controller {
 		$this->load->model(array('user_model',"content_model",'stat_model'));
 		$this->load->database();
 		$this->load->library('session');
-		$this->load->helper("cookie", "url");
+		$this->load->library('simple_html_dom');
+		$this->load->helper("cookie");
+		$this->load->helper("url");
 		//$this->stat_model->viewCategory('dashboard');	//Запис про відвідування сторінки
 		$lang = $this->input->cookie("lang")==""?"ukrainian":$this->input->cookie("lang");	//Визначення мови
 		$this->lang->load($lang,$lang);	//Завантаження локалізації
@@ -138,6 +140,16 @@ class Dashboard extends CI_Controller {
 		$this->blocsBefore();
 		$this->data['prices'] = $this->content_model->getPrices();
 		$this->load->view('admin/lists/prices_list',$this->data);
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
+	}
+	
+	function parsing()
+	{
+		$this->blocsBefore();
+		$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
+		$this->load->view('admin/parsing_view', $this->data);	
+		$this->data['html']->clear();
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
 	}

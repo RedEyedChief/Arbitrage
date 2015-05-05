@@ -4,6 +4,21 @@
   color: white;
 }
 
+#parserID
+{
+    width: 3em;
+}
+
+#parserURL
+{
+  width:85%;
+}
+
+.parseResult
+{
+ 
+}
+
 .admin-panel .nav-stacked .fa
 {
     min-width: 20px;
