@@ -8,7 +8,7 @@ class Login extends CI_Controller {
 		$this->load->helper('url'); 
 		$this->load->model('user_model','user',TRUE);
 		$this->load->library("session");
-	}asdfasdf
+	}
 	
 	function index()
 	{
