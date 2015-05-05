@@ -19,20 +19,26 @@ class Dashboard extends CI_Controller {
 	 * @param var $ajax true, якщо запит асинхронний
 	 * @return true None
 	 */
-	private function blocsBefore($ajax)
-	{
-		if(!$ajax)
+	private function blocsBefore()
+	{	
+		$this->isLogged = $this->user_model->check_logged();
+		
+		$ajax = $this->input->post("ajax");
+		if($this->isLogged)
 		{
-			if($this->isLogged)	//Перевірка права доступу
-			{
-				$this->data['profile'] = $this->session->userdata("profile");
-				$this->load->view('admin/admin_header',$this->data['profile']);
-			}
-			else
-			{
-				redirect('/', 'refresh');	//Відмовлено в доступі
-			}
+			$this->data['profile'] = $this->session->userdata("profile");
+			$this->load->view('admin/admin_header',$this->data['profile']);
 		}
+		else
+		{
+			redirect('/', 'refresh');
+		}
+		
+		if ($this->data['profile']['role'] != 4) redirect('/', 'refresh');
+		
+		$this->load->view('admin/splitters/start_row');
+		$this->load->view('admin/toolbox');
+	
 	}
 	
 	/**
@@ -68,24 +74,7 @@ class Dashboard extends CI_Controller {
 		//$this->load->view('admin/admin_view');
 		//
 		////$this->blocksAfter($ajax);
-		$this->isLogged = $this->user_model->check_logged();
-		
-		$ajax = $this->input->post("ajax");
-		if($this->isLogged)
-		{
-			$this->data['profile'] = $this->session->userdata("profile");
-			$this->load->view('admin/admin_header',$this->data['profile']);
-		}
-		else
-		{
-			redirect('/', 'refresh');
-		}
-		
-		if ($this->data['profile']['role'] != 4) redirect('/', 'refresh');
-		
-		$this->load->view('admin/splitters/start_row');
-		$this->load->view('admin/toolbox');
-		
+		$this->blocsBefore();
 		//$this->load->view('admin/splitters/start_row');
 		//
 		//$this->data['news'] = $this->content_model->getNews();
@@ -94,9 +83,62 @@ class Dashboard extends CI_Controller {
 		//$this->data['polls'] = $this->content_model->getPolls();
 		//$this->load->view('admin/poll_list',$this->data);
 		//
-		$this->data['users'] = $this->content_model->getUsers();
-		$this->load->view('admin/admin_upper',$this->data);
-		$this->load->view('admin/splitters/end_row');
 		
+		$this->load->view('admin/admin_control');
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
+	}
+	
+	function stats()
+	{
+		$this->blocsBefore();
+		$this->load->view('admin/admin_upper');
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
+	}
+	
+	function users()
+	{
+		$this->blocsBefore();
+		$this->data['users'] = $this->content_model->getUsers();
+		$this->load->view('admin/lists/users_list',$this->data);
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
+	}
+	
+	function news()
+	{
+		$this->blocsBefore();
+		$this->data['news'] = $this->content_model->getNews();
+		$this->load->view('admin/lists/news_list',$this->data);
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
+	}
+	
+	function products()
+	{
+		$this->blocsBefore();
+		$this->data['products'] = $this->content_model->getProducts();
+		$this->load->view('admin/lists/products_list',$this->data);
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
+	}
+	
+	function cities()
+	{
+		$this->blocsBefore();
+		$this->data['cities'] = $this->content_model->getCities();
+		$this->load->view('admin/lists/cities_list',$this->data);
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
+	}
+	
+	function prices()
+	{
+		$this->blocsBefore();
+		$this->data['prices'] = $this->content_model->getPrices();
+		$this->load->view('admin/lists/prices_list',$this->data);
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
 	}
 }

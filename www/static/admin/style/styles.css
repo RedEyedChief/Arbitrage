@@ -4,6 +4,11 @@
   color: white;
 }
 
+.admin-panel .nav-stacked .fa
+{
+    min-width: 20px;
+}
+
 .navbar-brand
 {
   color:white!important;

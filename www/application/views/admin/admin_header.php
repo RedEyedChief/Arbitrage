@@ -17,13 +17,31 @@
 	<body class="body-admin">
 <!-- Header -->
 <div id="top-nav-admin" class="navbar navbar-inverse navbar-static-top navbar-admin">
-  <div class="">
+<div class="container">
     <div class="navbar-header navbar-header-admin">
-      <a class="navbar-brand" href="#">Control Panel</a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-toggle"></span>
+      </button>
+      <a class="navbar-brand" href="#"><?=$this->lang->line('title_header_admin')?></a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+	<?if(!isset($mail)):?>
+        <li><a href="javascript:login.modal.show('signInModal')" role="button"><?=$this->lang->line('sign_in')?></a></li>
+	<li><a href="javascript:login.modal.show('signUpModal')" role="button"><?=$this->lang->line('sign_up')?></a></li>
+	<? else: ?>
+	<li><a href="javascript:login.modal.show('')" role="button"><?=$firstName." ".$surName?></a></li>
+	<li style="padding:0px"><a style="padding: 5px;" href="javascript:login.modal.show('')" role="button"><img src="<?=isset($avatar)?$avatar:'/static/images/avatar-default.jpg'?>" class="avatar-min img-circle" style="width:3em"></a></li>
+	<li style="padding:0px"><a href="/login/logout" role="button"><i class="fa fa-sign-out" style="font-size: 20px;"></i></a></li>
+	<?endif;?>
+	<li style="padding:0px"><a href="/content/lang/ukrainian" role="button" style="padding-right: 0;"><img src="/static/images/ukraine-flag-icon.png" style="width: 16px; height: 16px;"></i></a></li>
+	<li style="padding:0px"><a href="/content/lang/english" role="button" style="padding-left: 3px;"><img src="/static/images/uk-flag-icon.png" style="width: 16px; height: 16px;"></i></a></li>
+      </ul>
     </div>
   </div><!-- /container -->
 </div>
 <!-- /Header -->
+
 
 <!-- Main -->
 <div class="container">

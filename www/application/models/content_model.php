@@ -24,16 +24,60 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всі новини з start до end, чи з id
+     * Отримати всі товари з start до end, чи з id
      * @param Number $start нижня межа, з
      * @param Number $end верхня межа, по
-     * @param Boolean $id ID новини
-     * @return var  масив новин
+     * @param Boolean $id ID товару
+     * @return var  масив товарів
      */
-    function getGoods($start=0,$end=10,$id=false)
+    function getProducts($start=0,$end=10,$id=false)
     {
-        $where = $id!=false?"WHERE profile.idArea=".$id:"";
-        $query = $this -> db -> query("SELECT idArea,nameArea, idPrice, namePrice FROM area INNER JOIN price ON idArea = idPrice ".$where." ORDER BY dateArticle DESC LIMIT ".$start.",".$end);
+        $where = $id!=false?"WHERE product.idProduct=".$id:"";
+        $query = $this -> db -> query("SELECT * FROM product INNER JOIN market ON Market_idMarket = idMarket ".$where." ORDER BY idProduct DESC LIMIT ".$start.",".$end);
+        
+        if($query -> num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * Отримати всі міста з start до end, чи з id
+     * @param Number $start нижня межа, з
+     * @param Number $end верхня межа, по
+     * @param Boolean $id ID міста
+     * @return var  масив міст
+     */
+    function getCities($start=0,$end=10,$id=false)
+    {
+        $where = $id!=false?"WHERE city.idCity=".$id:"";
+        $query = $this -> db -> query("SELECT * FROM city INNER JOIN area ON Area_idArea = idArea ".$where." ORDER BY idCity DESC LIMIT ".$start.",".$end);
+        
+        if($query -> num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * Отримати всі тарифи з start до end, чи з id
+     * @param Number $start нижня межа, з
+     * @param Number $end верхня межа, по
+     * @param Boolean $id ID тарифу
+     * @return var  масив тарифів
+     */
+    function getPrices($start=0,$end=10,$id=false)
+    {
+        $where = $id!=false?"WHERE price.idPrice=".$id:"";
+        $query = $this -> db -> query("SELECT * FROM price INNER JOIN area ON idPrice = price_idPrice ".$where." ORDER BY idArea DESC LIMIT ".$start.",".$end);
         
         if($query -> num_rows() > 0)
         {
