@@ -2,7 +2,8 @@
 <!-- /Main -->
 
 
-<footer class="text-center">This Bootstrap 3 dashboard layout is compliments of <a href="http://www.bootply.com/85850"><strong>Bootply.com</strong></a></footer>
+
+<footer class="text-center"></footer>
 
 
 <div class="modal" id="addWidgetModal">
@@ -29,6 +30,7 @@
 	<!-- script references -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 		<script src="static/admin/script/bootstrap.min.js"></script>
+		<script src="/static/site/script/manage.js"></script>
 		<script src="/static/site/script/manage.js"></script>
 	</body>
 </html>

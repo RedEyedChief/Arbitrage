@@ -28,12 +28,20 @@ class Login extends CI_Controller {
 		}
 	}
 	
+	/**
+	 * Вихід
+	 * @return true  None
+	 */
 	function logout()
 	{
 		$this->session->sess_destroy();
 		redirect('/', 'refresh');
 	}
 	
+	/**
+	 * Додати користувача
+	 * @return true  None
+	 */
 	function register()
 	{
 		$data = $this->input->post(NULL);
@@ -60,6 +68,10 @@ class Login extends CI_Controller {
 		}
 	}
 	
+	/**
+	 * вхід
+	 * @return true  None
+	 */
 	function signin()
 	{
 		$data = $this->input->post(NULL);
@@ -80,6 +92,12 @@ class Login extends CI_Controller {
 		}
 	}
 	
+	/**
+	 * отримання даних користувача
+	 * @param object $password пароль
+	 * @param Boolean $mail емейл
+	 * @return true  None
+	 */
 	function check_database($password,$mail=false)
 	{
 		//Field validation succeeded.&nbsp; Validate against database

@@ -1,7 +1,8 @@
 ﻿</div><!--/container-->
 <!-- /Main -->
 
-<footer class="text-center">This Bootstrap 3 dashboard layout is compliments of <a href="http://www.bootply.com/85850"><strong>Bootply.com</strong></a></footer>
+
+<footer class="text-center"></footer>
 
 
 <!--sign in modal-->
