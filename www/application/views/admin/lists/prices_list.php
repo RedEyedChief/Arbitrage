@@ -1,6 +1,6 @@
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-money"></i> Prices</h3>
+      	<h3><i class="fa fa-money"></i> <span id="itemType">Prices</span></h3>
 	    <hr>
 		  
 	    <div class="panel-body">
@@ -17,11 +17,12 @@
 				    case '3':$icon = "fa fa-shield"; break;
 				    case '4':$icon = "fa fa-certificate"; break;
 				    default: $icon = "";break;
-				}?>
-					<tr class="article link" href="/matherials/article/<?=$item->idPrice?>">
+				}
+				if($item->isActivePrice==0) $removed = "removedUser"; else $removed = ""?>
+					<tr class="article link <?=$removed?>" href="/matherials/article/<?=$item->idPrice?>">
 						<td class="remove-icon <?=$icon?>"></td>
-						<td class="id-article"><?=$item->idPrice?></td>
-						<td><?=$item->namePrice?></td>
+						<td class="id-article itemId"><?=$item->idPrice?></td>
+						<td class="itemName"><?=$item->namePrice?></td>
 						<td><?=$item->nameArea?></td>
 						<td><?=$item->costPrice?></td>
 						<td class="remove-icon" element-id="<?=$item->idPrice?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-edit text-muted"></i></td>

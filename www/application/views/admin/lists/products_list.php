@@ -1,6 +1,6 @@
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-users"></i> Products</h3>
+      	<h3><i class="fa fa-users"></i> <span id="itemType">Products</span></h3>
 	    <hr>
 		  
 	    <div class="panel-body">
@@ -20,8 +20,8 @@
 				}?>
 					<tr class="article link" href="/matherials/article/<?=$item->idProduct?>">
 						<td class="remove-icon <?=$icon?>"></td>
-						<td class="id-article"><?=$item->idProduct?></td>
-						<td class="author-article"><?=$item->nameProduct?></td>
+						<td class="id-article itemId"><?=$item->idProduct?></td>
+						<td class="author-article itemName"><?=$item->nameProduct?></td>
 						<td><?=$item->priceProduct?></td>
 						<td><?=$item->nameMarket?></td>
 						<td class="remove-icon" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-edit text-muted"></i></td>

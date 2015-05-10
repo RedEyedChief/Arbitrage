@@ -1,6 +1,6 @@
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-users"></i> News</h3>
+      	<h3><i class="fa fa-users"></i> <span id="itemType">News</span></h3>
 	    <hr>
 		  
 	    <div class="panel-body">
@@ -12,10 +12,10 @@
             <tbody id="newsreader">
                     <?php $c=1;foreach ($news as $item):?>
                             <tr class="article link" href="/matherials/article/<?=$item->idArticle?>">
-                                    <td class="id-article"><?=$item->idArticle?></td>
+                                    <td class="id-article itemId"><?=$item->idArticle?></td>
                                     <td>Article</td>
                                     <td class="author-article"><?=$item->mail?></td>
-                                    <td class="header-article"><?=$item->headerArticle?></td>
+                                    <td class="header-article itemName"><?=$item->headerArticle?></td>
                                     <td>120</td>
                                     <td>4.4</td>
                                     <td class="remove-icon" element-id="<?=$item->idArticle?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-remove text-muted"></i></td>

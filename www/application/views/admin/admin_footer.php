@@ -19,6 +19,25 @@
 </div><!-- /.modal -->
 
 
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4><?=$this->lang->line('list_remove_sure')?></h4>
+            </div>
+            <div class="modal-body">
+                <h5><?=$this->lang->line('list_remove_type')?> : <span id="removeType"></span></h5>
+                <h5><?=$this->lang->line('list_remove_id')?> : <span id="removeId"></span></h5>
+                <h5><?=$this->lang->line('list_remove_name')?> : <span id="removeName"></span></h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?=$this->lang->line('list_remove_cancel')?></button>
+                <a class="btn btn-danger danger confirm-delete"><?=$this->lang->line('list_remove_confirm')?></a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/static/jquery/jquery.min.js"></script>
 <script src="/static/admin/script/bootstrap.min.js"></script>
 <script src="/static/admin/script/dashboard.js"></script>

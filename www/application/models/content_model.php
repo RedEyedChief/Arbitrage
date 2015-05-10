@@ -152,9 +152,9 @@ Class Content_model extends CI_Model
      * @param Number $end верхня межа, по
      * @return var  масив користувачів
      */
-    function getUsers($start=0,$end=10)
+    function getUsers($start=0,$end=20,$order="profile.isActive DESC, profile.role DESC")
     {
-        $query = $this -> db -> query("SELECT * FROM profile LEFT JOIN profile_details ON profile.idProfile = profile_details.profile_idProfile LIMIT ".$start.",".$end);
+        $query = $this -> db -> query("SELECT * FROM profile LEFT JOIN profile_details ON profile.idProfile = profile_details.profile_idProfile"." ORDER BY ".$order." LIMIT ".$start.",".$end);
         
         if($query -> num_rows() > 0)
         {
@@ -195,6 +195,42 @@ Class Content_model extends CI_Model
     {
         $this->db->where('idArticle',$id);
         $this->db->delete("article");
+    }
+    
+    function removeProduct($id)
+    {
+        $this->db->where('idProduct',$id);
+        $this->db->delete("product");
+    }
+    
+    function removeUser($id)
+    {
+        $data = array(
+               'isActive' => 0
+            );
+        $this->db->where('idProfile',$id);
+        $this->db->update('profile',$data);
+        //$this->db->delete("profile");
+    }
+    
+    function removePrice($id)
+    {
+        $data = array(
+               'isActivePrice' => 0
+            );
+        $this->db->where('idPrice',$id);
+        $this->db->update('price',$data);
+        //$this->db->delete("profile");
+    }
+    
+    function removeCity($id)
+    {
+        $data = array(
+               'isActiveCity' => 0
+            );
+        $this->db->where('idCity',$id);
+        $this->db->update('city',$data);
+        //$this->db->delete("profile");
     }
     
     function votePoll($id,$vote)

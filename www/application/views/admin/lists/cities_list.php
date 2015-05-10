@@ -1,6 +1,6 @@
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-map-marker"></i> Cities</h3>
+      	<h3><i class="fa fa-map-marker"></i> <span id="itemType">Cities</span></h3>
 	    <hr>
 		  
 	    <div class="panel-body">
@@ -17,12 +17,13 @@
 				    case '3':$icon = "fa fa-shield"; break;
 				    case '4':$icon = "fa fa-certificate"; break;
 				    default: $icon = "";break;
-				}?>
-					<tr class="article link" href="/matherials/article/<?=$item->idCity?>">
+				}
+				if($item->isActiveCity==0) $removed = "removedUser"; else $removed = ""?>?>
+					<tr class="article link <?=$removed?>" href="/matherials/article/<?=$item->idCity?>">
 						<td class="remove-icon <?=$icon?>"></td>
-						<td class="id-article"><?=$item->idCity?></td>
+						<td class="id-article itemId"><?=$item->idCity?></td>
 						<td class="author-article"><?=$item->nameCity?></td>
-						<td><?=$item->nameArea?></td>
+						<td class="itemName"><?=$item->nameArea?></td>
 						<td class="remove-icon" element-id="<?=$item->idCity?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-edit text-muted"></i></td>
 						<td class="remove-icon" element-id="<?=$item->idCity?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-remove text-muted"></i></td>
 					</tr>

@@ -50,9 +50,45 @@ class Content extends CI_Controller {
 	 * Видалити новину
 	 * @return true  None
 	 */
-	public function removeArticle()
+	public function removeArticles()
 	{
-		if($this->isLogged) $this->content_model->removeArticle($this->input->post("id"));
+		if($this->isLogged >= 3) $this->content_model->removeArticle($this->input->post("id"));
+	}
+	
+	/**
+	 * Видалити користувача
+	 * @return true  None
+	 */
+	public function removeUsers()
+	{
+		if($this->isLogged >= 3) $this->content_model->removeUser($this->input->post("id"));
+	}
+	
+	/**
+	 * Видалити користувача
+	 * @return true  None
+	 */
+	public function removeProducts()
+	{
+		if($this->isLogged >= 3) $this->content_model->removeProduct($this->input->post("id"));
+	}
+	
+	/**
+	 * Видалити користувача
+	 * @return true  None
+	 */
+	public function removePrices()
+	{
+		if($this->isLogged >= 3) $this->content_model->removePrice($this->input->post("id"));
+	}
+	
+	/**
+	 * Видалити користувача
+	 * @return true  None
+	 */
+	public function removeCities()
+	{
+		if($this->isLogged >= 3) $this->content_model->removeCity($this->input->post("id"));
 	}
 	
 	/**
