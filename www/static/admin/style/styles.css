@@ -23,7 +23,10 @@
 {
  
 }
-
+.margin_top_10px
+{
+  margin-top:10px;
+}
 .admin-panel .nav-stacked .fa
 {
     min-width: 20px;

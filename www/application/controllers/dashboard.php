@@ -11,14 +11,14 @@ class Dashboard extends CI_Controller {
 		$this->load->library('simple_html_dom');
 		$this->load->helper("cookie");
 		$this->load->helper("url");
-		//$this->stat_model->viewCategory('dashboard');	//Запис про відвідування сторінки
-		$lang = $this->input->cookie("lang")==""?"ukrainian":$this->input->cookie("lang");	//Визначення мови
-		$this->lang->load($lang,$lang);	//Завантаження локалізації
+		//$this->stat_model->viewCategory('dashboard');	//пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		$lang = $this->input->cookie("lang")==""?"ukrainian":$this->input->cookie("lang");	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+		$this->lang->load($lang,$lang);	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	}
 	
 	/**
-	 * Функція завантаження верхньої частини сайту, перед контентом
-	 * @param var $ajax true, якщо запит асинхронний
+	 * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	 * @param var $ajax true, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	 * @return true None
 	 */
 	private function blocsBefore()
@@ -44,8 +44,8 @@ class Dashboard extends CI_Controller {
 	}
 	
 	/**
-	 * Блоки після контенту
-	 * @param var $ajax true, якщо запит асинхронний
+	 * пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	 * @param var $ajax true, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	 * @return true None
 	 */
 	private function blocksAfter($ajax)
@@ -59,7 +59,7 @@ class Dashboard extends CI_Controller {
 	
 	function index()
 	{
-		//$this->isLogged = $this->user_model->check_logged();	//Перевірка авторизованості
+		//$this->isLogged = $this->user_model->check_logged();	//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		//
 		//$ajax = $this->input->post("ajax");
 		//$this->blocsBefore($ajax);
@@ -145,12 +145,16 @@ class Dashboard extends CI_Controller {
 	}
 	
 	function parsing()
-	{
-		$this->blocsBefore();
-		$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
-		$this->load->view('admin/parsing_view', $this->data);	
-		$this->data['html']->clear();
-		$this->load->view('admin/splitters/end_row');
-		$this->load->view('admin/admin_footer');
-	}
+    	{
+    		$this->blocsBefore();
+    		$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
+    		//$this->load->view('admin/parsing_view', $this->data);
+    		$this->load->view('admin/parsing_view2', $this->data);
+    		$parserName = $this->input->post('parserName', TRUE);
+    		echo $parserName;
+    		//$this->data['html']->clear();
+    		$this->load->view('admin/splitters/end_row');
+    		$this->load->view('admin/admin_footer');
+
+    	}
 }
