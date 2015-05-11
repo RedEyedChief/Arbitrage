@@ -14,9 +14,28 @@
   width:85%;
 }
 
+.form-add .input-group-addon
+{
+  padding: 4px 4px;
+}
+
+.form-add select
+{
+  min-width: 18pt;
+  padding: 0 0px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 .removedUser, .removedUser td
 {
   background: navajowhite!important;
+}
+
+.newItem, .newItem td
+{
+  background: mediumspringgreen!important;
 }
 
 .parseResult

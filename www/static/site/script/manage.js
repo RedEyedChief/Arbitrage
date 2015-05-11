@@ -1,6 +1,11 @@
 $('.confirm-delete').click(function(e) {
-    manage.remove($("#objectType").val())
+    manage.remove()
 });
+
+$('#formAdd').submit(function(){
+    manage.add(this);
+    return false;
+    });
 
 $('.remove-icon').click(function(e) {
     manage.id=$(this).attr("element-id")
@@ -11,7 +16,7 @@ $('.remove-icon').click(function(e) {
 var manage = {
     source: null,
     id: "",
-    remove: function(type)
+    remove: function()
     {
         $.post('/content/remove'+$("#removeType").html(), {id: this.id},function(data){
             $(".remove-icon[element-id="+manage.id+"]").parent().hide("slow");
@@ -19,6 +24,13 @@ var manage = {
         })
         $('#confirm-delete').modal('hide')
         return true;
+    },
+    
+    add: function(form)
+    {
+        $.post('/login/register/true', $(form).serialize(),function(data){
+            $(data).insertBefore($("#listpoll tr:first"));
+        })
     },
     
     updateModal: function()

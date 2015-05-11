@@ -103,6 +103,7 @@ class Dashboard extends CI_Controller {
 	{
 		$this->blocsBefore();
 		$this->data['users'] = $this->content_model->getUsers();
+		$this->data['async']=false;
 		$this->load->view('admin/lists/users_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');

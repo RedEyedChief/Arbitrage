@@ -63,9 +63,11 @@ Class User_model extends CI_Model
     function register($data)
     {
         $query = $this->db->query("
-                                  INSERT INTO profile (FIRSTNAME, SURNAME, PASSWORD, MAIL )VALUES ('
-                                  ".$data['firstname']."','".$data['surname']."',MD5('".$data['password']."'),'".$data['mail']."')
+                                  INSERT INTO profile (FIRSTNAME, SURNAME, PASSWORD, MAIL, ROLE )VALUES ('
+                                  ".$data['firstname']."','".$data['surname']."',MD5('".$data['password']."'),'".$data['mail']."',".$data['role'].")
                                   ");
+        if($this->db->affected_rows()==1) return $this->db->insert_id();
+        else return false;
     }
 }
 

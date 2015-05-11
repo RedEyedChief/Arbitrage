@@ -34,29 +34,38 @@ class Login extends CI_Controller {
 		redirect('/', 'refresh');
 	}
 	
-	function register()
+	function register($ajax='false')
 	{
 		$data = $this->input->post(NULL);
 		$this->load->library('form_validation');
-	      
+		if($data['role']=="") $data['role']=0;
 		$this->form_validation->set_rules('firstname', '²ì`ÿ', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('surname', 'Ïğ³çâèùå', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('mail', 'Í³êíåéì', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('password', 'Ïàğîëü', 'trim|required|xss_clean');
-		
-		
+		$this->form_validation->set_rules('role','Ğîëü','trim|xss_clean');
 		
 		if($this->form_validation->run() == FALSE)
 		{
+			echo "error";
 			//Field validation failed.&nbsp; User redirected to login page
 			die(validation_errors());//$this->load->view('registration_view');
 		}
 		else
 		{
-			if(!$this->user->register($data)) return false;
+			$id = $this->user->register($data);
+			if(!$id){ echo "error";return false;}
 			//Go to private area
-			$this->check_database($data['password'],$data['mail']);
-			redirect('/', 'refresh');
+			if($ajax!='true')
+			{
+				$this->check_database($data['password'],$data['mail']);
+				redirect('/', 'refresh');
+			}else{
+				$this->data['users']=$this->user->getProfileInfo($id);
+				$this->data['async']=true;
+				$this->load->view('admin/lists/users_list',$this->data);
+			}
+			//
 		}
 	}
 	
