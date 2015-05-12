@@ -1,5 +1,5 @@
-﻿</div><!--/container-->
-<!-- /Main -->
+﻿    </div><!--/container-->
+</div><!-- /Main -->
 
 
 <footer class="text-center"></footer>
@@ -16,6 +16,10 @@
       <div class="modal-body">
 	<div class="row">
           <form class="form col-md-12 center-block" method="post" action="/login/signin">
+              <div class="alert alert-danger alert-dismissible" role="alert" style="display: none">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <ul id="login_errors"></ul>
+              </div>
             <div class="form-group">
               <input type="text" class="form-control input-sm" placeholder="Username" name="mail">
             </div>
@@ -43,7 +47,12 @@
       <div class="modal-body">
 	<div class="row">
           <form class="form col-md-12 center-block" method="POST" action="/login/register">
-	    <div class="form-group">
+              <div class="alert alert-danger alert-dismissible" role="alert" style="display: none">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <ul id="register_errors"></ul>
+              </div>
+
+              <div class="form-group">
 		<input type="text" name="firstname" class="form-control" placeholder="Surname"/>
 	    </div>
 	    <div class="form-group">
@@ -75,6 +84,8 @@
 	<!-- script references -->
 		<script src="/static/jquery/jquery.min.js"></script>
 		<script src="/static/jquery/jquery.hotkeys.js"></script>
+        <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" language="javascript" src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 		<script src="/static/site/script/login.js"></script>
 		<script src="/static/pagination/pagination.js"></script>
 		<script src="/static/site/script/global.js"></script>
@@ -85,7 +96,9 @@
 		
 		<script src="/static/wysi/bootstrap-wysiwyg.js"></script>
 		<script src="/static/upload/js/fileinput.js"></script>
-		
+
+        <script src="/static/site/script/orders.js"></script>
+
 		
 <!-- Piwik -->
 <script type="text/javascript">
