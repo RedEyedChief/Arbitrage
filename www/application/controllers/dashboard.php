@@ -102,8 +102,11 @@ class Dashboard extends CI_Controller {
 	function users()
 	{
 		$this->blocsBefore();
-		$this->data['users'] = $this->content_model->getUsers();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
+		$this->data['users'] = $this->content_model->getUsers($start,$end);
 		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getUsersNum();
 		$this->load->view('admin/lists/users_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
@@ -112,7 +115,11 @@ class Dashboard extends CI_Controller {
 	function news()
 	{
 		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
 		$this->data['news'] = $this->content_model->getNews();
+		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getNewsNum();
 		$this->load->view('admin/lists/news_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
@@ -121,7 +128,11 @@ class Dashboard extends CI_Controller {
 	function products()
 	{
 		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
 		$this->data['products'] = $this->content_model->getProducts();
+		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getProductsNum();
 		$this->load->view('admin/lists/products_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
@@ -130,7 +141,11 @@ class Dashboard extends CI_Controller {
 	function cities()
 	{
 		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
 		$this->data['cities'] = $this->content_model->getCities();
+		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getCitiesNum();
 		$this->load->view('admin/lists/cities_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
@@ -139,7 +154,11 @@ class Dashboard extends CI_Controller {
 	function prices()
 	{
 		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
 		$this->data['prices'] = $this->content_model->getPrices();
+		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getPricesNum();
 		$this->load->view('admin/lists/prices_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');

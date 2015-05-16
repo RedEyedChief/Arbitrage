@@ -23,6 +23,12 @@ Class Content_model extends CI_Model
         }
     }
     
+    function getNewsNum()
+    {
+        $query = $this -> db -> query("SELECT count(idArticle) AS num FROM article");
+        return $query->result();
+    }
+    
     /**
      * Отримати всі товари з start до end, чи з id
      * @param Number $start нижня межа, з
@@ -43,6 +49,12 @@ Class Content_model extends CI_Model
         {
             return false;
         }
+    }
+    
+    function getProductsNum()
+    {
+        $query = $this -> db -> query("SELECT count(idProduct) AS num FROM product");
+        return $query->result();
     }
     
     /**
@@ -67,6 +79,12 @@ Class Content_model extends CI_Model
         }
     }
     
+    function getCitiesNum()
+    {
+        $query = $this -> db -> query("SELECT count(idCity) AS num FROM city");
+        return $query->result();
+    }
+    
     /**
      * Отримати всі тарифи з start до end, чи з id
      * @param Number $start нижня межа, з
@@ -87,6 +105,12 @@ Class Content_model extends CI_Model
         {
             return false;
         }
+    }
+    
+    function getPricesNum()
+    {
+        $query = $this -> db -> query("SELECT count(idPrice) AS num FROM price");
+        return $query->result();
     }
     
     /**
@@ -152,7 +176,7 @@ Class Content_model extends CI_Model
      * @param Number $end верхня межа, по
      * @return var  масив користувачів
      */
-    function getUsers($start=0,$end=20,$order="profile.isActive DESC, profile.role DESC")
+    function getUsers($start=0,$end=10,$order="profile.isActive DESC, profile.role DESC")
     {
         $query = $this -> db -> query("SELECT * FROM profile LEFT JOIN profile_details ON profile.idProfile = profile_details.profile_idProfile"." ORDER BY ".$order." LIMIT ".$start.",".$end);
         
@@ -164,6 +188,12 @@ Class Content_model extends CI_Model
         {
             return false;
         }
+    }
+    
+    function getUsersNum()
+    {
+        $query = $this -> db -> query("SELECT count(idProfile) AS num FROM profile");
+        return $query->result();
     }
     
     /**
@@ -276,5 +306,66 @@ Class Content_model extends CI_Model
             $this->db->insert('pollVOTE',array('poll_idPoll'=>$insert_id,'textPollVote'=>$vote,'numberPollVote'=>$key+1));
         }
         $this->db->trans_complete();
+    }
+    
+    /**
+     * Повертає інформацію з профіля
+     * @param var $id ID користувача
+     * @return var  дані профілю
+     */
+    function getUserFields($id)
+    {
+        $query = $this -> db -> query("SELECT
+                                    idProfile,firstName,surName,lastName,role,mail  
+                                    FROM profile
+                                    WHERE idProfile='".$id."'
+                                    LIMIT 1");
+      
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
+    }
+    
+    function getProductFields($id)
+    {
+        $query = $this -> db -> query("SELECT
+                                    idProduct,nameProduct,priceProduct,countProduct,categoryProduct 
+                                    FROM product
+                                    WHERE idProduct='".$id."'
+                                    LIMIT 1");
+      
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
+    }
+    
+    function getPriceFields($id)
+    {
+        $query = $this -> db -> query("SELECT
+                                    idPrice,namePrice,costPrice
+                                    FROM price
+                                    WHERE idPrice='".$id."'
+                                    LIMIT 1");
+      
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
+    }
+    
+    function getCityFields($id)
+    {
+        $query = $this -> db -> query("SELECT
+                                    idCity,nameCity
+                                    FROM city
+                                    WHERE idCity='".$id."'
+                                    LIMIT 1");
+      
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
+    }
+    
+    function addProduct($data)
+    {
+        $this->db->insert('product',$data);
+        $query = $this->db->get_where('product INNER JOIN market ON Market_idMarket = idMarket', array('idProduct' => $this->db->insert_id()));
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
     }
 }
