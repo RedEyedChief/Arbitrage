@@ -2,11 +2,11 @@
 Class Content_model extends CI_Model
 {
     /**
-     * Отримати всі новини з start до end, чи з id
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID новини
-     * @return var  масив новин
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ start пїЅпїЅ end, пїЅпїЅ пїЅ id
+     * @param Number $start пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ
+     * @param Number $end пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ
+     * @param Boolean $id ID пїЅпїЅпїЅпїЅпїЅпїЅ
+     * @return var  пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
      */
     function getNews($start=0,$end=10,$id=false)
     {
@@ -24,11 +24,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всі товари з start до end, чи з id
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID товару
-     * @return var  масив товарів
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ start пїЅпїЅ end, пїЅпїЅ пїЅ id
+     * @param Number $start пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ
+     * @param Number $end пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ
+     * @param Boolean $id ID пїЅпїЅпїЅпїЅпїЅпїЅ
+     * @return var  пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
      */
     function getProducts($start=0,$end=10,$id=false)
     {
@@ -46,11 +46,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всі міста з start до end, чи з id
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID міста
-     * @return var  масив міст
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ start пїЅпїЅ end, пїЅпїЅ пїЅ id
+     * @param Number $start пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ
+     * @param Number $end пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ
+     * @param Boolean $id ID пїЅпїЅпїЅпїЅ
+     * @return var  пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
      */
     function getCities($start=0,$end=10,$id=false)
     {
@@ -68,11 +68,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всі тарифи з start до end, чи з id
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID тарифу
-     * @return var  масив тарифів
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ start пїЅпїЅ end, пїЅпїЅ пїЅ id
+     * @param Number $start пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ
+     * @param Number $end пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ
+     * @param Boolean $id ID пїЅпїЅпїЅпїЅпїЅпїЅ
+     * @return var  пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
      */
     function getPrices($start=0,$end=10,$id=false)
     {
@@ -90,11 +90,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати опитування
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID опитування
-     * @return var  масив новин
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+     * @param Number $start пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ
+     * @param Number $end пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ
+     * @param Boolean $id ID пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+     * @return var  пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
      */
     function getPolls($start=0,$end=10,$id=false)
     {
@@ -112,11 +112,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всі коменти з start до end, чи з id
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID новини
-     * @return var  масив коментів
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ start пїЅпїЅ end, пїЅпїЅ пїЅ id
+     * @param Number $start пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ
+     * @param Number $end пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ
+     * @param Boolean $id ID пїЅпїЅпїЅпїЅпїЅпїЅ
+     * @return var  пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
      */
     function getComments($id, $start=0,$end=10)
     {
@@ -134,11 +134,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Додати комент
-     * @param object $id ID новни
-     * @param object $text Текст комента
-     * @param object $user Автор комента
-     * @param object $uid ID автора
+     * пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+     * @param object $id ID пїЅпїЅпїЅпїЅпїЅ
+     * @param object $text пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+     * @param object $user пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+     * @param object $uid ID пїЅпїЅпїЅпїЅпїЅпїЅ
      * @return true  None
      */
     function addComment($id, $text, $user, $uid)
@@ -147,10 +147,10 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всіх користуваяів з start до end
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @return var  масив користувачів
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ start пїЅпїЅ end
+     * @param Number $start пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅ
+     * @param Number $end пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ
+     * @return var  пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
      */
     function getUsers($start=0,$end=20,$order="profile.isActive DESC, profile.role DESC")
     {
@@ -167,8 +167,8 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати новину, можливо застаріла
-     * @param object $id ID новини
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+     * @param object $id ID пїЅпїЅпїЅпїЅпїЅпїЅ
      * @return true  None
      */
     function getArticle($id)
@@ -277,4 +277,16 @@ Class Content_model extends CI_Model
         }
         $this->db->trans_complete();
     }
+
+    //Machulyanskiy: insert object of parsing
+     function saveOP ($parserURL, $parserRule)
+     {
+        $query = $this->db->insert("parser",array( "rurlesParser"=>$parserRule,"adressParser"=>$parserURL, "Market_idMarket"=>1, "Report_idReport"=>0));
+     }
+
+     //Machulyanskiy: insert element of OP
+     function save_element_OP($parserName, $parserPrice, $parserSeller)
+     {
+        $query = $this->db->insert("product",array( "nameProduct"=>$parserName,"countProduct"=>1, "priceProduct"=>$parserPrice, "categoryProduct"=>0, "Market_idMarket"=>1, "Report_idReport"=>0));
+     }
 }

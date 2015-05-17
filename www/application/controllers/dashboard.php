@@ -144,18 +144,59 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
 	}
-	
-	function parsing()
-    	{
-    		$this->blocsBefore();
-    		$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
-    		//$this->load->view('admin/parsing_view', $this->data);
-    		$this->load->view('admin/parsing_view2', $this->data);
-    		$parserName = $this->input->post('parserName', TRUE);
-    		echo $parserName;
-    		//$this->data['html']->clear();
-    		$this->load->view('admin/splitters/end_row');
-    		$this->load->view('admin/admin_footer');
 
-    	}
+	//Machulyanskiy
+	function parsing()
+    {
+    	$this->blocsBefore();
+    	$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
+    	//print_r($this->data['html']);
+    	//$this->load->view('admin/parsing_view', $this->data);
+    	$this->load->view('admin/parsing_view2', $this->data);
+    	//$this->load->view('admin/parsing_view2');
+    	/*$parserName = $this->input->post('parserName', TRUE);
+    	echo $parserName;*/
+    	//$this->data['html']->clear();
+    	$this->load->view('admin/splitters/end_row');
+    	$this->load->view('admin/admin_footer');
+
+    }
+
+	//Machulyanskiy: processing the request to the source
+    function parsing_request()
+    {
+		$parserURL = $this->input->post('parserURL', TRUE);
+		$parserRule = $this->input->post('parserRule', TRUE);
+
+		//save object of parsing to db
+		//$this->content_model->saveOP($parserURL, $parserRule);
+
+		$count = 0;
+		$this->data['html'] = file_get_html($parserURL);
+
+		foreach ($this->data['html']->find('ul[class=book-tabl] li') as $element) //'ul[class=book-tabl] li'	    "'" . $parserRule . "'"
+		{
+			$count++;
+			$str = iconv("utf-8","windows-1251",$element->plaintext);
+			$arr[] =  array('count' =>$count, 'info' => $element->plaintext);
+		}
+
+		$this->data['html'] -> clear();
+        unset($this->data['html']);
+
+		echo json_encode($arr);
+    }
+
+	//Machulyanskiy: processing the element OP
+    function element_OP()
+    {
+    	$parserName = $this->input->post('parserName', TRUE);
+        $parserPrice = $this->input->post('parserPrice', TRUE);
+        $parserSeller = $this->input->post('parserSeller', TRUE);
+
+		/*$error = $this->content_model->save_element_OP($parserName, $parserPrice, $parserSeller);
+
+		if($error == null)		echo json_encode(array('status' => 'ok');*/
+		echo json_encode(array('status' => 'ok'));
+    }
 }

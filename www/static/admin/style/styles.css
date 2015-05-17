@@ -50,7 +50,10 @@
 {
     min-width: 20px;
 }
-
+.cursor
+{
+  cursor: pointer;
+}
 .navbar-brand
 {
   color:white!important;
