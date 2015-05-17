@@ -14,6 +14,11 @@
   width:85%;
 }
 
+#editorFields .input-group-addon
+{
+  min-width:170px;
+}
+
 .form-add .input-group-addon
 {
   padding: 4px 4px;
@@ -112,7 +117,7 @@ footer {
   padding: 0 !important;
 }
 
-.remove-icon
+.remove-icon, .edit-icon
 {
   cursor: pointer;
 }

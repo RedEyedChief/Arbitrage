@@ -10,6 +10,7 @@
 		<link href="/static/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
                 <link href="/static/fonts/ionicons/css/ionicons.min.css" rel="stylesheet">
 		<link href="/static/upload/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
 		
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,6 +27,9 @@
           <span class="icon-toggle"></span>
       </button>
       <a class="navbar-brand" href="#"> <?=$this->lang->line('title_header')?></a>
+        <ul class="nav navbar-nav">
+            <li><a href="/orders">Orders </a></li>
+        </ul>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
@@ -34,7 +38,7 @@
 	<li><a href="javascript:login.modal.show('signUpModal')" role="button"><?=$this->lang->line('sign_up')?></a></li>
 	<? else: ?>
 	<li><a href="javascript:login.modal.show('')" role="button"><?=$firstName." ".$surName?></a></li>
-	<li style="padding:0px"><a style="padding: 5px;" href="javascript:login.modal.show('')" role="button"><img src="<?=isset($avatar)?$avatar:'/static/images/avatar-default.jpg'?>" class="avatar-min img-circle" style="width:3em"></a></li>
+	<li style="padding:0px"><a style="padding: 5px;" href="/my" role="button"><img src="<?=isset($avatar)?$avatar:'/static/images/avatar-default.jpg'?>" class="avatar-min img-circle" style="width:3em"></a></li>
 	<li style="padding:0px"><a href="/login/logout" role="button"><i class="fa fa-sign-out" style="font-size: 20px;"></i></a></li>
 	<?endif;?>
 	<li style="padding:0px"><a href="/content/lang/ukrainian" role="button" style="padding-right: 0;"><img src="/static/images/ukraine-flag-icon.png" style="width: 16px; height: 16px;"></i></a></li>
@@ -47,4 +51,4 @@
 
 <!-- Main -->
 <div class="container row">
-	<div class="col-sm-3">
+	<div class="col-md-10">

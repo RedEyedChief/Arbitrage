@@ -14,6 +14,7 @@ class Content extends CI_Controller {
 		else $this->isLogged = false;
 		$lang = $this->input->cookie("lang")==""?"ukrainian":$this->input->cookie("lang");
 		$this->lang->load($lang,$lang);
+		$this->data="";
 	}
 	
 	/**
@@ -173,7 +174,62 @@ class Content extends CI_Controller {
 			$this->load->view("site/poll/site_poll",$res);
 		}
 	}
+	
+	
+	public function getUsersFields()
+	{
+		echo json_encode($this->content_model->getUserFields($this->input->post("id")));
+	}
+	
+	public function getProductsFields()
+	{
+		echo json_encode($this->content_model->getProductFields($this->input->post("id")));
+	}
+	
+	public function getCitiesFields()
+	{
+		echo json_encode($this->content_model->getCityFields($this->input->post("id")));
+	}
+	
+	public function getNewsFields()
+	{
+		echo json_encode($this->content_model->getNewsFields($this->input->post("id")));
+	}
+	
+	public function getPricesFields()
+	{
+		echo json_encode($this->content_model->getPriceFields($this->input->post("id")));
+	}
+	
+	//public function addUsers()
+	//{
+	//	$this->data['users'] = $this->content_model->addUser($this->input->post(null));
+	//	$this->data['async'] = true;
+	//	$this->load->view('admin/lists/users_list',$data);
+	//}
+	
+	public function addProducts()
+	{
+		$this->data['products'] = $this->content_model->addProduct($this->input->post(null));
+		$this->data['async'] = true;
+		$this->load->view('admin/lists/products_list',$this->data);
+	}
+	
+	public function addPrices()
+	{
+		$this->data['prices'] = $this->content_model->addPrice($this->input->post(null));
+		$this->data['async'] = true;
+		$this->load->view('admin/lists/prices_list',$this->data);
+	}
+	
+	public function addCity()
+	{
+		$this->data['cities'] = $this->content_model->addCity($this->input->post(null));
+		$this->data['async'] = true;
+		$this->load->view('admin/lists/cities_list',$this->data);
+	}
 }
+
 
 /* End of file welcome.php */
 /* Location: ./application/controllers/welcome.php */
