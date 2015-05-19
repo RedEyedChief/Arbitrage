@@ -1,5 +1,13 @@
 $(document).ready(function()
 {
+    view_op();
+
+    $("#add_op").click(function() {
+        $(".view_op").hide();
+        $(".add_op").show();
+    });
+
+
     $("#doParse").click(function() {
 
         console.log('here');
@@ -51,7 +59,6 @@ $(document).ready(function()
                     "<thead>" +
                     "<tr>" + "</th>" +
                     "<th>ID</th>" +
-                    "<th>Image</th>" +
                     "<th>Information</th>" +
                     "<th style='width: 30px;'></th>" +
                     "<th style='width: 30px;'></th>" +
@@ -61,7 +68,6 @@ $(document).ready(function()
 
                 for (index = 0; index < data.length; ++index) {
                     html += "<tr> <td>" + (index+1) + "</td>" +
-                    "<td> </td>" +
                     "<td>" + data[index]['info'] + "</td>" +
                     "<td> <i class='fa fa-edit text-muted cursor ' onclick='element_OP_edit(this)'> </i> </td>" +
                     "<td> <i class='fa fa-remove text-muted cursor ' onclick='element_OP_delete(this)'> </i> </td> </tr>"
@@ -136,11 +142,106 @@ $(document).ready(function()
         });
         return false;
     });
-
-
-
 });
 
+function view_op()
+{
+    $(".add_op").hide();
+    $(".view_op").show();
+
+    $.ajax({
+        url: 'http://arbitrage/dashboard/get_OP',
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            var html = "<table class='table table-striped' >" +
+                "<thead>" +
+                "<tr>" + "</th>" +
+                "<th>ID</th>" +
+                "<th>Adress</th>" +
+                "<th>Rule</th>" +
+                "<th style='width: 30px;'></th>" +
+                "<th style='width: 30px;'></th>" +
+                "</tr>" +
+                "</thead>" +
+                "<tbody>";
+
+            for (index = 0; index < data.length; ++index) {
+                html += "<tr> <td>" + data[index]['idParser'] + "</td>" +
+                "<td>" + data[index]['adressParser'] + "</td>" +
+                "<td>" + data[index]['rurlesParser'] + "</td>" +
+                "<td> <i class='fa fa-list-ul text-muted cursor ' onclick='get_elements_OP(this)'> </i> </td>" +
+                "<td> <i class='fa fa-remove text-muted cursor ' onclick='OP_delete(this)'> </i> </td> </tr>"
+            }
+            html += "</tbody>" +
+            "</table>";
+            $('#list_OP').html(html);
+        },
+        error: function () {
+            console.log('retard');
+            $('#empty_OP').html('<div class="alert alert-warning"> <strong>' + 'List of OP is empty !' + '</strong> </div>');
+        }
+
+    });
+}
+
+/*function get_elements_OP(op)
+{
+    var id = $(op).parents('tr').children(0).html();
+    $.ajax({
+        type: "POST",
+        url: 'http://arbitrage/dashboard/get_elements_OP',
+        data: {id : id},
+        dataType: 'json',
+        success:function(data){
+            //console.log(data);
+            var html = "<div class='ok'><table class='table table-striped ' >" +
+                "<thead>" +
+                "<tr>" + "</th>" +
+                "<th>ID</th>" +
+                "<th>Name</th>" +
+                "<th>Price</th>" +
+                "<th style='width: 30px;'></th>" +
+                "<th style='width: 30px;'></th>" +
+                "</tr>" +
+                "</thead>" +
+                "<tbody>";
+
+            for (index = 0; index < data.length; ++index) {
+                html += "<tr> <td>" + data[index]['id'] + "</td>" +
+                "<td>" + data[index]['name'] + "</td>" +
+                "<td>" + data[index]['price'] + "</td>" +
+                "<td> <i class='fa fa-edit text-muted cursor ' onclick=''> </i> </td>" +
+                "<td> <i class='fa fa-remove text-muted cursor ' onclick=''> </i> </td> </tr>"
+            }
+            html += "</tbody>" +
+            "</table></div>";
+            $(op).parents('tr').html(html);
+        },
+        error: function () {
+            console.log('retard');
+        }
+    });
+}*/
+
+function OP_delete(op)
+{
+    var id = $(op).parents('tr').children(0).html();
+
+    $.ajax({
+        type: "POST",
+        async: true,
+        url: 'http://arbitrage/dashboard/delete_OP',
+        data: {id : id},
+        success:function(data){
+            $(op).parents('tr').remove();
+        },
+        error: function () {
+            console.log('retard');
+        }
+    });
+
+}
 
 function element_OP_edit(op)
 {
@@ -152,3 +253,4 @@ function element_OP_delete(op)
 {
     $(op).parents('tr').remove();
 }
+

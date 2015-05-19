@@ -309,9 +309,9 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Ïîâåğòàº ³íôîğìàö³ş ç ïğîô³ëÿ
-     * @param var $id ID êîğèñòóâà÷à
-     * @return var  äàí³ ïğîô³ëş
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @param var $id ID ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @return var  ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      */
     function getUserFields($id)
     {
@@ -379,5 +379,26 @@ Class Content_model extends CI_Model
      function save_element_OP($parserName, $parserPrice, $parserSeller)
      {
         $query = $this->db->insert("product",array( "nameProduct"=>$parserName,"countProduct"=>1, "priceProduct"=>$parserPrice, "categoryProduct"=>0, "Market_idMarket"=>1, "Report_idReport"=>0));
+     }
+
+     function get_OP()
+     {
+        $query = $this->db->query("SELECT * FROM parser");
+        return $query->result();
+     }
+
+     function delete_OP($id)
+     {
+        $this->db->where('idParser',$id);
+        $this->db->delete("parser");
+     }
+
+     function get_elements_OP($id)
+     {
+     	//$query = $this->db->query("select * from parser  order by chain_alias");
+     	$this->db->where('Market_idMarket',$id);
+     	$query = $this->db->get('product');
+     	return $query->result_array();
+     		//return $this->_get_as_array($sql);
      }
 }

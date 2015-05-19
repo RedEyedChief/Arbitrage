@@ -169,13 +169,10 @@ class Dashboard extends CI_Controller {
     {
     	$this->blocsBefore();
     	$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
-    	//print_r($this->data['html']);
-    	//$this->load->view('admin/parsing_view', $this->data);
-    	$this->load->view('admin/parsing_view2', $this->data);
-    	//$this->load->view('admin/parsing_view2');
-    	/*$parserName = $this->input->post('parserName', TRUE);
-    	echo $parserName;*/
-    	//$this->data['html']->clear();
+    	//$this->data['parser'] = $this->content_model->get_OP();
+
+    	$this->load->view('admin/parsing_view');
+;
     	$this->load->view('admin/splitters/end_row');
     	$this->load->view('admin/admin_footer');
 
@@ -188,17 +185,12 @@ class Dashboard extends CI_Controller {
 		$parserRule = $this->input->post('parserRule', TRUE);
 
 		//save object of parsing to db
-		//$this->content_model->saveOP($parserURL, $parserRule);
+		$this->content_model->saveOP($parserURL, $parserRule);
 
-		$count = 0;
 		$this->data['html'] = file_get_html($parserURL);
 
-		foreach ($this->data['html']->find('ul[class=book-tabl] li') as $element) //'ul[class=book-tabl] li'	    "'" . $parserRule . "'"
-		{
-			$count++;
-			$str = iconv("utf-8","windows-1251",$element->plaintext);
+		foreach ($this->data['html']->find($parserRule) as $element) //'ul[class=book-tabl] li'
 			$arr[] =  array('count' =>$count, 'info' => $element->plaintext);
-		}
 
 		$this->data['html'] -> clear();
         unset($this->data['html']);
@@ -213,9 +205,35 @@ class Dashboard extends CI_Controller {
         $parserPrice = $this->input->post('parserPrice', TRUE);
         $parserSeller = $this->input->post('parserSeller', TRUE);
 
-		/*$error = $this->content_model->save_element_OP($parserName, $parserPrice, $parserSeller);
+		$error = $this->content_model->save_element_OP($parserName, $parserPrice, $parserSeller);
 
-		if($error == null)		echo json_encode(array('status' => 'ok');*/
-		echo json_encode(array('status' => 'ok'));
+		if($error == null)		echo json_encode(array('status' => 'ok'));
+    }
+
+	//Machulyanskiy: delete OP
+	function delete_OP()
+    {
+        $id = $this->input->post('id', TRUE);
+    	$error = $this->content_model->delete_OP($id);
+        echo json_encode($error);
+    }
+
+	//Machulyanskiy: get list OP
+    function get_OP()
+    {
+    	$error = $this->content_model->get_OP();
+    	echo json_encode($error);
+    }
+
+	//Machulyanskiy: get list of elements OP
+    function get_elements_OP()
+    {
+    	$id = $this->input->post('id', TRUE);
+    	$error = $this->content_model->get_elements_OP($id);
+    	//print_r ($error);
+    	foreach ($error as $client_info)
+			$arr[] =  array('id' => $client_info['idProduct'], 'name' => $client_info['nameProduct'], 'price' => $client_info['priceProduct']);
+
+    	echo json_encode($arr);
     }
 }
