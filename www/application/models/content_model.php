@@ -372,19 +372,46 @@ Class Content_model extends CI_Model
     //Machulyanskiy: insert object of parsing
      function saveOP ($parserURL, $parserRule)
      {
-        $query = $this->db->insert("parser",array( "rurlesParser"=>$parserRule,"adressParser"=>$parserURL, "Market_idMarket"=>1, "Report_idReport"=>0));
+        $this->db->insert("parser",array( "rurlesParser"=>$parserRule,"adressParser"=>$parserURL, "Market_idMarket"=>0, "Report_idReport"=>0));
+        $id = $this->db->insert_id();
+        $data = array(
+            'Market_idMarket' => $id
+        );
+        $this->db->where('idParser',$id);
+        $this->db->update('parser',$data);
+        return $id;
      }
 
-     //Machulyanskiy: insert element of OP
-     function save_element_OP($parserName, $parserPrice, $parserSeller)
+     //Machulyanskiy: insert product of OP with check on exist
+     function save_product_OP($parserProductType, $parserCategory)
      {
-        $query = $this->db->insert("product",array( "nameProduct"=>$parserName,"countProduct"=>1, "priceProduct"=>$parserPrice, "categoryProduct"=>0, "Market_idMarket"=>1, "Report_idReport"=>0));
+        $this->db->where('nameProduct',$parserProductType);
+        $this->db->where('categoryProduct',$parserCategory);
+        $query = $this->db->get('product');
+
+        if ($query->num_rows == 1)
+            foreach ($query->result_array() as $row)
+                return $row['idProduct'];
+
+        else
+        {
+            $this->db->insert("product",array( "nameProduct"=>$parserProductType, "categoryProduct"=>$parserCategory, "Report_idReport"=>0, "isActiveProduct"=>1));
+            return $this->db->insert_id();
+        }
+     }
+
+     //Machulyanskiy: insert items of product
+     function save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket)
+     {
+        $query = $this->db->insert("item",array( "nameItem"=>$parserProductName,"priceItem"=>$parserPrice, "typeItem"=>$parserType,
+                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct));
      }
 
      function get_OP()
      {
         $query = $this->db->query("SELECT * FROM parser");
-        return $query->result();
+		if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
      }
 
      function delete_OP($id)

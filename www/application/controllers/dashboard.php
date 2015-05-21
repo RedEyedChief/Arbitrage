@@ -183,29 +183,57 @@ class Dashboard extends CI_Controller {
     {
 		$parserURL = $this->input->post('parserURL', TRUE);
 		$parserRule = $this->input->post('parserRule', TRUE);
+		$parserProductType = $this->input->post('parserProductType', TRUE);
+		$parserCategory = $this->input->post('parserCategory', TRUE);
 
-		//save object of parsing to db
-		$this->content_model->saveOP($parserURL, $parserRule);
+		$headers = @get_headers($parserURL);
 
-		$this->data['html'] = file_get_html($parserURL);
+        if($headers[0] == 'HTTP/1.1 200 OK')
+        {
+        			$count = 0;
+        			$this->data['html'] = file_get_html($parserURL);
+        			$rule = $this->data['html']->find($parserRule);
+        			if($rule == NULL)
+        			{
+        				$this->data['html'] -> clear();
+        				unset($this->data['html']);
+        				echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong Rule!'));
+        			}
+        			else
+        			{
+        				//save object of parsing to db
+                    	$id_parser = $this->content_model->saveOP($parserURL, $parserRule);
 
-		foreach ($this->data['html']->find($parserRule) as $element) //'ul[class=book-tabl] li'
-			$arr[] =  array('count' =>$count, 'info' => $element->plaintext);
+                    	//save product of parsing to db
+                        $id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
 
-		$this->data['html'] -> clear();
-        unset($this->data['html']);
+        				foreach ($rule as $element) //'ul[class=book-tabl] li'
+        				{
+        					$count++;
+        					$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext, 'idProduct' => $id_product, 'idParser' => $id_parser);
+        				}
 
-		echo json_encode($arr);
+        				$this->data['html'] -> clear();
+        				unset($this->data['html']);
+
+        				echo json_encode($arr);
+        			}
+       	}
+        else echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong URL!'));
     }
 
 	//Machulyanskiy: processing the element OP
-    function element_OP()
+    function save_items_of_product()
     {
-    	$parserName = $this->input->post('parserName', TRUE);
+    	$parserProductName = $this->input->post('parserProductName', TRUE);
         $parserPrice = $this->input->post('parserPrice', TRUE);
-        $parserSeller = $this->input->post('parserSeller', TRUE);
+        //$parserSeller = $this->input->post('parserSeller', TRUE);
+        $parserCount = $this->input->post('parserCount', TRUE);
+        $parserType = $this->input->post('parserType', TRUE);
+        $idProduct = $this->input->post('idProduct', TRUE);
+        $idMarket = $this->input->post('idMarket', TRUE);
 
-		$error = $this->content_model->save_element_OP($parserName, $parserPrice, $parserSeller);
+		$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket);
 
 		if($error == null)		echo json_encode(array('status' => 'ok'));
     }
@@ -222,6 +250,9 @@ class Dashboard extends CI_Controller {
     function get_OP()
     {
     	$error = $this->content_model->get_OP();
+		
+		//prin($error);
+		//if($error !== NULL) echo json_encode($error);
     	echo json_encode($error);
     }
 

@@ -19,7 +19,9 @@
 		<div class="view_op">
 
 			<div id="list_OP"></div>
-			<div id="empty_OP"></div>
+			<div id="empty_OP" style="display: none;">
+				<div class="alert alert-warning"> <strong> List of OP is empty ! </strong> </div>
+			</div>
 		</div>
 
 
@@ -41,21 +43,25 @@
             </form> -->
 
 
-			<form class="form-inline row " id="let_parsing" action="http://arbitrage/dashboard/parsing_request" method="POST">
-				<div class="form-group col-xs-6">
-					<div class="parserURL">
-						<label for="parserURL">URL</label>
+			<form class="form row " id="let_parsing" action="http://arbitrage/dashboard/parsing_request" method="POST">
+				<div class="form-group row">
+					<div class="parserURL col-xs-7">
 						<input type="text" class="form-control" id="parserURL" placeholder="URL" value="">
 					</div>
-				</div>
-
-				<div class="form-group col-xs-6">
-					<div class="parserRule ">
-						<label for="parserRule">Rule</label>
+					<div class="parserRule col-xs-5">
 						<input type="text" class="form-control" id="parserRule" placeholder="Rule" value="" >
 					</div>
-
-					<div type="submit" id="doParse" class="btn btn-success col-xs-4 margin_top_10px">Parse!</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-xs-4">
+						<input type="text" class="form-control" id="parserProductType" width="1em" placeholder="ProductType" value="" name="parserProductType">
+					</div>
+					<div class="col-xs-3">
+						<input type="text" class="form-control" id="parserCategory" width="1em" placeholder="Category" value="" name="parserCategory" >
+					</div>
+					<div class="parserSub col-xs-5">
+                		<div type="submit" id="doParse" class="btn btn-success form-control">Parse!</div>
+                	</div>
 				</div>
 
 			</form>
@@ -69,20 +75,33 @@
 
 			<hr>
 
-			<div id="parseResult" style="display: none;">
+			<div id="parseResult" >
 
-				<div id="parserForm" style="display: none;">
+				<div id="parserForm" >
 					<form  class="form row margin_top_bot_20px">
-						<div class="col-xs-2">
-							<input type="text" class="form-control" id="parserName" width="1em" placeholder="Name" value="" name="parserName">
+						<div class="form-group row">
+							<div class="col-xs-6">
+								<input type="text" class="form-control" id="parserProductName" width="1em" placeholder="ProductName" value="" name="parserProductName">
+							</div>
+							<div class="col-xs-3">
+								<input type="text" class="form-control" id="parserPrice" width="1em" placeholder="Price" value="" name="parserPrice">
+							</div>
+							<div class="col-xs-3">
+								<input type="text" class="form-control" id="parserCount" width="1em" placeholder="Count" value="" name="parserCount">
+							</div>
+
 						</div>
-						<div class="col-xs-2">
-							<input type="text" class="form-control" id="parserPrice" width="1em" placeholder="Price" value="" name="parserPrice">
+						<div class="form-group row">
+							<div class="col-xs-6">
+								<input type="text" class="form-control" id="parserSeller" width="1em" placeholder="Info about seller" value="" name="parserSeller">
+							</div>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="parserType" width="1em" placeholder="Type" value="" name="parserType">
+							</div>
+							<div class="col-xs-4">
+								<input type="submit" class="btn btn-success form-control" id="parserSave" value="Save">
+							</div>
 						</div>
-						<div class="col-xs-6">
-							<input type="text" class="form-control" id="parserSeller" width="1em" placeholder="Info about seller" value="" name="parserSeller">
-						</div>
-						<input type="submit" class="btn btn-success " id="parserSave" value="Save">
 					</form>
 
 					<div id="Form_error" class="alert alert-danger margin_top_10px" style="display: none;">
@@ -90,8 +109,18 @@
 					</div>
 				</div>
 
+				<div class="progress" id="progress_parsing" style="display: none;">
+                     <div class="progress-bar progress-bar-striped active"
+                          role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                     </div>
+                </div>
 
-				<div id="table_parsing_result"></div>
+				<div id="parse_error" >
+					<div id="parse_nothing_found" class="alert alert-danger" style="display: none;"> <strong> Nothing found </strong> </div>
+				</div>
+				
+				<div id="table_parsing_result">
+				</div>
 
 			</div>
 		</div>
