@@ -67,5 +67,39 @@ Class User_model extends CI_Model
         else
             return false;
     }
-}
+    function email_exists($mail){
+        $sql="SELECT firstName,mail FROM profile WHERE mail='{$mail}' LIMIT 1";
+        $result = $this->db->query($sql);
+        $row = $result->row();
+
+        return($result->num_rows()===1 && $row->mail) ? $row->firstName :false;
+    }
+    function verify_reset_password_code($mail,$code)
+    {
+         $sql="SELECT firstName,mail FROM profile WHERE mail='{$mail}' LIMIT 1";
+        $result = $this->db->query($sql);
+        $row = $result->row();
+
+        if($result->num_rows()===1)
+        {
+            return($code==md5($this->config->item('salt').$row->firstName)) ? true:false;
+        } else{
+            return false;
+        } 
+    }
+    function update_password(){
+        $mail=$this->input->post('mail');
+        $password = MD5($this->config->item('salt').$this->input->post('password'));
+          $sql="UPDATE profile SET password = '{$password}' WHERE mail='{$mail}' LIMIT 1";
+       $this->db->query($sql);
+
+        if($this->db->affected_rows()==1)
+        {
+            return true;
+        } else{
+            return false;
+        } 
+    }
+    }
+
 

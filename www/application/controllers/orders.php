@@ -75,11 +75,12 @@ class Orders extends CI_Controller
     function placeOrder(){
         $data = $this->input->post();
 
-        $order["user"] = $this->session->userdata("profile")["idProfile"];
+        $user_profile = $this->session->userdata("profile");                                                                                                                                                                                   
+        $user_id = $user_profile["idProfile"];
         $order["product"] = $data["product"];
         $order["quantity"] = $data["quantity"];
 
-        if ($this->order_model->placeOrder($order)){
+        if ($this->order_model->placeOrder($order, $user_id)){
             print json_encode(array("result"=>true));
         } else {
             print json_encode(array("result"=>false, "error"=>"Cant place new order!"));

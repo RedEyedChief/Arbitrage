@@ -2,8 +2,6 @@ $( document ).ready(function(){
 
     $("#select_area").val(-1);
 
-    $("#select_area").val(0);
-
     $("#select_area").on("change", function(e){
         var t = $(e.target),
             id = t.val();

@@ -81,16 +81,17 @@ Class Order_model extends CI_Model
         return $result;
     }
 
-    public function placeOrder($order)
+    public function placeOrder($order, $user_id)
     {
         if ($order["quantity"] <= 0)
             return false;
 
         $query = $this->db->get_where("product", array("idProduct"=>$order["product"]),1);
-        $price = $query->result_array()[0]["priceProduct"]*$order["quantity"];
+        $product_info = $query->result_array();
+        $price = $product_info[0]["priceProduct"]*$order["quantity"];
 
         $data = array(
-            'Profile_idProfile' => $order["user"],
+            'Profile_idProfile' => $user_id,
             'Product_idProduct' => $order["product"],
             'Quantity' => $order["quantity"],
             'Price' => $price,

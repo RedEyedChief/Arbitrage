@@ -26,19 +26,20 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-toggle"></span>
       </button>
-      <a class="navbar-brand" href="#"> <?=$this->lang->line('title_header')?></a>
-        <ul class="nav navbar-nav">
-            <li><a href="/orders">Orders </a></li>
-        </ul>
+      <a class="navbar-brand" href="/#"> Arbitrage</a>
+
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
 	<?if(!isset($mail)):?>
-        <li><a href="javascript:login.modal.show('signInModal')" role="button"><?=$this->lang->line('sign_in')?></a></li>
-	<li><a href="javascript:login.modal.show('signUpModal')" role="button"><?=$this->lang->line('sign_up')?></a></li>
+        <li><a href="javascript:login.modal.show('signInModal')" role="button">Sign in</a></li>
+	<li><a href="javascript:login.modal.show('signUpModal')" role="button">Sign up</a></li>
 	<? else: ?>
 	<li><a href="javascript:login.modal.show('')" role="button"><?=$firstName." ".$surName?></a></li>
 	<li style="padding:0px"><a style="padding: 5px;" href="/my" role="button"><img src="<?=isset($avatar)?$avatar:'/static/images/avatar-default.jpg'?>" class="avatar-min img-circle" style="width:3em"></a></li>
+	        <ul class="nav navbar-nav">
+            <li><a href="/orders">Orders </a></li>
+        </ul>
 	<li style="padding:0px"><a href="/login/logout" role="button"><i class="fa fa-sign-out" style="font-size: 20px;"></i></a></li>
 	<?endif;?>
 	<li style="padding:0px"><a href="/content/lang/ukrainian" role="button" style="padding-right: 0;"><img src="/static/images/ukraine-flag-icon.png" style="width: 16px; height: 16px;"></i></a></li>

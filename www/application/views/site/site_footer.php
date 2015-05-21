@@ -28,7 +28,7 @@
             </div>
             <div class="form-group">
               <button class="btn btn-primary btn-sm btn-block">Sign In</button>
-              <span class="pull-right"><a href="#">Register</a></span><span><a href="#">Need help?</a></span>
+              <span class="pull-right"><a href="/login/reset_password">Forgot your password?</a></span>
             </div>
           </form>
 	</div>
@@ -69,7 +69,7 @@
 	    </div>
             <div class="form-group">
               <button class="btn btn-primary btn-sm btn-block">Register</button>
-              <span class="pull-right"><a href="#">Have an account?</a></span><span><a href="#">Need help?</a></span>
+    
             </div>
           </form>
 	</div>
