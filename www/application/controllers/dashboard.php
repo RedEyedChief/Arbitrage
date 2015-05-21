@@ -102,8 +102,11 @@ class Dashboard extends CI_Controller {
 	function users()
 	{
 		$this->blocsBefore();
-		$this->data['users'] = $this->content_model->getUsers();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
+		$this->data['users'] = $this->content_model->getUsers($start,$end);
 		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getUsersNum();
 		$this->load->view('admin/lists/users_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
@@ -112,7 +115,11 @@ class Dashboard extends CI_Controller {
 	function news()
 	{
 		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
 		$this->data['news'] = $this->content_model->getNews();
+		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getNewsNum();
 		$this->load->view('admin/lists/news_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
@@ -121,7 +128,11 @@ class Dashboard extends CI_Controller {
 	function products()
 	{
 		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
 		$this->data['products'] = $this->content_model->getProducts();
+		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getProductsNum();
 		$this->load->view('admin/lists/products_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
@@ -130,7 +141,11 @@ class Dashboard extends CI_Controller {
 	function cities()
 	{
 		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
 		$this->data['cities'] = $this->content_model->getCities();
+		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getCitiesNum();
 		$this->load->view('admin/lists/cities_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
@@ -139,23 +154,117 @@ class Dashboard extends CI_Controller {
 	function prices()
 	{
 		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
 		$this->data['prices'] = $this->content_model->getPrices();
+		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getPricesNum();
 		$this->load->view('admin/lists/prices_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
 	}
-	
-	function parsing()
-    	{
-    		$this->blocsBefore();
-    		$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
-    		//$this->load->view('admin/parsing_view', $this->data);
-    		$this->load->view('admin/parsing_view2', $this->data);
-    		$parserName = $this->input->post('parserName', TRUE);
-    		echo $parserName;
-    		//$this->data['html']->clear();
-    		$this->load->view('admin/splitters/end_row');
-    		$this->load->view('admin/admin_footer');
 
-    	}
+	//Machulyanskiy
+	function parsing()
+    {
+    	$this->blocsBefore();
+    	$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
+    	//$this->data['parser'] = $this->content_model->get_OP();
+
+    	$this->load->view('admin/parsing_view');
+;
+    	$this->load->view('admin/splitters/end_row');
+    	$this->load->view('admin/admin_footer');
+
+    }
+
+	//Machulyanskiy: processing the request to the source
+    function parsing_request()
+    {
+		$parserURL = $this->input->post('parserURL', TRUE);
+		$parserRule = $this->input->post('parserRule', TRUE);
+		$parserProductType = $this->input->post('parserProductType', TRUE);
+		$parserCategory = $this->input->post('parserCategory', TRUE);
+
+		$headers = @get_headers($parserURL);
+
+        if($headers[0] == 'HTTP/1.1 200 OK')
+        {
+        			$count = 0;
+        			$this->data['html'] = file_get_html($parserURL);
+        			$rule = $this->data['html']->find($parserRule);
+        			if($rule == NULL)
+        			{
+        				$this->data['html'] -> clear();
+        				unset($this->data['html']);
+        				echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong Rule!'));
+        			}
+        			else
+        			{
+        				//save object of parsing to db
+                    	$id_parser = $this->content_model->saveOP($parserURL, $parserRule);
+
+                    	//save product of parsing to db
+                        $id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
+
+        				foreach ($rule as $element) //'ul[class=book-tabl] li'
+        				{
+        					$count++;
+        					$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext, 'idProduct' => $id_product, 'idParser' => $id_parser);
+        				}
+
+        				$this->data['html'] -> clear();
+        				unset($this->data['html']);
+
+        				echo json_encode($arr);
+        			}
+       	}
+        else echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong URL!'));
+    }
+
+	//Machulyanskiy: processing the element OP
+    function save_items_of_product()
+    {
+    	$parserProductName = $this->input->post('parserProductName', TRUE);
+        $parserPrice = $this->input->post('parserPrice', TRUE);
+        //$parserSeller = $this->input->post('parserSeller', TRUE);
+        $parserCount = $this->input->post('parserCount', TRUE);
+        $parserType = $this->input->post('parserType', TRUE);
+        $idProduct = $this->input->post('idProduct', TRUE);
+        $idMarket = $this->input->post('idMarket', TRUE);
+
+		$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket);
+
+		if($error == null)		echo json_encode(array('status' => 'ok'));
+    }
+
+	//Machulyanskiy: delete OP
+	function delete_OP()
+    {
+        $id = $this->input->post('id', TRUE);
+    	$error = $this->content_model->delete_OP($id);
+        echo json_encode($error);
+    }
+
+	//Machulyanskiy: get list OP
+    function get_OP()
+    {
+    	$error = $this->content_model->get_OP();
+		
+		//prin($error);
+		//if($error !== NULL) echo json_encode($error);
+    	echo json_encode($error);
+    }
+
+	//Machulyanskiy: get list of elements OP
+    function get_elements_OP()
+    {
+    	$id = $this->input->post('id', TRUE);
+    	$error = $this->content_model->get_elements_OP($id);
+    	//print_r ($error);
+    	foreach ($error as $client_info)
+			$arr[] =  array('id' => $client_info['idProduct'], 'name' => $client_info['nameProduct'], 'price' => $client_info['priceProduct']);
+
+    	echo json_encode($arr);
+    }
 }

@@ -9,9 +9,9 @@
     width: 3em;
 }
 
-#parserURL
+#editorFields .input-group-addon
 {
-  width:85%;
+  min-width:170px;
 }
 
 .form-add .input-group-addon
@@ -50,7 +50,10 @@
 {
     min-width: 20px;
 }
-
+.cursor
+{
+  cursor: pointer;
+}
 .navbar-brand
 {
   color:white!important;
@@ -109,7 +112,7 @@ footer {
   padding: 0 !important;
 }
 
-.remove-icon
+.remove-icon, .edit-icon
 {
   cursor: pointer;
 }
