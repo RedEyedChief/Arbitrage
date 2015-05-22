@@ -228,6 +228,14 @@ class Content extends CI_Controller {
 		$this->data['async'] = true;
 		$this->load->view('admin/lists/cities_list',$this->data);
 	}
+	
+	public function updateUsers()
+	{
+		$this->content_model->updateUser($this->input->post(null));
+		$this->data['users'] = $this->user_model->getProfileInfo($this->input->post('idProfile'));
+		$this->data['async'] = true;
+		$this->load->view('admin/lists/users_list',$this->data);
+	}
 }
 
 

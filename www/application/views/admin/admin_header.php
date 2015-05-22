@@ -9,6 +9,9 @@
 		<link href="/static/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
                 <link href="/static/fonts/ionicons/css/ionicons.min.css" rel="stylesheet">
 		
+		<script src="/static/jquery/jquery.min.js"></script>
+		<script src="/static/admin/script/bootstrap.min.js"></script>
+				
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->

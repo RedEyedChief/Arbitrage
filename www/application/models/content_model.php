@@ -368,4 +368,10 @@ Class Content_model extends CI_Model
         if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
         else return false;
     }
+    
+    function updateUser($data)
+    {
+        $this->db->where('idProfile', $data['idProfile']);
+        $this->db->update('profile', $data); 
+    }
 }

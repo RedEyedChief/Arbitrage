@@ -8,6 +8,7 @@ class Dashboard extends CI_Controller {
 		$this->load->model(array('user_model',"content_model",'stat_model'));
 		$this->load->database();
 		$this->load->library('session');
+		$this->load->library('Dataloader');
 		$this->load->library('simple_html_dom');
 		$this->load->helper("cookie");
 		$this->load->helper("url");
@@ -59,6 +60,7 @@ class Dashboard extends CI_Controller {
 	
 	function index()
 	{
+		//$this->Dataloader->some_function();
 		//$this->isLogged = $this->user_model->check_logged();	//�������� ��������������
 		//
 		//$ajax = $this->input->post("ajax");
@@ -173,6 +175,20 @@ class Dashboard extends CI_Controller {
     		$parserName = $this->input->post('parserName', TRUE);
     		echo $parserName;
     		//$this->data['html']->clear();
+    		$this->load->view('admin/splitters/end_row');
+    		$this->load->view('admin/admin_footer');
+
+    	}
+	
+	function testResult($start)
+	{
+		$this->dataloader->load(intval($start));
+	}
+	
+	function map()
+    	{
+    		$this->blocsBefore();
+    		$this->load->view('general/map');
     		$this->load->view('admin/splitters/end_row');
     		$this->load->view('admin/admin_footer');
 

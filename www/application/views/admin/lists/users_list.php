@@ -10,6 +10,8 @@
 			  <div class="form-group">
 			    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
 			    <div class="input-group">
+			      <input style="display:none">
+			      <input type="password" style="display:none">
 			      <select class="form-control" name="role">
 				<option value="1">&#xf007;</option>
 				<option value="2">&#xf006;</option>
@@ -17,13 +19,13 @@
 				<option value="4">&#xf0A3;</option>
 			      </select>
 			      <div class="input-group-addon"></div>
-			      <input type="email" class="form-control" name="mail" id="exampleInputAmount" placeholder="E-mail">
+			      <input type="email" class="form-control" name="mail" id="exampleInputAmount" placeholder="E-mail" autocomplete="off">
 			      <div class="input-group-addon"></div>
-			      <input type="password" class="form-control" name="password" id="exampleInputAmount" placeholder="Surname">
+			      <input type="password" class="form-control" name="password" id="exampleInputAmount" placeholder="Password" autocomplete="off">
 			      <div class="input-group-addon"></div>
-			      <input type="text" class="form-control" name="firstname" id="exampleInputAmount" placeholder="Name">
+			      <input type="text" class="form-control" name="firstname" id="exampleInputAmount" placeholder="Name" autocomplete="off">
 			      <div class="input-group-addon"></div>
-			      <input type="text" class="form-control" name="surname" id="exampleInputAmount" placeholder="Surname">
+			      <input type="text" class="form-control" name="surname" id="exampleInputAmount" placeholder="Surname" autocomplete="off">
 			      <div class="input-group-addon"></div>
 			      <button type="submit" class="btn btn-success form-control" id="addItem">&#xf055;</button>
 			    </div>
@@ -68,8 +70,7 @@
 			</tbody>
 		  </table>
 	    
-	  <div id="newsreaderFooter"><? if(count($users)>=10): ?><div class="show-more">Show more ...</div><? endif;?></div>
-			
+	  		
 	    </div><!--/panel-body-->
 	    </div><!--/panel-->  
       </div><!--/col-->
