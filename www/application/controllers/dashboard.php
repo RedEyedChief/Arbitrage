@@ -202,10 +202,12 @@ class Dashboard extends CI_Controller {
         			else
         			{
         				//save object of parsing to db
-                    	$id_parser = $this->content_model->saveOP($parserURL, $parserRule);
+                    	//$id_parser = $this->content_model->saveOP($parserURL, $parserRule);
+                    	$id_parser = 6;
 
                     	//save product of parsing to db
-                        $id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
+                        //$id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
+                        $id_product = 10;
 
         				foreach ($rule as $element) //'ul[class=book-tabl] li'
         				{
@@ -227,13 +229,17 @@ class Dashboard extends CI_Controller {
     {
     	$parserProductName = $this->input->post('parserProductName', TRUE);
         $parserPrice = $this->input->post('parserPrice', TRUE);
-        //$parserSeller = $this->input->post('parserSeller', TRUE);
+        $parserSeller = $this->input->post('parserSeller', TRUE);
         $parserCount = $this->input->post('parserCount', TRUE);
         $parserType = $this->input->post('parserType', TRUE);
         $idProduct = $this->input->post('idProduct', TRUE);
-        $idMarket = $this->input->post('idMarket', TRUE);
+        $parserMarket = $this->input->post('parserMarket', TRUE);
+        $idMarket = $parserMarket;
+        echo $idMarket . '  ' . $idProduct . '  ' . $parserSeller;
 
-		$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket);
+        //$idCity = $this->content_model->get_idCity($parserCity);
+
+		//$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller);
 
 		if($error == null)		echo json_encode(array('status' => 'ok'));
     }
@@ -250,7 +256,7 @@ class Dashboard extends CI_Controller {
     function get_OP()
     {
     	$error = $this->content_model->get_OP();
-		
+		//print_r ($error);
 		//prin($error);
 		//if($error !== NULL) echo json_encode($error);
     	echo json_encode($error);

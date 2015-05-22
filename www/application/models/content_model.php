@@ -401,16 +401,16 @@ Class Content_model extends CI_Model
      }
 
      //Machulyanskiy: insert items of product
-     function save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket)
+     function save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller)
      {
         $query = $this->db->insert("item",array( "nameItem"=>$parserProductName,"priceItem"=>$parserPrice, "typeItem"=>$parserType,
-                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct));
+                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct, 'SellerInfo' => $parserSeller));
      }
 
      function get_OP()
      {
         $query = $this->db->query("SELECT * FROM parser");
-		if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+		if($query -> num_rows() !== 0)return $query->result();//toDataArray($query->result());
         else return false;
      }
 
@@ -427,5 +427,10 @@ Class Content_model extends CI_Model
      	$query = $this->db->get('product');
      	return $query->result_array();
      		//return $this->_get_as_array($sql);
+     }
+     function get_idMarket($parserCity)
+     {
+        $this->db->where('nameCity',$parserCity);
+        $query = $this->db->get('city');
      }
 }
