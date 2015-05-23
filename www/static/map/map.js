@@ -23,21 +23,15 @@
             new google.maps.Point(0,0),
             new google.maps.Point(11, 40));
         
-        var flightPlanCoordinates = [
-            new google.maps.LatLng(37.772323, -122.214897),
-            new google.maps.LatLng(21.291982, -157.821856),
-            new google.maps.LatLng(-18.142599, 178.431),
-            new google.maps.LatLng(-27.46758, 153.027892)
-          ];
-          var flightPath = new google.maps.Polyline({
-            path: flightPlanCoordinates,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-          });
+        $.post("/map/getPlaces",{},function(data){
+            data = JSON.parse(data)
+            data.forEach(function(el){
+                addMarker(el.id, el.lat, el.lng, el.name)
+            });
+        });
         
-          flightPath.setMap(map);
+        $("#saveAllButton").click(saveMap);
+        $("#newMarkerButton").click(function(){newMarker($("#markerName").val()); })
     }
       
       var markers=[];

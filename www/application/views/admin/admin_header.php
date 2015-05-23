@@ -8,8 +8,10 @@
 		<link href="/static/admin/style/bootstrap.min.css" rel="stylesheet">
 		<link href="/static/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
                 <link href="/static/fonts/ionicons/css/ionicons.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		
 		<script src="/static/jquery/jquery.min.js"></script>
+		<script src="/static/jquery/jquery-ui.js"></script>
 		<script src="/static/admin/script/bootstrap.min.js"></script>
 				
 		<!--[if lt IE 9]>

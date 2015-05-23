@@ -15,6 +15,20 @@ Class Data_model extends CI_Model
         }
     }
     
+    public function get_diffs()
+    {
+        $query = $this -> db -> query("SELECT min(priceItem) AS min, max(priceItem) AS max FROM `item` GROUP BY `product_idProduct`");
+        
+        if($query -> num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     public function get_num_products()
     {
         $query = $this -> db -> query("SELECT COUNT(idProduct) AS num FROM product");

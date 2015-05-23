@@ -12,10 +12,15 @@ class Dataloader {
         $this->products = array();  //Product id to array id
         $this->visited = array();
         $this->start=0;
+        $this->depth=0;
+        $this->c_items=0;
+        $this->c_dist=0;
+        $this->found=false;
         $this->dist = array();
         $this->max_dist = 0;
         $this->inf = 100000;
         $this->min_dist = $this->inf;
+        $this->min_item = $this->inf;
         //$this->markets_ids;
         //$this->products_ids;
     }
@@ -54,26 +59,23 @@ class Dataloader {
                 if ($this->max_dist < $this->dist[$id1][$id2] and $this->dist[$id1][$id2]!=$this->inf) $this->max_dist = $this->dist[$id1][$id2];
             }
         }
-        print $this->min_dist.'    '.$this->max_dist.'<br>';
+        $this->c_dist = $this->max_dist - $this->min_dist;
     }
     
     public function find_diffs()
     {
-        foreach ($this->source as $key=>$ver)
+        $diffs = $this->CI->data_model->get_diffs();
+        foreach ($diffs as $diff)
         {
-            foreach ($ver as $id=>$s)
-            {
-                //$s = intval($s);
-                $d = $this->dest[$key][$id];
-                print $d.'  '.$s;
-                print '<br>';
-            }
+            $d = $diff->max - $diff->min;
+            if ($this->c_items < $d) $this->c_items = $d;
         }
     }
     
     public function step($ver)
     {
-        //die(print_r($this->source[$ver]));
+        $this->depth++;
+        //die(print_r($this->c_items));
         $min = $this->inf;
         $mp = -1;
         
@@ -83,6 +85,8 @@ class Dataloader {
         
         $this->visited[$ver] = true;
         //die(print_r($this->coords));
+        //$this->source[$ver][-1] = 1;
+        //$this->dest[$ver][-1] = 1;
         foreach ($this->source[$ver] as $key=>$product) //For each product source
         {
             //print 'f';
@@ -91,11 +95,17 @@ class Dataloader {
             {
                 if ($id != $ver && !$this->visited[ $id ])    //For each other market
                 {
-                    $this->dest[$id][0]=1;
+                    //$this->dest[$id][0]=1;
                     //print "Source = ".$this->source[$ver][$key]."; dest = ".$this->dest[$id][$key]."<br>";
-                    //$dif = $this->dest[$id][$key] - $this->source[$ver][$key];
                     
-                    $dif = $this->dist[$id][$ver];
+                    $dif_items = ($this->dest[$id][$key] - $this->source[$ver][$key]) / $this->c_items;
+                    //print $this->dest[$id][$key] - $this->source[$ver][$key];
+                    $dif_items *= $dif_items > 0; 
+                    //print $dif_items.'<br>';
+                    $dif_dist = ($this->dist[$id][$ver] - $this->min_dist) / $this->c_dist;
+                    
+                    $dif = $dif_dist*$this->coeff_dist - $dif_items*(1-$this->coeff_dist);
+                    //print $dif_items.'<br>';
                     
           //          print $dif.' between '.$id.' and '.$ver.' is '.$dif.'<br>';
                     
@@ -114,22 +124,26 @@ class Dataloader {
         }
         //if ($mp==$this->start) print "finded<br>";
         //print $ver."== (".$max.") ==>".$mp."<br>";
-        if ($min==$this->inf) { $mp = $this->markets_res[$this->start]; }
+        //$min = $min < 0? 0:$min;
+        //print $min.'<br>';
+        if ($min==$this->inf || $this->depth == $this->max_depth) { $mp = $this->markets_res[$this->start]; $this->found=true; }
         array_push($this->way,$mp);
         //print "mp = ".$mp.'; max = '.$max.'<br>';
         //print 'max '.$max.'<br>';
         //print $min." mp = ".$mp."<br>";
-        $ret = $min !== $this->inf ? $this->step($mp) + $min : 0;
+        $ret = $min !== $this->inf and !$this->found ? $this->step($mp) + $min : 0;
         //die(print_r($ret));
         return $ret;
     }
     
-    public function load($ver)
+    public function load($ver, $depth, $c_dist)
     {   
         $this->num_markets = $this->CI->data_model->get_num_markets();
         $this->num_markets = $this->num_markets[0]->num;
         $this->start = $ver;
-        //
+        $this->max_depth = $depth - 1;
+    
+        $this->coeff_dist = $c_dist/100;
         //$this->num_products_sell = $this->CI->data_model->get_num_products(0);
         //$this->num_products_sell = $this->num_products_sell[0]->num;
         //
@@ -185,6 +199,7 @@ class Dataloader {
                 foreach ($items as $item)
                 {
                     $this->source[$key][$this->products[$item->id]] = $item->price;
+                    if ($this->min_item > $item->price) $this->min_item = $item->price;
                     $j++;
                     //array_push ( $table , fetch_id_column( $this->data_model->get_products($col->id, $col->type) , $this->products_ids ) );  //Тип - продаж, купівля
                 }

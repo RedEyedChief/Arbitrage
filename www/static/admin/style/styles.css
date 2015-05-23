@@ -47,6 +47,30 @@ body
   white-space: nowrap;
 }
 
+#factorWeight {
+  background: lightskyblue;
+}
+
+#factorWeight .ui-slider-range
+{
+  background: lawngreen;
+}
+
+.resultControls
+{
+  margin: 20px;
+}
+
+#startPoint
+{
+  width: 50%;
+}
+
+#maxDepth .ui-slider-range
+{
+  background: darkorchid;
+}
+
 #map-canvas
 {
   height: 500px;

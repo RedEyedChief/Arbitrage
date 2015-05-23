@@ -5,21 +5,21 @@ class Dashboard extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model(array('user_model',"content_model",'stat_model'));
+		$this->load->model(array('user_model',"content_model",'stat_model','data_model'));
 		$this->load->database();
 		$this->load->library('session');
 		$this->load->library('Dataloader');
 		$this->load->library('simple_html_dom');
 		$this->load->helper("cookie");
 		$this->load->helper("url");
-		//$this->stat_model->viewCategory('dashboard');	//����� ��� ���������� �������
-		$lang = $this->input->cookie("lang")==""?"ukrainian":$this->input->cookie("lang");	//���������� ����
-		$this->lang->load($lang,$lang);	//������������ ����������
+		//$this->stat_model->viewCategory('dashboard');	//????? ??? ?????????? ???????
+		$lang = $this->input->cookie("lang")==""?"ukrainian":$this->input->cookie("lang");	//?????????? ????
+		$this->lang->load($lang,$lang);	//???????????? ??????????
 	}
 	
 	/**
-	 * ������� ������������ ������� ������� �����, ����� ���������
-	 * @param var $ajax true, ���� ����� �����������
+	 * ??????? ???????????? ??????? ??????? ?????, ????? ?????????
+	 * @param var $ajax true, ???? ????? ???????????
 	 * @return true None
 	 */
 	private function blocsBefore()
@@ -45,8 +45,8 @@ class Dashboard extends CI_Controller {
 	}
 	
 	/**
-	 * ����� ���� ��������
-	 * @param var $ajax true, ���� ����� �����������
+	 * ????? ???? ????????
+	 * @param var $ajax true, ???? ????? ???????????
 	 * @return true None
 	 */
 	private function blocksAfter($ajax)
@@ -61,7 +61,7 @@ class Dashboard extends CI_Controller {
 	function index()
 	{
 		//$this->Dataloader->some_function();
-		//$this->isLogged = $this->user_model->check_logged();	//�������� ��������������
+		//$this->isLogged = $this->user_model->check_logged();	//???????? ??????????????
 		//
 		//$ajax = $this->input->post("ajax");
 		//$this->blocsBefore($ajax);
@@ -180,15 +180,21 @@ class Dashboard extends CI_Controller {
 
     	}
 	
-	function testResult($start)
+	function testResult()
 	{
-		$this->dataloader->load(intval($start));
+		$start = $this->input->post('start');
+		$depth = $this->input->post('depth');
+		$c_dist = $this->input->post('c');
+		$this->dataloader->load(intval($start),intval($depth),intval($c_dist));
 	}
 	
 	function map()
     	{
     		$this->blocsBefore();
-    		$this->load->view('general/map');
+		$num = $this->data_model->get_num_markets();
+		$data['num_city'] = $num[0]->num;
+		$data['markets'] = $this->data_model->get_markets();
+    		$this->load->view('general/map', $data);
     		$this->load->view('admin/splitters/end_row');
     		$this->load->view('admin/admin_footer');
 

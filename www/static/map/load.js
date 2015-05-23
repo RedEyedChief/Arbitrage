@@ -1,16 +1,6 @@
 var changedMarkers=[], newMarkers=[], flightPlanCoordinates=[], flightPath;
 
-$(document).ready(function(){
-    $.post("/map/getPlaces",{},function(data){
-        data = JSON.parse(data)
-        data.forEach(function(el){
-            addMarker(el.id, el.lat, el.lng, el.name)
-        });
-    });
-    
-    $("#saveAllButton").click(saveMap);
-    $("#newMarkerButton").click(function(){newMarker($("#markerName").val()); })
-});
+
 
 function newMarker(name)
 {
@@ -59,8 +49,20 @@ function saveMap() {
     });
 }
 
-function getResult(start) {
-    $.post("/dashboard/testResult/"+start,{},function(data){
+function getPlaces() {
+    $.post("/map/getPlaces",{},function(data){
+        data = JSON.parse(data)
+        data.forEach(function(el){
+            addMarker(el.id, el.lat, el.lng, el.name)
+        });
+    });
+    
+    $("#saveAllButton").click(saveMap);
+    $("#newMarkerButton").click(function(){newMarker($("#markerName").val()); })
+}
+
+function getResult(start, depth, c_dist) {
+    $.post("/dashboard/testResult/",{start:start, depth: depth, c: c_dist},function(data){
         data = JSON.parse(data)
         console.log(data)
         if (typeof flightPath !== "undefined") {
@@ -83,3 +85,12 @@ function getResult(start) {
           flightPath.setMap(map);
     });
 }
+
+$(document).ready(function(){
+    $("#getResultButton").click(function(){
+        var depth = $("#parameterDepth").html();
+        var start = $("#startPoint").val();
+        var c_dist = $("#factorDistance").html();
+        getResult(start,depth,c_dist)
+    })
+});
