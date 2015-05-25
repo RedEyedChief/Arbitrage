@@ -2,11 +2,11 @@
 Class Content_model extends CI_Model
 {
     /**
-     * Отримати всі новини з start до end, чи з id
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID новини
-     * @return var  масив новин
+     * ???????? ?? ?????? ? start ?? end, ?? ? id
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @param Boolean $id ID ??????
+     * @return var  ????? ?????
      */
     function getNews($start=0,$end=10,$id=false)
     {
@@ -30,11 +30,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всі товари з start до end, чи з id
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID товару
-     * @return var  масив товарів
+     * ???????? ?? ?????? ? start ?? end, ?? ? id
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @param Boolean $id ID ??????
+     * @return var  ????? ??????
      */
     function getProducts($start=0,$end=10,$id=false)
     {
@@ -58,11 +58,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всі міста з start до end, чи з id
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID міста
-     * @return var  масив міст
+     * ???????? ?? ???? ? start ?? end, ?? ? id
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @param Boolean $id ID ????
+     * @return var  ????? ???
      */
     function getCities($start=0,$end=10,$id=false)
     {
@@ -86,11 +86,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всі тарифи з start до end, чи з id
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID тарифу
-     * @return var  масив тарифів
+     * ???????? ?? ?????? ? start ?? end, ?? ? id
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @param Boolean $id ID ??????
+     * @return var  ????? ???????
      */
     function getPrices($start=0,$end=10,$id=false)
     {
@@ -114,11 +114,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати опитування
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID опитування
-     * @return var  масив новин
+     * ???????? ??????????
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @param Boolean $id ID ??????????
+     * @return var  ????? ?????
      */
     function getPolls($start=0,$end=10,$id=false)
     {
@@ -136,11 +136,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всі коменти з start до end, чи з id
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @param Boolean $id ID новини
-     * @return var  масив коментів
+     * ???????? ?? ??????? ? start ?? end, ?? ? id
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @param Boolean $id ID ??????
+     * @return var  ????? ???????
      */
     function getComments($id, $start=0,$end=10)
     {
@@ -158,11 +158,11 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Додати комент
-     * @param object $id ID новни
-     * @param object $text Текст комента
-     * @param object $user Автор комента
-     * @param object $uid ID автора
+     * ?????? ??????
+     * @param object $id ID ?????
+     * @param object $text ????? ???????
+     * @param object $user ????? ???????
+     * @param object $uid ID ??????
      * @return true  None
      */
     function addComment($id, $text, $user, $uid)
@@ -171,10 +171,10 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати всіх користуваяів з start до end
-     * @param Number $start нижня межа, з
-     * @param Number $end верхня межа, по
-     * @return var  масив користувачів
+     * ???????? ??? ???????????? ? start ?? end
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @return var  ????? ????????????
      */
     function getUsers($start=0,$end=10,$order="profile.isActive DESC, profile.role DESC")
     {
@@ -197,8 +197,8 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Отримати новину, можливо застаріла
-     * @param object $id ID новини
+     * ???????? ??????, ??????? ????????
+     * @param object $id ID ??????
      * @return true  None
      */
     function getArticle($id)
@@ -309,9 +309,9 @@ Class Content_model extends CI_Model
     }
     
     /**
-     * Повертає інформацію з профіля
-     * @param var $id ID користувача
-     * @return var  дані профілю
+     * пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+     * @param var $id ID пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+     * @return var  пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
      */
     function getUserFields($id)
     {
@@ -368,10 +368,78 @@ Class Content_model extends CI_Model
         if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
         else return false;
     }
+<<<<<<< HEAD
     
     function updateUser($data)
     {
         $this->db->where('idProfile', $data['idProfile']);
         $this->db->update('profile', $data); 
     }
+=======
+
+    //Machulyanskiy: insert object of parsing
+     function saveOP ($parserURL, $parserRule)
+     {
+        $this->db->insert("parser",array( "rurlesParser"=>$parserRule,"adressParser"=>$parserURL, "Market_idMarket"=>0, "Report_idReport"=>0));
+        $id = $this->db->insert_id();
+        $data = array(
+            'Market_idMarket' => $id
+        );
+        $this->db->where('idParser',$id);
+        $this->db->update('parser',$data);
+        return $id;
+     }
+
+     //Machulyanskiy: insert product of OP with check on exist
+     function save_product_OP($parserProductType, $parserCategory)
+     {
+        $this->db->where('nameProduct',$parserProductType);
+        $this->db->where('categoryProduct',$parserCategory);
+        $query = $this->db->get('product');
+
+        if ($query->num_rows == 1)
+            foreach ($query->result_array() as $row)
+                return $row['idProduct'];
+
+        else
+        {
+            $this->db->insert("product",array( "nameProduct"=>$parserProductType, "categoryProduct"=>$parserCategory, "Report_idReport"=>0, "isActiveProduct"=>1));
+            return $this->db->insert_id();
+        }
+     }
+
+     //Machulyanskiy: insert items of product
+     function save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller)
+     {
+        $query = $this->db->insert("item",array( "nameItem"=>$parserProductName,"priceItem"=>$parserPrice, "typeItem"=>$parserType,
+                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct, 'SellerInfo' => $parserSeller));
+     }
+
+     function get_OP()
+     {
+        $query = $this->db->query("SELECT * FROM parser");
+		if($query -> num_rows() !== 0)return $query->result();//toDataArray($query->result());
+        else return false;
+     }
+
+     function delete_OP($id)
+     {
+        $this->db->where('idParser',$id);
+        $this->db->delete("parser");
+     }
+
+     function get_elements_OP($id)
+     {
+     	//$query = $this->db->query("select * from parser  order by chain_alias");
+     	$this->db->where('Market_idMarket',$id);
+     	$query = $this->db->get('product');
+     	return $query->result_array();
+     		//return $this->_get_as_array($sql);
+     }
+     function get_idMarket($parserCity)
+     {
+        $this->db->where('nameCity',$parserCity);
+        $query = $this->db->get('city');
+     }
+>>>>>>> 364c1921108420ca53f7d1ca2fd2e35ae86bc135
 }

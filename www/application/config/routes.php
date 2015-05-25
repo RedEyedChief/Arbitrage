@@ -39,6 +39,7 @@
 */
 
 $route['default_controller'] = "main";
+$route['my'] = "profile";
 //$route['index.php:any'] = "index.php?dashboard";
 $route['404_override'] = '';
 

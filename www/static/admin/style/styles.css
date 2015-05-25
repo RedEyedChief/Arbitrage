@@ -117,11 +117,6 @@ body
     width: 3em;
 }
 
-#parserURL
-{
-  width:85%;
-}
-
 #editorFields .input-group-addon
 {
   min-width:170px;
@@ -163,7 +158,10 @@ body
 {
     min-width: 20px;
 }
-
+.cursor
+{
+  cursor: pointer;
+}
 .navbar-brand
 {
   color:white!important;
