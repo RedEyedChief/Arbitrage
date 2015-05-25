@@ -286,7 +286,6 @@ function view_op()
                 "</tr>" +
                 "</thead>" +
                 "<tbody>";
-
             for (index = 0; index < data.length; ++index) {
                 html += "<tr> <td>" + data[index]['id'] + "</td>" +
                 "<td>" + data[index]['name'] + "</td>" +
@@ -336,4 +335,3 @@ function element_OP_delete(op)
 {
     $(op).parents('tr').remove();
 }
-

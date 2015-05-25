@@ -1,7 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
 class Dashboard extends CI_Controller {
-
 	function __construct()
 	{
 		parent::__construct();
@@ -165,22 +163,19 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
 	}
-
-	//Machulyanskiy
-	function parsing()
-<<<<<<< HEAD
-    	{
-    		$this->blocsBefore();
-    		$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
-    		//$this->load->view('admin/parsing_view', $this->data);
-    		$this->load->view('admin/parsing_view2', $this->data);
-    		$parserName = $this->input->post('parserName', TRUE);
-    		echo $parserName;
-    		//$this->data['html']->clear();
-    		$this->load->view('admin/splitters/end_row');
-    		$this->load->view('admin/admin_footer');
-
-    	}
+	
+//	function parsing()
+//    	{
+//    		$this->blocsBefore();
+//    		$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
+//    		//$this->load->view('admin/parsing_view', $this->data);
+//    		$this->load->view('admin/parsing_view2', $this->data);
+//    		$parserName = $this->input->post('parserName', TRUE);
+//    		echo $parserName;
+//    		//$this->data['html']->clear();
+//    		$this->load->view('admin/splitters/end_row');
+//    		$this->load->view('admin/admin_footer');
+//    	}
 	
 	function testResult()
 	{
@@ -206,14 +201,13 @@ class Dashboard extends CI_Controller {
     		$this->load->view('admin/admin_footer');
 
     	}
-=======
+function parsing()
     {
     	$this->blocsBefore();
     	$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
     	//$this->data['parser'] = $this->content_model->get_OP();
 
     	$this->load->view('admin/parsing_view');
-;
     	$this->load->view('admin/splitters/end_row');
     	$this->load->view('admin/admin_footer');
 
@@ -314,5 +308,4 @@ class Dashboard extends CI_Controller {
 
     	echo json_encode($arr);
     }
->>>>>>> 364c1921108420ca53f7d1ca2fd2e35ae86bc135
 }
