@@ -136,8 +136,8 @@ class Dataloader {
         return $ret;
     }
     
-    public function load($ver, $depth, $c_dist)
-    {   
+    public function load($ver, $depth, $c_dist, $ignore_products, $ignore_markets)
+    {
         $this->num_markets = $this->CI->data_model->get_num_markets();
         $this->num_markets = $this->num_markets[0]->num;
         $this->start = $ver;
@@ -150,8 +150,10 @@ class Dataloader {
         //$this->num_products_buy = $this->CI->data_model->get_num_products(1);
         //$this->num_products_buy = $this->num_products_buy[0]->num;
         
-        $this->all_products = $this->CI->data_model->get_products();
-        $this->all_items = $this->CI->data_model->get_items();
+        $this->all_products = $this->CI->data_model->get_products(-1,-1,$ignore_products);
+        $this->all_items = $this->CI->data_model->get_items(-1,-1,$ignore_products);
+
+        
         //for($i=0;$i<$num_markets;$i++)
         //{
         //    for($j=0;j<$num_products;$j++)
@@ -160,7 +162,7 @@ class Dataloader {
         //    }
         //}
         
-        $this->markets = $this->CI->data_model->get_markets();  //Список міст
+        $this->markets = $this->CI->data_model->get_markets($ignore_markets);  //Список міст
         //$this->products = $this->data_model->get_products();
         
         $i=0;
@@ -189,7 +191,7 @@ class Dataloader {
                 }
             }
             
-            $items = $this->CI->data_model->get_items($col->id, 0);//sell
+            $items = $this->CI->data_model->get_items($col->id, 0, $ignore_products);//sell
             //$this->source[$key][0] = 1;
             //$this->dest[$key][0] = 1;
             
@@ -205,7 +207,7 @@ class Dataloader {
                 }
             }
             
-            $items = $this->CI->data_model->get_items($col->id, 1);//buy
+            $items = $this->CI->data_model->get_items($col->id, 1, $ignore_products);//buy
             if (!empty($items))
             {
                 $j=0;

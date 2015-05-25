@@ -13,7 +13,13 @@
 			      <div class="input-group-addon"></div>
 			      <input type="text" class="form-control" name="nameProduct" id="exampleInputAmount" placeholder="Name">
 			      <div class="input-group-addon"></div>
+			      <input type="text" class="form-control" name="priceProduct" id="exampleInputAmount" placeholder="Price">
+			      <div class="input-group-addon"></div>
+			      <input type="text" class="form-control" name="countProduct" id="exampleInputAmount" placeholder="Count">
+			      <div class="input-group-addon"></div>
 			      <input type="text" class="form-control" name="categoryProduct" id="exampleInputAmount" placeholder="Category">
+			      <div class="input-group-addon"></div>
+			      <input type="text" class="form-control" name="Market_idMarket" id="exampleInputAmount" placeholder="Market">
 			      <div class="input-group-addon"></div>
 			      <button type="submit" class="btn btn-success form-control" id="addItem">&#xf055;</button>
 			    </div>
@@ -31,7 +37,7 @@
 			
 		  <table class="table table-striped">
 			<thead>
-			  <tr><th style="width: 28px;"></th></th><th>ID</th><th>Name</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
+			  <tr><th style="width: 28px;"></th></th><th>ID</th><th>Name</th><th>Price</th><th>Market</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
 			</thead>
 			<tbody id="listpoll">
 			  <?php endif;?>
@@ -49,6 +55,8 @@
 						<td class="remove-icon <?=$icon?>"></td>
 						<td class="id-article itemId"><?=$item->idProduct?></td>
 						<td class="author-article itemName"><?=$item->nameProduct?></td>
+						<td><?=$item->priceProduct?></td>
+						<td><?=$item->nameMarket?></td>
 						<td class="edit-icon" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-edit"><i class="fa fa-edit text-muted"></i></td>
 						<td class="remove-icon" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-remove text-muted"></i></td>
 					</tr>

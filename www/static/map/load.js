@@ -62,7 +62,7 @@ function getPlaces() {
 }
 
 function getResult(start, depth, c_dist) {
-    $.post("/dashboard/testResult/",{start:start, depth: depth, c: c_dist},function(data){
+    $.post("/dashboard/testResult/",{start:start, depth: depth, c: c_dist, disabledProducts: serializeProducts(), disabledMarkets: serializeMarkets()},function(data){
         data = JSON.parse(data)
         console.log(data)
         if (typeof flightPath !== "undefined") {
@@ -76,7 +76,6 @@ function getResult(start, depth, c_dist) {
            
         flightPath = new google.maps.Polyline({
             path: flightPlanCoordinates,
-            geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
             strokeWeight: 2
@@ -94,3 +93,19 @@ $(document).ready(function(){
         getResult(start,depth,c_dist)
     })
 });
+
+function serializeProducts(){
+    var disabledItems = []
+    $(".item-product:not(.active)").each(function(el){
+        disabledItems.push(Number($( this ).find('input').val()));
+    });
+    return JSON.stringify(disabledItems)
+}
+
+function serializeMarkets(){
+    var disabledItems = []
+    $(".item-market:not(.active)").each(function(el){
+        disabledItems.push(Number($( this ).find('input').val()));
+    });
+    return JSON.stringify(disabledItems)
+}

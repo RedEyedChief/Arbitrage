@@ -39,7 +39,7 @@ Class Content_model extends CI_Model
     function getProducts($start=0,$end=10,$id=false)
     {
         $where = $id!=false?"WHERE product.idProduct=".$id:"";
-        $query = $this -> db -> query("SELECT * FROM product INNER JOIN market ON Market_idMarket = idMarket ".$where." ORDER BY idProduct DESC LIMIT ".$start.",".$end);
+        $query = $this -> db -> query("SELECT * FROM product ".$where." ORDER BY idProduct DESC LIMIT ".$start.",".$end);
         
         if($query -> num_rows() > 0)
         {
@@ -364,7 +364,7 @@ Class Content_model extends CI_Model
     function addProduct($data)
     {
         $this->db->insert('product',$data);
-        $query = $this->db->get_where('product INNER JOIN market ON Market_idMarket = idMarket', array('idProduct' => $this->db->insert_id()));
+        $query = $this->db->get_where('product', array('idProduct' => $this->db->insert_id()));
         if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
         else return false;
     }

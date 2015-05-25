@@ -40,4 +40,14 @@
             console.log($("#parameterDepth").html())
             return $("#parameterDepth").html()
           }
+          
+          $("input[name=availableProducts]").change(function(el){
+            $('#listProducts').collapse('toggle');
+        });
+          
+          $("input[name=availableMarkets]").change(function(el){
+            $('#listMarkets').collapse('toggle');
+        });
+          
       });
+ 
