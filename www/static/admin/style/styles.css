@@ -4,6 +4,114 @@
   color: white;
 }
 
+body
+{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/*.container
+{
+  height: 100%;
+}
+
+.container > .row, .container > .row > .admin-panel .panel-body
+{
+  position: relative;
+  height: 75%;
+}
+
+.container > .row > .admin-panel
+{
+  height: 100%;
+}*/
+
+.btn-item
+{
+  width: 100%;
+}
+
+.resultsControl .panel-collapse .btn
+{
+  margin: 1px;
+  text-align: left;
+  border: 1px dotted #FFED89;
+  border-left: 5px solid #FFED89;
+  border-radius: 0;
+}
+
+.resultsControl .panel-collapse .btn.active
+{
+  box-shadow: none;
+  margin: 1px;
+  text-align: left;
+  border: 1px dotted lightgreen;
+  border-left: 5px solid lightgreen;
+  border-radius: 0;
+}
+
+.resultsControl .panel-collapse .btn:active
+{
+  box-shadow: none;
+  margin: 1px;
+  text-align: left;
+  border: 1px dotted lightgreen;
+  border-left: 5px solid lightgreen;
+  border-radius: 0;
+}
+
+.red
+{
+  color:red;
+}
+
+.blue
+{
+  color:blue;
+}
+
+.map-labels {
+  color: white;
+  background-color: red;
+  font-family: "Lucida Grande", "Arial", sans-serif;
+  font-size: 10px;
+  text-align: center;
+  width: 10px;     
+  white-space: nowrap;
+}
+
+#factorWeight {
+  background: lightskyblue;
+}
+
+#factorWeight .ui-slider-range
+{
+  background: lawngreen;
+}
+
+.resultControls
+{
+  margin: 20px;
+}
+
+#startPoint
+{
+  width: 50%;
+}
+
+#maxDepth .ui-slider-range
+{
+  background: darkorchid;
+}
+
+#map-canvas
+{
+  height: 500px;
+  margin: 0;
+  padding: 0;
+}
+
 #parserID
 {
     width: 3em;
@@ -141,6 +249,11 @@ footer {
   background: #E7E7E7;
 }
 
+.body-moderator
+{
+  background: #ffffff;
+}
+
 .admin-panel
 {
   background: #fff;
@@ -155,6 +268,14 @@ footer {
 #top-nav-admin
 {
   background: #BA68C8;
+  box-shadow: 1px 1px 1px 1px rgb(200, 200, 200);
+  color: white;
+  border: 0;
+}
+
+#top-nav-moderator
+{
+  background: #43A047;
   box-shadow: 1px 1px 1px 1px rgb(200, 200, 200);
   color: white;
   border: 0;

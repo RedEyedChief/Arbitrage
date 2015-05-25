@@ -2,8 +2,10 @@ $('.confirm-delete').click(function(e) {
     manage.remove()
 });
 
-$('.confirm-edit').click(function(e) {
-    manage.remove()
+$('#formEdit').submit(function() {
+    $('#confirm-edit').modal('hide')
+    editor.save(this)
+    return false
 });
 
 $('#formAdd').submit(function(){
@@ -91,6 +93,12 @@ var editor = {
         })
     },
     
+    save: function(form)
+    {
+        $.post('/content/update'+$("#itemType").html(), $(form).serialize(),function(data){
+            $(".remove-icon[element-id="+editor.id+"]").parent().replaceWith($(data));
+        })    
+    },
     
     replacers: {
         replace: function(replacer,key){

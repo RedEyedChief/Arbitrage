@@ -1,5 +1,4 @@
 var idProduct = 0;
-var idMarket = 0;
 
 $(document).ready(function()
 {
@@ -107,7 +106,7 @@ $(document).ready(function()
 
                     for (index = 0; index < data.length; ++index) {
                         idProduct = data[index]['idProduct'];
-                        idMarket = data[index]['idMarket'];
+                        //idMarket = data[index]['idMarket'];
                         html += "<tr> <td>" + (index + 1) + "</td>" +
                         "<td>" + data[index]['info'] + "</td>" +
                         "<td> <i class='fa fa-edit text-muted cursor ' onclick='element_OP_edit(this)'> </i> </td>" +
@@ -142,8 +141,9 @@ $(document).ready(function()
                 parserSeller: $('#parserSeller').val(),
                 parserCount: $('#parserCount').val(),
                 parserType: $('#parserType').val(),
-                idProduct: idProduct,
-                idMarket: idMarket
+                parserMarket: $('#parserMarket').val(),
+                idProduct: idProduct
+
             },
             type: 'POST',
             beforeSend: function(){
@@ -153,6 +153,7 @@ $(document).ready(function()
                 var parserSeller = $('#parserSeller').val();
                 var parserCount = $('#parserCount').val();
                 var parserType = $('#parserType').val();
+                var parserMarket = $('#parserMarket').val();
 
                 if (parserProductName !== "")
                 {
@@ -179,7 +180,12 @@ $(document).ready(function()
                     $('#parserType').parent().removeClass('has-error');
                     $('#parserType').parent().addClass('has-success');
                 }
-                if (parserProductName=="" || parserPrice=="" || parserSeller=="" || parserCount=="" || parserType==""){
+                if (parserMarket !== "")
+                {
+                    $('#parserMarket').parent().removeClass('has-error');
+                    $('#parserMarket').parent().addClass('has-success');
+                }
+                if (parserProductName=="" || parserPrice=="" || parserSeller=="" || parserCount=="" || parserType=="" || parserMarket==""){
                     $('#Form_error').show();
 
                     if (parserProductName =="") $('#parserProductName').parent().addClass('has-error');
@@ -187,6 +193,7 @@ $(document).ready(function()
                     if (parserSeller =="") $('#parserSeller').parent().addClass('has-error');
                     if (parserCount =="") $('#parserCount').parent().addClass('has-error');
                     if (parserType =="") $('#parserType').parent().addClass('has-error');
+                    if (parserMarket =="") $('#parserMarket').parent().addClass('has-error');
 
                     return false;
                 }
@@ -214,6 +221,7 @@ function view_op()
     $(".add_op").hide();
     $(".view_op").show();
 
+    console.log('view');
     $.ajax({
         url: 'http://arbitrage/dashboard/get_OP',
         dataType: 'json',
@@ -278,7 +286,6 @@ function view_op()
                 "</tr>" +
                 "</thead>" +
                 "<tbody>";
-
             for (index = 0; index < data.length; ++index) {
                 html += "<tr> <td>" + data[index]['id'] + "</td>" +
                 "<td>" + data[index]['name'] + "</td>" +
@@ -328,4 +335,3 @@ function element_OP_delete(op)
 {
     $(op).parents('tr').remove();
 }
-

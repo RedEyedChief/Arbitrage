@@ -75,19 +75,22 @@
 
 			<hr>
 
-			<div id="parseResult" >
+			<div id="parseResult" style="display: none;">
 
-				<div id="parserForm" >
+				<div id="parserForm" style="display: none;" >
 					<form  class="form row margin_top_bot_20px">
 						<div class="form-group row">
 							<div class="col-xs-6">
 								<input type="text" class="form-control" id="parserProductName" width="1em" placeholder="ProductName" value="" name="parserProductName">
 							</div>
-							<div class="col-xs-3">
+							<div class="col-xs-2">
 								<input type="text" class="form-control" id="parserPrice" width="1em" placeholder="Price" value="" name="parserPrice">
 							</div>
-							<div class="col-xs-3">
+							<div class="col-xs-2">
 								<input type="text" class="form-control" id="parserCount" width="1em" placeholder="Count" value="" name="parserCount">
+							</div>
+							<div class="col-xs-2">
+								<input type="text" class="form-control" id="parserType" width="1em" placeholder="Type" value="" name="parserType">
 							</div>
 
 						</div>
@@ -96,8 +99,8 @@
 								<input type="text" class="form-control" id="parserSeller" width="1em" placeholder="Info about seller" value="" name="parserSeller">
 							</div>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="parserType" width="1em" placeholder="Type" value="" name="parserType">
-							</div>
+                                <input type="text" class="form-control" id="parserMarket" width="1em" placeholder="Market" value="" name="parserMarket">
+                            </div>
 							<div class="col-xs-4">
 								<input type="submit" class="btn btn-success form-control" id="parserSave" value="Save">
 							</div>

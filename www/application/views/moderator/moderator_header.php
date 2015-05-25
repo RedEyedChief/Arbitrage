@@ -19,9 +19,9 @@
 		<![endif]-->
 		<link href="/static/admin/style/styles.css" rel="stylesheet">
 	</head>
-	<body class="body-admin">
+	<body class="body-moderator">
 <!-- Header -->
-<div id="top-nav-admin" class="navbar navbar-inverse navbar-static-top navbar-admin">
+<div id="top-nav-moderator" class="navbar navbar-inverse navbar-static-top navbar-moderator">
 <div class="container">
     <div class="navbar-header navbar-header-admin">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

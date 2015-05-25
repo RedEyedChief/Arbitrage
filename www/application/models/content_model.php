@@ -39,7 +39,7 @@ Class Content_model extends CI_Model
     function getProducts($start=0,$end=10,$id=false)
     {
         $where = $id!=false?"WHERE product.idProduct=".$id:"";
-        $query = $this -> db -> query("SELECT * FROM product INNER JOIN market ON Market_idMarket = idMarket ".$where." ORDER BY idProduct DESC LIMIT ".$start.",".$end);
+        $query = $this -> db -> query("SELECT * FROM product ".$where." ORDER BY idProduct DESC LIMIT ".$start.",".$end);
         
         if($query -> num_rows() > 0)
         {
@@ -364,11 +364,12 @@ Class Content_model extends CI_Model
     function addProduct($data)
     {
         $this->db->insert('product',$data);
-        $query = $this->db->get_where('product INNER JOIN market ON Market_idMarket = idMarket', array('idProduct' => $this->db->insert_id()));
+        $query = $this->db->get_where('product', array('idProduct' => $this->db->insert_id()));
         if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
         else return false;
     }
-
+    
+    
     //Machulyanskiy: insert object of parsing
      function saveOP ($parserURL, $parserRule)
      {
@@ -381,45 +382,38 @@ Class Content_model extends CI_Model
         $this->db->update('parser',$data);
         return $id;
      }
-
      //Machulyanskiy: insert product of OP with check on exist
      function save_product_OP($parserProductType, $parserCategory)
      {
         $this->db->where('nameProduct',$parserProductType);
         $this->db->where('categoryProduct',$parserCategory);
         $query = $this->db->get('product');
-
         if ($query->num_rows == 1)
             foreach ($query->result_array() as $row)
                 return $row['idProduct'];
-
         else
         {
             $this->db->insert("product",array( "nameProduct"=>$parserProductType, "categoryProduct"=>$parserCategory, "Report_idReport"=>0, "isActiveProduct"=>1));
             return $this->db->insert_id();
         }
      }
-
      //Machulyanskiy: insert items of product
-     function save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket)
+     function save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller)
      {
         $query = $this->db->insert("item",array( "nameItem"=>$parserProductName,"priceItem"=>$parserPrice, "typeItem"=>$parserType,
-                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct));
+                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct, 'SellerInfo' => $parserSeller));
      }
-
      function get_OP()
      {
         $query = $this->db->query("SELECT * FROM parser");
-		if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+		if($query -> num_rows() !== 0)return $query->result();//toDataArray($query->result());
         else return false;
      }
-
      function delete_OP($id)
      {
         $this->db->where('idParser',$id);
         $this->db->delete("parser");
      }
-
      function get_elements_OP($id)
      {
      	//$query = $this->db->query("select * from parser  order by chain_alias");
@@ -427,5 +421,10 @@ Class Content_model extends CI_Model
      	$query = $this->db->get('product');
      	return $query->result_array();
      		//return $this->_get_as_array($sql);
+     }
+     function get_idMarket($parserCity)
+     {
+        $this->db->where('nameCity',$parserCity);
+        $query = $this->db->get('city');
      }
 }
