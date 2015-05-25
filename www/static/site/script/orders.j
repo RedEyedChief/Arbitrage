@@ -58,8 +58,11 @@ $( document ).ready(function(){
                     "data": response,
                     "columns": [
 
-                        { "data": "nameProduct", title:"Name" },
-                        { title: "Order", class:"text-right" }
+                        { "key": "idProduct", title: "ID", visible: false },
+                        { "key": "nameProduct", title:"Name" },
+                        { "key": "countProduct", "class": "center", title: "Count", visible: false },
+                       { "key": "priceProduct", "class": "center", title:"Price", visible: false },
+                        { title: "Order", class:"text-right" },
                         //{class:"checkbox"}
                     ],
                     "columnDefs": [
@@ -71,11 +74,11 @@ $( document ).ready(function(){
                                 return '<form class="form-inline">' +
                                         '<div class="form-group">' +
 
-                                            '<input type="checkbox" value="Order" data-product="'+ row["nameProduct"] +'"> ' +
+                                            '<input type="checkbox" value="Order" data-product="'+ row[0] +'"> ' +
                                         '</div>' +
                                         ' </form>';
                             },
-                            "targets": 1
+                            "targets": 4
                         }
                     ]
                 });
@@ -83,22 +86,16 @@ $( document ).ready(function(){
         }
     });
 
-    $("#make_order").on("click", function(e){
-        var checked_items = $("#datatable_products input:checked");
+    $("#datatable_products").on("click", ".order_product", function(e){
+        var t = $(e.target),
+            product = t.data('product');
 
-        var product_id = [];
-        var city = document.getElementById("select_city").value;
+        var data = {product: product, quantity: t.prev().val()};
 
-        $.each(checked_items,function(n,v){
-            product_id.push($(v).data('product'));
-        });
-
-        $.post("orders/placeOrder", {products:product_id,city}, function(response){
+        $.post("orders/placeOrder", data, function(response){
             if(response.result){
-                window.location.replace("my/orders");
                 t.addClass("btn-success");
                 t.removeClass("btn-danger");
-                alert('Order was successful!');
             }
             else {
                 t.addClass("btn-danger");
