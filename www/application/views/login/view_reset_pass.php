@@ -1,7 +1,7 @@
 
-<h1>Reset password</h1>
+<h1 align="center">Reset password</h1>
 
-<div class="tab-content" >
+<div class="tab-content" align="center" >
         <div role="tabpanel" class="tab-pane active" id="reset_pass_form">
             <form id="reset_pass_form" action="/login/reset_password" method="POST">
                 <div class="form-group">

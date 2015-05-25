@@ -61,11 +61,19 @@ Class User_model extends CI_Model
                 VALUES ('" . $data['firstname'] . "' , '" . $data['surname'] . "', MD5('" . $data['password'] . "'), '" . $data['mail'] . "', " . $data['role'] . ") ";
 
         $this->db->query($sql);
+        $a=$this->db->affected_rows();
+        if ($a == 1)
+        {
+             $id = $this->db->insert_id();
 
-        if ($this->db->affected_rows() == 1)
-            return $this->db->insert_id();
+            $this->db->query("INSERT INTO profile_details (Profile_idProfile)
+                VALUES ('".$id."' )");
+            return $id;
+        }
         else
             return false;
+       
+
     }
     function email_exists($mail){
         $sql="SELECT firstName,mail FROM profile WHERE mail='{$mail}' LIMIT 1";

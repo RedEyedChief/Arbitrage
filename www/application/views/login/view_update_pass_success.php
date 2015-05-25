@@ -1,1 +1,1 @@
-<h2><?php echo 'Your password have been updated!'; ?> </h2>
+<h2 align="center"><?php echo 'Your password have been updated!'; ?> </h2>

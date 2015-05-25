@@ -51,17 +51,16 @@ $( document ).ready(function(){
             sel_market = frm.find("#select_market").val();
 
         if(sel_market != -1){
-            $.post('orders/getProducts', {market: sel_market}, function(response){
+            $.post('orders/getProducts', function(response){
                 $("#datatable_products").dataTable({
                     destroy: true,
                     "dom": 'rt<"bottom"p>',
                     "data": response,
                     "columns": [
-                        { "key": "idProduct", title: "ID", visible: false },
-                        { "key": "nameProduct", title:"Name" },
-                        { "key": "countProduct", "class": "center", title: "Count", visible: false },
-                        { "key": "priceProduct", "class": "center", title:"Price" },
+
+                        { "data": "nameProduct", title:"Name" },
                         { title: "Order", class:"text-right" }
+                        //{class:"checkbox"}
                     ],
                     "columnDefs": [
                         {
@@ -71,12 +70,12 @@ $( document ).ready(function(){
                             "render": function ( data, type, row ) {
                                 return '<form class="form-inline">' +
                                         '<div class="form-group">' +
-                                            '<input placeholder="Quantity" class="form-control" name="number" type="number" style="margin-right: 7px" />' +
-                                            '<input type="button" class="btn btn-small order_product" value="Order" data-product="'+ row[0] +'"> ' +
+
+                                            '<input type="checkbox" value="Order" data-product="'+ row["nameProduct"] +'"> ' +
                                         '</div>' +
                                         ' </form>';
                             },
-                            "targets": 4
+                            "targets": 1
                         }
                     ]
                 });
@@ -84,16 +83,21 @@ $( document ).ready(function(){
         }
     });
 
-    $("#datatable_products").on("click", ".order_product", function(e){
-        var t = $(e.target),
-            product = t.data('product');
+    $("#make_order").on("click", function(e){
+        var checked_items = $("#datatable_products input:checked");
 
-        var data = {product: product, quantity: t.prev().val()};
+        var product_id = [];
+        var city = document.getElementById("select_city").value;
 
-        $.post("orders/placeOrder", data, function(response){
+        $.each(checked_items,function(n,v){
+            product_id.push($(v).data('product'));
+        });
+
+        $.post("orders/placeOrder", {products:product_id,city}, function(response){
             if(response.result){
                 t.addClass("btn-success");
                 t.removeClass("btn-danger");
+                alert('Order was successful!');
             }
             else {
                 t.addClass("btn-danger");

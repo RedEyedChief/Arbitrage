@@ -1,5 +1,5 @@
-<h2>Update your password</h2>
-<div id = "update_pass_form">
+<h2 align="center">Update your password</h2>
+<div id = "update_pass_form" align="center">
 	<form action="/login/update_password" method ="POST">
 		<div>
 			<label for = "mail">Email: </label>

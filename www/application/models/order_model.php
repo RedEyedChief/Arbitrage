@@ -70,37 +70,50 @@ Class Order_model extends CI_Model
 
     public function getProducts($market_id)
     {
-        $query = $this->db->get_where("product", array("Market_idMarket" => $market_id));
+        $this->db->select('DISTINCT(nameProduct) as nameProduct')->from('product');  
+        $query=$this->db->get(); 
 
         $result = array();
 
         foreach ($query->result() as $row) {
-            $result[] = array($row->idProduct, $row->nameProduct, $row->countProduct, $row->priceProduct);
-        }
+            $result[] = array("nameProduct"=>$row->nameProduct);
+            }
 
         return $result;
     }
 
-    public function placeOrder($order, $user_id)
+    public function placeOrder($user_id,$products,$start)
     {
-        if ($order["quantity"] <= 0)
+        if (empty($products))
             return false;
 
-        $query = $this->db->get_where("product", array("idProduct"=>$order["product"]),1);
-        $product_info = $query->result_array();
-        $price = $product_info[0]["priceProduct"]*$order["quantity"];
-
-        $data = array(
+        $order_info = array(      
             'Profile_idProfile' => $user_id,
-            'Product_idProduct' => $order["product"],
-            'Quantity' => $order["quantity"],
-            'Price' => $price,
-            'Date' => date("Y-m-d H:i:s")
-        );
+            'Date' => date("Y-m-d H:i:s"),
+            'start' =>$start);
+        $this->db->insert("orders",$order_info);
+        $order_id = $this->db->insert_id();
 
-        $this->db->insert('orders', $data);
+        foreach ($products as $key => $value)
+        {
 
-        return $this->db->insert_id();
+            $order_details = array(
+                'id_order' => $order_id,
+                'id_product' => $value
+            );
+
+            $this->db->insert('orders_details', $order_details);
+                
+        }
+
+
+        if($this->db->_error_number() == 0)
+        {
+            return true;
+        }
+        else
+            return false;
+        ;
     }
 }
 

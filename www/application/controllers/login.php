@@ -73,6 +73,14 @@ class Login extends CI_Controller {
         if ($this->form_validation->run() == FALSE) {
             print json_encode(validation_errors("<li>","</li>"));
         } else {
+        	$mail = trim($this->input->post('mail'));
+            $email_ex = $this->user->email_exists($mail);
+            if($email_ex)
+            {
+            	 print json_encode("<li>User with this email already exists. </li>");
+            }
+            else{
+
             $id = $this->user->register($data);
 
             if ($id) {
@@ -83,7 +91,7 @@ class Login extends CI_Controller {
             else {
                 print json_encode("<li>Cannot register new user. </li>");
             }
-
+}
             //Go to private area
 //            if ($ajax != 'true') {
 //                $this->check_database($data['password'], $data['mail']);
