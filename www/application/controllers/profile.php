@@ -84,17 +84,17 @@ class Profile extends CI_Controller
         return $result;
     }
     function loadUserOrders($user_id){
-        $sql = "select DATE_FORMAT(o.date,'%d/%m/%Y %H:%s') as date, group_concat(d.id_product) as products
+        $sql = "select DATE_FORMAT(o.date,'%d/%m/%Y %H:%s') as date, products
                 from orders o
-                inner join orders_details d on d.id_order = o.idOrder
                 where o.Profile_idProfile = ".intval($user_id)." 
                 group by o.idOrder";
 
         $query = $this->db->query($sql);
 
         $result = array();
-        foreach ($query->result_array() as $row) {
-            $result[] = $row;
+        foreach ($query->result_array() as $row)
+        {
+            $result[] = $row; 
         }
 
         return $result;
@@ -110,7 +110,7 @@ class Profile extends CI_Controller
     }
     function saveUserData($user_id=0){
         if ($user_id==0){
- $user_profile = $this->session->userdata("profile");                                                                                                                                                                                   
+        $user_profile = $this->session->userdata("profile");                                                                                                                                                                                   
       $user_id = $user_profile["idProfile"];
         }
 

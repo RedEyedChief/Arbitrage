@@ -68,7 +68,7 @@
                 <button type="reset" class="btn btn-default">Discard</button>
             </form>
         </div>
-        <div role="tabpanel" class="tab-pane" id="my_orders">
+        <div role="tabpanel" class="tab-pane" name="my_orders" id="my_orders">
             <table <table class="table table-bordered" id="orders">
                 <thead>
                     <tr>
@@ -81,7 +81,15 @@
                     foreach($orders as $order){
                         print "<tr>";
                         print "<td>".$order['date']."</td>";
-                        print "<td>".$order['products']."</td>";
+                        $arr=unserialize($order['products']);
+                       // print_r( $arr);
+                        print "<td>";
+                        foreach ($arr as $el)
+                        {
+                            print $el;
+                            print (" ");
+                        }
+                        print "</td>";
                         print "</tr>";
                     }
                 ?>

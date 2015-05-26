@@ -43,6 +43,12 @@ $( document ).ready(function(){
        }
     });
 
+$("#select_market").on("change", function(e){
+var t = $(e.target),
+id = t.val();
+});
+
+
     $("#order_form").on("submit", function(e){
         e.preventDefault();
         var frm = $("#order_form"),
@@ -87,14 +93,15 @@ $( document ).ready(function(){
         var checked_items = $("#datatable_products input:checked");
 
         var product_id = [];
-        var city = document.getElementById("select_city").value;
+        var market = document.getElementById("select_market").value;
 
         $.each(checked_items,function(n,v){
             product_id.push($(v).data('product'));
         });
 
-        $.post("orders/placeOrder", {products:product_id,city}, function(response){
+        $.post("orders/placeOrder", {products:product_id,market}, function(response){
             if(response.result){
+                window.location.replace("my/");
                 t.addClass("btn-success");
                 t.removeClass("btn-danger");
                 alert('Order was successful!');

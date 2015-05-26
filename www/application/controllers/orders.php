@@ -78,11 +78,10 @@ class Orders extends CI_Controller
         $user_profile = $this->session->userdata("profile");                                                                                                                                                                                   
         $user_id = $user_profile["idProfile"];
         $products = $data["products"];
-        $start = $data["city"];
+        $start = $data["market"];
 
         if ($this->order_model->placeOrder($user_id, $products,$start)){
             print json_encode(array("result"=>true));
-            
         } else {
             print json_encode(array("result"=>false, "error"=>"Cant place new order!"));
         }
