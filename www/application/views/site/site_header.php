@@ -16,7 +16,7 @@
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		<link href="/static/admin/style/styles.css" rel="stylesheet">
-		<link href="/static/site/style/styles.css" rel="stylesheet">
+		
 		<link href="/static/site/style/main.css" rel="stylesheet">
 	</head>
 	<body>
