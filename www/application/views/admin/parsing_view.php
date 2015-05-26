@@ -51,7 +51,7 @@
                         <div class="input-group-addon"></div>
                         <input type="text" class="form-control" id="nameProduct" value='<?=$item->nameProduct?>'>
                         <div class="input-group-addon"></div>
-                        <input type="text" class="form-control" id="categoryProduct" value='<?=$item->nameProduct?>'>
+                        <input type="text" class="form-control" id="categoryProduct" value='<?=$item->categoryProduct?>'>
                         <div class="input-group-addon"></div>
                         <div class="form-control "><i class="fa fa-list-ul text-muted cursor" onclick="get_elements_OP(this)"></i></div>
                         <div class="input-group-addon"></div>
@@ -135,6 +135,7 @@
                                                               		</div>
                         	</div>
                         	 </form>-->
+                 <div id='for_error'></div>
 
 		</div>
 
@@ -160,18 +161,18 @@
 			<form class="form row " id="let_parsing" action="http://arbitrage/dashboard/parsing_request" method="POST">
 				<div class="form-group row">
 					<div class="parserURL col-xs-7">
-						<input type="text" class="form-control" id="parserURL" placeholder="URL" value="http://hotline.ua/knigi/">
+						<input type="text" class="form-control" id="parserURL" placeholder="URL" value="">
 					</div>
 					<div class="parserRule col-xs-5">
-						<input type="text" class="form-control" id="parserRule" placeholder="Rule" value="ul[class=book-tabl] li" >
+						<input type="text" class="form-control" id="parserRule" placeholder="Rule" value="" >
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-xs-4">
-						<input type="text" class="form-control" id="parserProductType" width="1em" placeholder="ProductType" value="book" name="parserProductType">
+						<input type="text" class="form-control" id="parserProductType" width="1em" placeholder="ProductType" value="" name="parserProductType">
 					</div>
 					<div class="col-xs-3">
-						<input type="text" class="form-control" id="parserCategory" width="1em" placeholder="Category" value="reading" name="parserCategory" >
+						<input type="text" class="form-control" id="parserCategory" width="1em" placeholder="Category" value="" name="parserCategory" >
 					</div>
 					<div class="parserSub col-xs-5">
                 		<div type="submit" id="doParse" class="btn btn-success form-control">Parse!</div>

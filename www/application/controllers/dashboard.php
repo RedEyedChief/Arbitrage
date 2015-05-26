@@ -239,23 +239,24 @@ function parsing()
         			else
         			{
         				//save product of parsing to db
-                        //$id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
-                        $id_product = 10;
+                        $id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
+                        //$id_product = 10;
 
         				//save object of parsing to db
-                    	//$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
-                    	$id_parser = 6;
+                    	$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
+                    	//$id_parser = 6;
 
         				foreach ($rule as $element) //'ul[class=book-tabl] li'
         				{
         					$count++;
-        					$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext, 'idProduct' => $id_product, 'idParser' => $id_parser);
+        					$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext,
+        					'idProduct' => $id_product, 'idParser' => $id_parser);
         				}
 
         				$this->data['html'] -> clear();
         				unset($this->data['html']);
 
-        				echo json_encode($arr);
+						echo json_encode($arr);
         			}
        	}
         else echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong URL!'));
@@ -278,9 +279,12 @@ function parsing()
 
         //$idCity = $this->content_model->get_idCity($parserCity);
 
-		//$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller);
+		$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller);
 
-		if($error == null)		echo json_encode(array('status' => 'ok'));
+        if($error == null)
+        	echo json_encode(array('status' => 'ok', 'message' => 'Success saving!'));
+        else
+            echo json_encode(array('status' => 'not_ok', 'message' => $error));
     }
 
 	//Machulyanskiy: delete OP
@@ -309,7 +313,36 @@ function parsing()
     	//print_r ($error);
     	//print_r ($error);
     	foreach ($error as $client_info)
-			$arr[] =  array('nameItem' => $client_info['nameItem'], 'priceItem' => $client_info['priceItem'], 'typeItem' => $client_info['typeItem'], 'countItem' => $client_info['countItem'], 'sellerItem' => $client_info['sellerItem']);
+			$arr[] =  array('idItem'=>$client_info['idItem'], 'nameItem' => $client_info['nameItem'], 'priceItem' => $client_info['priceItem'], 'typeItem' => $client_info['typeItem'], 'countItem' => $client_info['countItem'], 'sellerItem' => $client_info['sellerItem']);
     	echo json_encode($arr);
+    }
+
+    function update_items_OP()
+    {
+    	$id = $this->input->post('id', TRUE);
+		$name = $this->input->post('name', TRUE);
+        $price = $this->input->post('price', TRUE);
+        $count = $this->input->post('count', TRUE);
+        $type = $this->input->post('type', TRUE);
+        $seller = $this->input->post('seller', TRUE);
+
+        $error = $this->content_model->update_items_OP($id, $name, $price, $count, $type, $seller);
+
+        if($error == null)
+        	echo json_encode(array('status' => 'ok', 'message' => 'Success update!'));
+        else
+            echo json_encode(array('status' => 'not_ok', 'message' => $error));
+    }
+
+    function item_OP_delete()
+    {
+        $id = $this->input->post('id', TRUE);
+
+    	$error = $this->content_model->item_OP_delete($id);
+
+        if($error == null)
+        	echo json_encode(array('status' => 'ok', 'message' => 'Success delete!'));
+        else
+            echo json_encode(array('status' => 'not_ok', 'message' => $error));
     }
 }

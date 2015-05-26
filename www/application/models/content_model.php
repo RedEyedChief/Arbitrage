@@ -408,6 +408,7 @@ Class Content_model extends CI_Model
      {
         $query = $this->db->insert("item",array( "nameItem"=>$parserProductName,"priceItem"=>$parserPrice, "typeItem"=>$parserType,
                                                 "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct, 'sellerItem' => $parserSeller));
+        return $this->db->_error_message();
      }
 
      function get_OP()
@@ -440,6 +441,7 @@ Class Content_model extends CI_Model
      		//return $this->_get_as_array($sql);
 
      	$query = $this->db->query("SELECT
+     	                                i.idItem,
                                         i.nameItem,
                                         i.priceItem,
                                         i.typeItem,
@@ -465,5 +467,27 @@ Class Content_model extends CI_Model
      {
         $query = $this->db->get('market');
         return $query->result_array();
+     }
+
+     function update_items_OP($id, $name, $price, $count, $type, $seller)
+     {
+        $data = array(
+                       'nameItem' => $name,
+                       'priceItem' => $price,
+                       'typeItem' => $type,
+                       'countItem' => $count,
+                       'sellerItem' => $seller
+                    );
+
+        $this->db->where('idItem', $id);
+        $this->db->update('item', $data);
+        return $this->db->_error_message();
+     }
+
+     function item_OP_delete($id)
+     {
+        $this->db->where('idItem',$id);
+        $this->db->delete("item");
+        return $this->db->_error_message();
      }
 }

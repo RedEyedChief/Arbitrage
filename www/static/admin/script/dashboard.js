@@ -109,7 +109,6 @@ $(document).ready(function()
 
                     for (index = 0; index < data.length; ++index) {
                         idProduct = data[index]['idProduct'];
-                        //idMarket = data[index]['idMarket'];
                         html += "<tr> <td>" + (index + 1) + "</td>" +
                         "<td>" + data[index]['info'] + "</td>" +
                         "<td> <i class='fa fa-edit text-muted cursor ' onclick='element_OP_edit(this)'> </i> </td>" +
@@ -139,14 +138,16 @@ $(document).ready(function()
         console.log($('tr.success:not(.already)').length, $('tr.success').length );
         if($('tr.success:not(.already)').length > 0)
         {
-            $('tbody tr.success').hide();
-            console.log($('#table_parse_Result').find('tbody'));
-            var html="<tr class='success already'> <td class='round-icon'><i class='fa fa-plus-circle text-muted cursor bootstrap_success_color' onclick='view_elements(this)'> </i></td>" +
-                "<td></td>" +
-                "<td> </td>" +
-                "<td> </td> </tr>";
-            //$('#table_parse_Result').find('tbody').html(html);
-            $('tr.success').before(html);
+            $('tbody tr.success:not(.already)').hide();
+            console.log($('.table_parse_Result tbody').children(0).hasClass('already'));
+            if(!($('.table_parse_Result tbody').children(0).hasClass('already')))
+            {
+                var html = "<tr class='success already'> <td class='round-icon'><i class='fa fa-plus-circle text-muted cursor bootstrap_success_color' onclick='view_elements()'> </i></td>" +
+                    "<td> </td>" +
+                    "<td> </td>" +
+                    "<td> </td> </tr>";
+                $('tr.success').before(html);
+            }
         }
 
         $.ajax({
@@ -217,11 +218,16 @@ $(document).ready(function()
 
                 else return true;
             },
-            success: function (msg) {
+            success: function (data) {
                 //console.log($('tr[class=warning]'));
-                $('tr[class=warning]').addClass('success');
-                $('.warning, .success').removeClass('warning');
-                console.log('success');
+                /*if(data['status'] === 'ok')
+                {*/
+                    $('tr[class=warning]').addClass('success');
+                    $('.warning, .success').removeClass('warning');
+                    $("#parserForm").hide('slow');
+                    $("#parserForm input:not(.btn)").val('');
+               // }
+
             },
             error: function () {
                 alert('retard');
@@ -229,6 +235,11 @@ $(document).ready(function()
         });
         return false;
     });
+
+    /*$('.already').click(function(){
+
+        $('tbody tr.success:not(.already)').show('normal');
+    });*/
 
     $('#continue_view').click(function(){
         console.log($('tr.success').length);
@@ -243,6 +254,8 @@ $(document).ready(function()
             $('#continue_view').before(html);
         }
     });
+
+
 });
 
 //Machulyanskiy: Відображення списку ОП
@@ -371,14 +384,14 @@ function get_elements_OP(op)
                 "</thead>" +
                 "<tbody>";
             for (index = 0; index < data.length; ++index) {
-                html += "<tr> <td>" + index+1 + "</td>" +
+                html += "<tr> <td class='not_this'>" + data[index]['idItem'] + "</td>" +
                 "<td>" + data[index]['nameItem'] + "</td>" +
                 "<td>" + data[index]['priceItem'] + "</td>" +
                 "<td>" + data[index]['countItem'] + "</td>" +
                 "<td>" + data[index]['typeItem'] + "</td>" +
                 "<td>" + data[index]['sellerItem'] + "</td>" +
-                "<td> <i class='fa fa-edit text-muted cursor ' onclick='item_OP_edit(this)'> </i> </td>" +
-                "<td> <i class='fa fa-remove text-muted cursor ' onclick=''> </i> </td> </tr>"
+                "<td class='not_this'> <i class='fa fa-edit text-muted cursor ' onclick='item_OP_edit(this)'> </i> </td>" +
+                "<td class='not_this'> <i class='fa fa-remove text-muted cursor ' onclick='item_OP_delete(this)'> </i> </td> </tr>"
             }
             html += "</tbody>" +
             "</table>";
@@ -414,7 +427,7 @@ function OP_delete(op)
 //Machulyanskiy: Беремо на редагування елемент ОП
 function element_OP_edit(op)
 {
-    $("#parserForm").show();
+    $("#parserForm").show('slow');
     $(op).parents('tr').addClass('warning');
 }
 
@@ -427,12 +440,113 @@ function element_OP_delete(op)
 //Machulyanskiy: Беремо на редагування продукт ОП
 function item_OP_edit(op)
 {
-    //console.log($(op).parents('tr')[0].click());
-    console.log($('#table_OP').click());
-    if($(op).parents('tr').find('td').keypress())
+    $(op).parents('tr').removeClass('success');
+    if($(op).hasClass('fa-check-square-o'))
     {
-        console.log('zyap-zyap');
+        //console.log('need to save data');
+        $(op).removeClass('fa-check-square-o');
+        $(op).addClass('fa-edit');
+        $(op).parents('tr').removeClass('warning');
+        var save = $(op).parents('tr').find('.on_edit');
+        var val = save.children().val();
+        save.children().remove();
+        save.removeClass('on_edit');
+        save.text(val);
+
+        //console.log($(op).parents('tr').find('td:eq(1)').text())
+        $.ajax({
+            type: "POST",
+            url: 'http://arbitrage/dashboard/update_items_OP',
+            data:
+            {
+                id : $(op).parents('tr').find('td:eq(0)').text(),
+                name : $(op).parents('tr').find('td:eq(1)').text(),
+                price: $(op).parents('tr').find('td:eq(2)').text(),
+                count: $(op).parents('tr').find('td:eq(3)').text(),
+                type: $(op).parents('tr').find('td:eq(4)').text(),
+                seller: $(op).parents('tr').find('td:eq(5)').text()
+            },
+            dataType: 'json',
+            success:function(data){
+                console.log(data['status'], data["message"]);
+                if(data['status'] == 'not_ok')
+                {
+                    $('#for_error').html('<div class="alert alert-danger"><strong>' + data["message"] + '</strong> </div>');
+                }
+                else $(op).parents('tr').addClass('success');
+            },
+            error: function () {
+                console.log('retard');
+            }
+        });
+
+        return;
     }
-    $("#parserForm").show();
-    $(op).parents('tr').addClass('warning');
+    else if ($(op).hasClass('fa-edit'))
+    {
+        $(op).parents('tr').addClass('warning');
+        $(op).removeClass('fa-edit');
+        $(op).addClass('fa-check-square-o');
+        //console.log($(op));
+
+        var tr = $(op).parents('tr');
+        var td = tr.find('td:not(.not_this)');
+        //console.log(td);
+        //console.log($('#table_OP').click());
+        //console.log(tr);
+        //td.addClass('success');
+        td.click(function () {
+            if ($(this).hasClass('on_edit')) return;
+            var save = $(this).parent().find('.on_edit');
+            var val = save.children().val();
+            save.children().remove();
+            save.removeClass('on_edit');
+            save.text(val);
+
+            //console.log(save.children().val());
+            console.log('bibon');
+            //console.log($(this));
+            $(this).addClass('on_edit');
+            console.log($(this).text());
+            var html = '<input class="form-control" type="text" value=' + $(this).text() + '>';
+            $(this).html(html);
+            //$(this).innerText();
+            //console.log($(this).text());
+        });
+
+        //$("#parserForm").show();
+
+        return;
+    }
+}
+
+function item_OP_delete(op)
+{
+    var id = $(op).parents('tr').find('td:eq(0)').text();
+
+    $.ajax({
+        type: "POST",
+        async: true,
+        url: 'http://arbitrage/dashboard/item_OP_delete',
+        data: {id : id},
+        success:function(data){
+            if(data['status'] == 'not_ok')
+            {
+                $('#for_error').html('<div class="alert alert-danger"><strong>' + data["message"] + '</strong> </div>');
+            }
+            else $(op).parents('tr').remove();
+        },
+        error: function () {
+            console.log('retard');
+        }
+    });
+
+}
+
+function view_elements()
+{
+    if($('tbody tr.success:not(.already)').is(":hidden"))
+        $('tbody tr.success:not(.already)').show('slow');
+    else if($('tbody tr.success:not(.already)').is(":visible"))
+        $('tbody tr.success:not(.already)').hide('slow');
 }
