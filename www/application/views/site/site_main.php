@@ -1,3 +1,5 @@
+<link href="/static/site/style/styles.css" rel="stylesheet">
+
 <section class="container-fluid" id="section1">
     <div class="v-center">
         <h1 class="text-center">Купи-продайко</h1>

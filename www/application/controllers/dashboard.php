@@ -138,7 +138,7 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/admin_footer');
 	}
 	
-	function item($idProduct=false)
+	function items($idProduct=false)
 	{
 		$this->blocsBefore();
 		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
