@@ -57,6 +57,12 @@ body
   width: 100%;
 }
 
+.resultsControl
+{
+  border-left: 3px solid rgb(187, 255, 255);
+  padding: 20px;
+}
+
 .resultsControl .panel-collapse .btn
 {
   margin: 1px;
@@ -203,7 +209,7 @@ body
 }
 
 .navbar-static-top {
-  margin-bottom:20px;
+  margin-bottom:0px;
 }
 
 i {
@@ -273,6 +279,19 @@ footer {
 /* ==================================
  * Dashboard
  * ================================== */
+
+.item-product-table {
+  padding: 10px;
+  border: 1px solid lightgrey;
+}
+
+.item-product-table > .icon {
+  padding: 0px 10px 0 10px;
+}
+
+.item-product-table > .itemId {
+  padding: 10px;
+}
 
 .body-admin
 {

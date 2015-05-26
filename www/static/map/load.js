@@ -65,11 +65,16 @@ function getResult(start, depth, c_dist) {
     $.post("/dashboard/testResult/",{start:start, depth: depth, c: c_dist, disabledProducts: serializeProducts(), disabledMarkets: serializeMarkets()},function(data){
         data = JSON.parse(data)
         console.log(data)
+        
+        $("#listChains > .panel-body").html(data.chain)
+        
         if (typeof flightPath !== "undefined") {
             flightPath.setMap(null);
         }
         flightPlanCoordinates = []
-        data.forEach(function(el){
+        var way = data.way
+        
+        way.forEach(function(el){
             var point = markers[el].getPosition()
             flightPlanCoordinates.push(new google.maps.LatLng(point.A, point.F))
         });
@@ -82,6 +87,7 @@ function getResult(start, depth, c_dist) {
         });
         
           flightPath.setMap(map);
+          
     });
 }
 

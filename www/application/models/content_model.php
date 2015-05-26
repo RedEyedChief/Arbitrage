@@ -36,6 +36,33 @@ Class Content_model extends CI_Model
      * @param Boolean $id ID ??????
      * @return var  ????? ??????
      */
+    function getItems($start=0,$end=10,$idProduct=false)
+    {
+        if($idProduct!=false) $this->db->where('item.product_idProduct',$idProduct);
+        $this->db->limit($end,$start);
+        $this->db->select('*');
+        $this -> db -> from('item');
+        $this -> db -> join('market','market_idMarket=idMarket','left');
+        $this -> db -> join('product','product_idProduct=idProduct','left');
+        $query = $this->db->get();
+        
+        if($query -> num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * ???????? ?? ?????? ? start ?? end, ?? ? id
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @param Boolean $id ID ??????
+     * @return var  ????? ??????
+     */
     function getProducts($start=0,$end=10,$id=false)
     {
         $where = $id!=false?"WHERE product.idProduct=".$id:"";
@@ -123,9 +150,7 @@ Class Content_model extends CI_Model
     function getPolls($start=0,$end=10,$id=false)
     {
         $where = $id!=false?"WHERE profile.idProfile=".$id:"";
-        $query = $this -> db -> query("SELECT idPoll,namePoll,statePoll,mail
-                                        FROM poll
-                                        INNER JOIN profile ON Profile_idProfile = idProfile ".$where." LIMIT ".$start.",".$end);
+        $query = $this -> db -> query("SELECT idPoll,namePoll,statePoll,mail FROM poll INNER JOIN profile ON Profile_idProfile = idProfile ".$where." LIMIT ".$start.",".$end);
         
         if($query -> num_rows() > 0)
         {
@@ -206,9 +231,7 @@ Class Content_model extends CI_Model
     function getArticle($id)
     {
         $where = $id!=false?"WHERE article.idArticle=".$id:"";
-        $query = $this -> db -> query("SELECT idArticle,headerArticle, descriptionArticle, textArticle, mail, dateArticle, imageArticle
-                                        FROM article
-                                        INNER JOIN profile ON Profile_idProfile = idProfile ".$where);
+        $query = $this -> db -> query("SELECT idArticle,headerArticle, descriptionArticle, textArticle, mail, dateArticle, imageArticle FROM article INNER JOIN profile ON Profile_idProfile = idProfile ".$where);
         
         if($query -> num_rows() > 0)
         {
@@ -233,8 +256,17 @@ Class Content_model extends CI_Model
     
     function removeProduct($id)
     {
+        $data = array(
+               'isActiveProduct' => 0
+            );
         $this->db->where('idProduct',$id);
-        $this->db->delete("product");
+        $this->db->update('product',$data);
+    }
+    
+    function removeItem($id)
+    {
+        $this->db->where('idItem',$id);
+        $this->db->delete("item");
     }
     
     function removeUser($id)
@@ -341,6 +373,18 @@ Class Content_model extends CI_Model
         else return false;
     }
     
+    function getItemFields($id)
+    {
+        $query = $this -> db -> query("SELECT
+                                    idItem,product_idProduct,market_idMarket,priceItem 
+                                    FROM item
+                                    WHERE idItem='".$id."'
+                                    LIMIT 1");
+      
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
+    }
+    
     function getPriceFields($id)
     {
         $query = $this -> db -> query("SELECT
@@ -373,6 +417,13 @@ Class Content_model extends CI_Model
         else return false;
     }
     
+    function addItem($data)
+    {
+        $this->db->insert('item',$data);
+        $query = $this->db->get_where('item', array('idItem' => $this->db->insert_id()));
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
+    }
     
     //Machulyanskiy: insert object of parsing
      function saveOP ($parserURL, $parserRule, $id_product)
@@ -386,7 +437,6 @@ Class Content_model extends CI_Model
         $this->db->update('parser',$data);*/
         return $this->db->insert_id();
      }
-
      //Machulyanskiy: insert product of OP with check on exist
      function save_product_OP($parserProductType, $parserCategory)
      {
@@ -402,7 +452,6 @@ Class Content_model extends CI_Model
             return $this->db->insert_id();
         }
      }
-
      //Machulyanskiy: insert items of product
      function save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller)
      {
@@ -410,7 +459,6 @@ Class Content_model extends CI_Model
                                                 "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct, 'sellerItem' => $parserSeller));
         return $this->db->_error_message();
      }
-
      function get_OP()
      {
         $query = $this->db->query("SELECT
@@ -425,13 +473,11 @@ Class Content_model extends CI_Model
 		if($query -> num_rows() !== 0)return $query->result();//toDataArray($query->result());
         else return false;
      }
-
      function delete_OP($id)
      {
         $this->db->where('idParser',$id);
         $this->db->delete("parser");
      }
-
      function get_elements_OP($id)
      {
      	//$query = $this->db->query("select * from parser  order by chain_alias");
@@ -439,7 +485,6 @@ Class Content_model extends CI_Model
      	$query = $this->db->get('item');
      	return $query->result_array();*/
      		//return $this->_get_as_array($sql);
-
      	$query = $this->db->query("SELECT
      	                                i.idItem,
                                         i.nameItem,
@@ -453,7 +498,6 @@ Class Content_model extends CI_Model
                                     WHERE p.idParser = '".$id."'");
      	return $query->result_array();
      }
-
      function get_idMarket_by_name($parserMarket)
      {
         $this->db->where('nameMarket',$parserMarket);
@@ -462,13 +506,11 @@ Class Content_model extends CI_Model
             foreach ($query->result_array() as $row)
                 return $row['idMarket'];
      }
-
      function get_Markets()
      {
         $query = $this->db->get('market');
         return $query->result_array();
      }
-
      function update_items_OP($id, $name, $price, $count, $type, $seller)
      {
         $data = array(
@@ -478,12 +520,10 @@ Class Content_model extends CI_Model
                        'countItem' => $count,
                        'sellerItem' => $seller
                     );
-
         $this->db->where('idItem', $id);
         $this->db->update('item', $data);
         return $this->db->_error_message();
      }
-
      function item_OP_delete($id)
      {
         $this->db->where('idItem',$id);

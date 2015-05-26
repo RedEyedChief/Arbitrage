@@ -138,6 +138,21 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/admin_footer');
 	}
 	
+	function item($idProduct=false)
+	{
+		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
+		$this->data['items'] = $this->content_model->getItems($start, $end, $idProduct);
+		$this->data['markets'] = $this->data_model->get_markets();
+		$this->data['products'] = $this->data_model->get_products();
+		$this->data['async']=false;
+		$this->data['num']=count($this->data['items']);
+		$this->load->view('admin/lists/items_list',$this->data);
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
+	}
+	
 	function cities()
 	{
 		$this->blocsBefore();
@@ -201,20 +216,16 @@ class Dashboard extends CI_Controller {
     		$this->load->view('admin/admin_footer');
 
     	}
-function parsing()
+
+	function parsing()
     {
     	$this->blocsBefore();
-
-
     	$data['parsers'] = $this->content_model->get_OP();
 		$data['markets'] = $this->data_model->get_markets();
-
     	$this->load->view('admin/parsing_view', $data);
     	$this->load->view('admin/splitters/end_row');
     	$this->load->view('admin/admin_footer');
-
     }
-
 	//Machulyanskiy: processing the request to the source
     function parsing_request()
     {
@@ -222,9 +233,7 @@ function parsing()
 		$parserRule = $this->input->post('parserRule', TRUE);
 		$parserProductType = $this->input->post('parserProductType', TRUE);
 		$parserCategory = $this->input->post('parserCategory', TRUE);
-
 		$headers = @get_headers($parserURL);
-
         if($headers[0] == 'HTTP/1.1 200 OK')
         {
         			$count = 0;
@@ -241,27 +250,22 @@ function parsing()
         				//save product of parsing to db
                         //$id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
                         $id_product = 10;
-
         				//save object of parsing to db
                     	//$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
                     	$id_parser = 6;
-
         				foreach ($rule as $element) //'ul[class=book-tabl] li'
         				{
         					$count++;
         					$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext,
         					'idProduct' => $id_product, 'idParser' => $id_parser);
         				}
-
         				$this->data['html'] -> clear();
         				unset($this->data['html']);
-
 						echo json_encode($arr);
         			}
        	}
         else echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong URL!'));
     }
-
 	//Machulyanskiy: processing the element OP
     function save_items_of_product()
     {
@@ -276,17 +280,13 @@ function parsing()
         //$idMarket = $Market['idMarket'];
         //$idMarket = $parserMarket;
         echo $idMarket . '  ' . $idProduct . '  ' . $parserSeller;
-
         //$idCity = $this->content_model->get_idCity($parserCity);
-
 		$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller);
-
         if($error == null)
         	echo json_encode(array('status' => 'ok', 'message' => 'Success saving!'));
         else
             echo json_encode(array('status' => 'not_ok', 'message' => $error));
     }
-
 	//Machulyanskiy: delete OP
 	function delete_OP()
     {
@@ -294,7 +294,6 @@ function parsing()
     	$error = $this->content_model->delete_OP($id);
         echo json_encode($error);
     }
-
 	//Machulyanskiy: get list OP
     function get_OP()
     {
@@ -304,7 +303,6 @@ function parsing()
 		//if($error !== NULL) echo json_encode($error);
     	echo json_encode($error);
     }
-
 	//Machulyanskiy: get list of elements OP
     function get_elements_OP()
     {
@@ -316,7 +314,6 @@ function parsing()
 			$arr[] =  array('idItem'=>$client_info['idItem'], 'nameItem' => $client_info['nameItem'], 'priceItem' => $client_info['priceItem'], 'typeItem' => $client_info['typeItem'], 'countItem' => $client_info['countItem'], 'sellerItem' => $client_info['sellerItem']);
     	echo json_encode($arr);
     }
-
     function update_items_OP()
     {
     	$id = $this->input->post('id', TRUE);
@@ -325,21 +322,16 @@ function parsing()
         $count = $this->input->post('count', TRUE);
         $type = $this->input->post('type', TRUE);
         $seller = $this->input->post('seller', TRUE);
-
         $error = $this->content_model->update_items_OP($id, $name, $price, $count, $type, $seller);
-
         if($error == null)
         	echo json_encode(array('status' => 'ok', 'message' => 'Success update!'));
         else
             echo json_encode(array('status' => 'not_ok', 'message' => $error));
     }
-
     function item_OP_delete()
     {
         $id = $this->input->post('id', TRUE);
-
     	$error = $this->content_model->item_OP_delete($id);
-
         if($error == null)
         	echo json_encode(array('status' => 'ok', 'message' => 'Success delete!'));
         else

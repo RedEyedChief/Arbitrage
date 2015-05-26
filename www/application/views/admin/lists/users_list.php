@@ -56,7 +56,7 @@
 				}
 				if($item->isActive==0) $removed = "removedUser"; else $removed = "";
 				if($async) $added = "newItem"; else $added = ""?>
-					<tr class="article link <?=$removed." ".$added?>" href="/matherials/article/<?=$item->idProfile?>">
+					<tr class="item link <?=$removed." ".$added?>" href="/matherials/article/<?=$item->idProfile?>">
 						<td class="<?=$icon?>"></td>
 						<td class="id-article itemId"><?=$item->idProfile?></td>
 						<td class="author-article"><?=$item->mail?></td>
