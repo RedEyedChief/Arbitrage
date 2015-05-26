@@ -49,5 +49,9 @@
             $('#listMarkets').collapse('toggle');
         });
           
+          $("input[name=showChain]").change(function(el){
+            $('#listChains').collapse('toggle');
+        });
+          
       });
  

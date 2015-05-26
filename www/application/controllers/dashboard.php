@@ -270,13 +270,13 @@ function parsing()
         $idProduct = $this->input->post('idProduct', TRUE);
         $parserMarket = $this->input->post('parserMarket', TRUE);
         $idMarket = $parserMarket;
-        echo $idMarket . '  ' . $idProduct . '  ' . $parserSeller;
+        //echo $idMarket . '  ' . $idProduct . '  ' . $parserSeller;
 
-        //$idCity = $this->content_model->get_idCity($parserCity);
+        $idCity = $this->content_model->get_idMarket($parserMarket);
 
-		//$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller);
+		$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller);
 
-		if($error == null)		echo json_encode(array('status' => 'ok'));
+		if($error == null) die( json_encode(array('status' => 'ok')) );
     }
 
 	//Machulyanskiy: delete OP

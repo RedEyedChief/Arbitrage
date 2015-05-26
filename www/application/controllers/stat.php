@@ -69,7 +69,6 @@ class Main extends CI_Controller {
 		//$this->data['news'] = $this->content_model->getNews();
 		$this->isLogged = $this->user_model->check_logged();
 		
-		$this->stat_model->visit();
 		
 		$ajax = $this->input->post("ajax");
 		$this->blocsBefore($ajax);

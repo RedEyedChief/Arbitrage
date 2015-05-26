@@ -20,8 +20,24 @@
 		<div id="map-canvas"></div>
 		
 		<hr>
+		<h4>Results</h4>
+		<div class="resultsControl">
+		  <div class="btn-group" data-toggle="buttons">
+		    <label class="btn btn-default">
+		      <input type="checkbox" name="showChain" id="showChain" value='0' autocomplete="off"> Show
+		    </label>
+		  </div>
+		  
+		  <div class="panel-collapse collapse out" id="listChains">
+		    <div class="panel-body">
+		
+		    </div>
+		  </div>
+		</div>
+		
+		<hr>
 		<h4>Weight coefficient</h4>
-		<div class="resultControls">
+		<div class="resultsControl">
 		  <div id="factorWeight"></div>
 		  <div class="table-responsive">
 		    <table class="table">
@@ -41,7 +57,7 @@
 		
 		<hr>
 		<h4>Maximum depth</h4>
-		<div class="resultControls">
+		<div class="resultsControl">
 		  <div type="text" id="maxDepth"></div>
 		  <table class="table">
 		    <thead>
@@ -59,7 +75,7 @@
 		<?php if (!empty($markets)) : ?>
 		<hr>
 		<h4>Start point</h4>
-		<div class="resultControls">
+		<div class="resultsControl">
 		  <select class="form-control" id="startPoint">
 		    <?php foreach ($markets as $market) :?>
 		    <option value="<?=$market->id?>"><?=$market->name." ( ".$market->id." )"?></option>
@@ -141,7 +157,7 @@
       </div><!--/col-->
     
     <!-- Google Maps script -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwP-tMFGIK69QHHc0l9a78KX8cm87o7x4"></script>  
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwP-tMFGIK69QHHc0l9a78KX8cm87o7x4&language=uk"></script>  
     <script type="text/javascript" src="/static/map/map.js"></script>
     <script type="text/javascript" src="/static/map/load.js"></script>
     <script type="text/javascript" src="/static/map/slider.js"></script>

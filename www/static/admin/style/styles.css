@@ -32,6 +32,12 @@ body
   width: 100%;
 }
 
+.resultsControl
+{
+  border-left: 3px solid rgb(187, 255, 255);
+  padding: 20px;
+}
+
 .resultsControl .panel-collapse .btn
 {
   margin: 1px;
@@ -173,7 +179,7 @@ body
 }
 
 .navbar-static-top {
-  margin-bottom:20px;
+  margin-bottom:0px;
 }
 
 i {

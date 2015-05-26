@@ -13,7 +13,7 @@ class Dataloader {
         $this->visited = array();
         $this->start=0;
         $this->depth=0;
-        $this->c_items=0;
+        $this->c_items=array();
         $this->c_dist=0;
         $this->found=false;
         $this->dist = array();
@@ -62,188 +62,186 @@ class Dataloader {
         $this->c_dist = $this->max_dist - $this->min_dist;
     }
     
-    public function find_diffs()
-    {
-        $diffs = $this->CI->data_model->get_diffs();
-        foreach ($diffs as $diff)
-        {
-            $d = $diff->max - $diff->min;
-            if ($this->c_items < $d) $this->c_items = $d;
-        }
-    }
-    
     public function step($ver)
     {
         $this->depth++;
-        //die(print_r($this->c_items));
         $min = $this->inf;
         $mp = -1;
+        $buy = -1;
+        $sell = -1;
+        $item = -1;
         
-        $this->source[$ver][0] = 100;
-        $this->dest[$ver][0] = 1000;
-        //print 'step<br>';
+        //$this->source[$ver][0] = 1;
+        //$this->dest[$ver][0] = 1;   //Варіант "не перевозити нічого"
+        $this->visited[$ver] = true;    //Поточна вершина відвідана
         
-        $this->visited[$ver] = true;
-        //die(print_r($this->coords));
-        //$this->source[$ver][-1] = 1;
-        //$this->dest[$ver][-1] = 1;
-        foreach ($this->source[$ver] as $key=>$product) //For each product source
+        
+        foreach ($this->source[$ver] as $key=>$product) //Для кожної можливості купити
         {
-            //print 'f';
             if( $this->source[$ver][$key] <= 0) continue;
-            foreach ($this->markets as $id=>$market)
+            foreach ($this->markets_res as $sid=>$id)
             {
-                if ($id != $ver && !$this->visited[ $id ])    //For each other market
+                if ($id != $ver && !$this->visited[ $id ])    //Для кожного іншого маркету
                 {
-                    //$this->dest[$id][0]=1;
-                    //print "Source = ".$this->source[$ver][$key]."; dest = ".$this->dest[$id][$key]."<br>";
-                    
-                    $dif_items = ($this->dest[$id][$key] - $this->source[$ver][$key]) / $this->c_items;
-                    //print $this->dest[$id][$key] - $this->source[$ver][$key];
-                    $dif_items *= $dif_items > 0; 
+                    //print $this->dest[$id][$key].' ===> '. $this->source[$ver][$key].']<br>';
+                    $dif_items = ($this->dest[$id][$key] - $this->source[$ver][$key]) / $this->c_items[$key];
+                    $dif_items *= $dif_items > 0;
+                    $dif_items = 1-$dif_items;
                     //print $dif_items.'<br>';
                     $dif_dist = ($this->dist[$id][$ver] - $this->min_dist) / $this->c_dist;
                     
-                    $dif = $dif_dist*$this->coeff_dist - $dif_items*(1-$this->coeff_dist);
-                    //print $dif_items.'<br>';
-                    
-          //          print $dif.' between '.$id.' and '.$ver.' is '.$dif.'<br>';
+                    $dif = $dif_dist*$this->coeff_dist + $dif_items*(1-$this->coeff_dist);
                     
                     if ($dif < $min)
                     {
+                        //print $dif.'<br>';
                         $min = $dif;
                         $mp = $id;
+                        $buy = $this->source[$ver][$key];
+                        $sell = $this->dest[$id][$key];
+                        //print $buy.' = > '.$sell.'<br>';
+                        $item = $key;
                     }
                 }
             }
-            //if ( $this->source[$ver][$key] > $max and !$this->visited[$key] )
-            //{
-            //    $mp = $key;
-            //    $max = $this->source[$ver][$key];
-            //}
         }
-        //if ($mp==$this->start) print "finded<br>";
-        //print $ver."== (".$max.") ==>".$mp."<br>";
-        //$min = $min < 0? 0:$min;
-        //print $min.'<br>';
-        if ($min==$this->inf || $this->depth == $this->max_depth) { $mp = $this->markets_res[$this->start]; $this->found=true; }
+        
+        if ($min==$this->inf || $this->depth == $this->max_depth+1)
+        {
+            $mp = $this->markets_res[$this->start];
+            $item = 0;
+            $this->found=true;
+        }
+         
+        $this->chain[$ver] = array('start'=>$ver, 'next'=>$mp, 'buy'=>$buy, 'sell'=>$sell, 'item'=>$item!=0 ? $this->products[$item]->name : 0);
         array_push($this->way,$mp);
-        //print "mp = ".$mp.'; max = '.$max.'<br>';
-        //print 'max '.$max.'<br>';
-        //print $min." mp = ".$mp."<br>";
+        //print $ver.'==('.$buy.' '.$sell.')==>'.$mp.'<br>';
         $ret = $min !== $this->inf and !$this->found ? $this->step($mp) + $min : 0;
-        //die(print_r($ret));
+        
         return $ret;
     }
     
     public function load($ver, $depth, $c_dist, $ignore_products, $ignore_markets)
     {
-        $this->num_markets = $this->CI->data_model->get_num_markets();
-        $this->num_markets = $this->num_markets[0]->num;
+        //$this->num_markets = $this->CI->data_model->get_num_markets();
+        //$this->num_markets = $this->num_markets[0]->num;
         $this->start = $ver;
         $this->max_depth = $depth - 1;
     
         $this->coeff_dist = $c_dist/100;
-        //$this->num_products_sell = $this->CI->data_model->get_num_products(0);
-        //$this->num_products_sell = $this->num_products_sell[0]->num;
-        //
-        //$this->num_products_buy = $this->CI->data_model->get_num_products(1);
-        //$this->num_products_buy = $this->num_products_buy[0]->num;
         
-        $this->all_products = $this->CI->data_model->get_products(-1,-1,$ignore_products);
-        $this->all_items = $this->CI->data_model->get_items(-1,-1,$ignore_products);
-
+        //print $this->coeff_dist.'<br>';
         
-        //for($i=0;$i<$num_markets;$i++)
-        //{
-        //    for($j=0;j<$num_products;$j++)
-        //    {
-        //        $table[$i][$j] = 0;
-        //    }
-        //}
+        $this->all_products = $this->CI->data_model->get_products(-1,-1,$ignore_products);  //всі продукти
+        $this->all_items = $this->CI->data_model->get_items(-1,-1,$ignore_products);    //всі айтеми
         
         $this->markets = $this->CI->data_model->get_markets($ignore_markets);  //Список міст
-        //$this->products = $this->data_model->get_products();
+        
+        //print_r($this->all_products);
+        //print '<br><br>';
+        //print_r($this->all_items);
+        //print '<br><br>';
+        //print_r($this->markets);
+        //print '<br><br>';
         
         $i=0;
         foreach ($this->markets as $col)
         {
-            //$this->markets[$col->id] = $i;
-            $this->markets_res[$col->id] = $i;
-            $this->visited[$i] = false;
+            $this->markets_res[$col->id] = $i;  //Вдіповідність між айді маркету та порядковим номером в алгоритмі
+            $this->visited[$i] = false; //Всі вершини невідвідані
             $this->coords[$i] = (object) array (
                                       'lat' => $col->lat,
                                       'lng' => $col->lng
-            );
+            );  //Координати вершини
             
-            $key = $i;
-            
-            if (!empty($this->all_products))
+            $key = $i;  //Ключ поточного маркету
+            $this->source[$i][0] = 1;
+            $this->dest[$i][0] = 1;
+        
+            if (!empty($this->all_products))    //є продукти - 
             {
-                $j=0;
+                $j=1;   //Перший айтем резервуємо під нульове перевезення
                 foreach ($this->all_products as $product)
                 {
                     $this->source[$i][$j] = 0;
                     $this->dest[$i][$j] = 0;
-                    $this->products[$product->id] = $j;
+                    $this->products[$j] = $product;
+                    $this->products_res[$product->id] = $j; //Вдіповідність між айді продукту та порядковим номером в алгоритмі
                     $j++;
-                    //array_push ( $table , fetch_id_column( $this->data_model->get_products($col->id, $col->type) , $this->products_ids ) );  //Тип - продаж, купівля
                 }
             }
             
-            $items = $this->CI->data_model->get_items($col->id, 0, $ignore_products);//sell
-            //$this->source[$key][0] = 1;
-            //$this->dest[$key][0] = 1;
+            $items = $this->CI->data_model->get_items($col->id, 0, $ignore_products);   //Айтеми, що продаються в поточному маркеті
             
             if (!empty($items))
             {
                 $j=0;
                 foreach ($items as $item)
                 {
-                    $this->source[$key][$this->products[$item->id]] = $item->price;
-                    if ($this->min_item > $item->price) $this->min_item = $item->price;
+                    $this->source[$key][$this->products_res[$item->id]] = $item->price;
                     $j++;
-                    //array_push ( $table , fetch_id_column( $this->data_model->get_products($col->id, $col->type) , $this->products_ids ) );  //Тип - продаж, купівля
                 }
             }
             
-            $items = $this->CI->data_model->get_items($col->id, 1, $ignore_products);//buy
+            $items = $this->CI->data_model->get_items($col->id, 1, $ignore_products);   //Айтеми, що купують в поточному маркеті
+            
             if (!empty($items))
             {
                 $j=0;
                 foreach ($items as $item)
                 {
-                    $this->dest[$key][$this->products[$item->id]] = $item->price;
+                    $this->dest[$key][$this->products_res[$item->id]] = $item->price;
+                    //print $this->source[$key][$this->products_res[$item->id]].' => '.$this->dest[$key][$this->products_res[$item->id]].'<br>';
                     $j++;
-                    //array_push ( $table , fetch_id_column( $this->data_model->get_products($col->id, $col->type) , $this->products_ids ) );  //Тип - продаж, купівля
                 }
             }
             
             $i++;
         }
         
+        $this->c_items[0] = 1;
+        foreach ($this->products_res as $product)   //Коефіцієнт нормування до 0...1
+        {
+            $max = $this->inf; $min = 0; $this->c_items[$product] = 1;
+            foreach ($this->markets_res as $market)
+            {
+                $dest = $this->dest[$market][$product];
+                if ($dest > $min) $min = $dest;
+                $source =  $this->source[$market][$product];
+                if ($source < $max and $source > 0) $max = $source;
+                //print $this->source[$market][$product].' => '.$this->dest[$market][$product].'<br>';
+            }
+            //print $max.'  '.$min.'<br>';
+            if ($min - $max > 0) $this->c_items[$product] = $min - $max;
+            //print $this->c_items[$product].'<br>';
+        }
+        
+        //print_r($this->source);
+        //print '<br>';
+        //print_r($this->dest);
+        //print '<br>';
+        
         $this->way = array();
+        $this->chain = array();
         array_push($this->way, $this->markets_res[$ver]);
         
         $this->find_distances();
-        $this->find_diffs();
+        //$this->find_diffs();
+        
+        //print_r($this->source);
         
         $this->step($this->markets_res[$ver]);
+        //die(print_r($this->all_products));
+        
         for ($i = 0; $i < count($this->way); $i++)
         {
             $this->way[$i] = array_search($this->way[$i], $this->markets_res);
         }
-        echo json_encode($this->way);
-        //print '<br>';
         
-        //foreach ($table as $col)
-        //{
-        //    print_r($col);
-        //    echo "<br>";
-        //}
-        //$this->print_table($this->source);
-        //print "<br>";
-        //$this->print_table($this->dest);
+        $this->result['way'] = $this->way;
+        $this->result['chain'] = $this->CI->load->view('general/chain_view',array('chains'=>$this->chain, 'markets'=>$this->markets),true);
+        
+        echo json_encode($this->result);
     }
     
     public function print_table($table)

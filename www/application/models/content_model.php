@@ -400,8 +400,12 @@ Class Content_model extends CI_Model
      //Machulyanskiy: insert items of product
      function save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller)
      {
-        $query = $this->db->insert("item",array( "nameItem"=>$parserProductName,"priceItem"=>$parserPrice, "typeItem"=>$parserType,
-                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct, 'SellerInfo' => $parserSeller));
+        die(print_r(array( "nameItem"=>$parserProductName,"priceItem"=>$parserPrice, "typeItem"=>$parserType,
+                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct, 'sellerItem' => $parserSeller)));
+        
+        $data = array( "nameItem"=>$parserProductName,"priceItem"=>$parserPrice, "typeItem"=>$parserType,
+                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct, 'sellerItem' => $parserSeller);
+        $query = $this->db->insert("item",$data);
      }
      function get_OP()
      {
@@ -427,4 +431,5 @@ Class Content_model extends CI_Model
         $this->db->where('nameCity',$parserCity);
         $query = $this->db->get('city');
      }
+     
 }

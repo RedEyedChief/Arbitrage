@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -16,11 +16,12 @@
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		<link href="/static/admin/style/styles.css" rel="stylesheet">
+		<link href="/static/site/style/styles.css" rel="stylesheet">
 		<link href="/static/site/style/main.css" rel="stylesheet">
 	</head>
 	<body>
 <!-- Header -->
-<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+<nav id="top-nav" class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -47,9 +48,6 @@
       </ul>
     </div>
   </div><!-- /container -->
-</div>
+</nav>
 <!-- /Header -->
 
-<!-- Main -->
-<div class="container row">
-	<div class="col-md-10">

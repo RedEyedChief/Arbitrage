@@ -3,7 +3,8 @@ Class Data_model extends CI_Model
 {
     public function get_num_markets()
     {
-        $query = $this -> db -> query("SELECT COUNT(idMarket) AS num FROM market");
+        $this -> db -> select("COUNT(idMarket) AS num");
+        $query = $this -> db -> get('market');
         
         if($query -> num_rows() > 0)
         {
@@ -15,23 +16,11 @@ Class Data_model extends CI_Model
         }
     }
     
-    public function get_diffs()
+    public function get_num_products($active = true)
     {
-        $query = $this -> db -> query("SELECT min(priceItem) AS min, max(priceItem) AS max FROM `item` GROUP BY `product_idProduct`");
-        
-        if($query -> num_rows() > 0)
-        {
-            return $query->result();
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
-    public function get_num_products()
-    {
-        $query = $this -> db -> query("SELECT COUNT(idProduct) AS num FROM product");
+        if ($active) $this->db->where('isActiveProduct',1);
+        $this -> db -> select("COUNT(idProduct) AS num");
+        $query = $this -> db -> get('product');
         
         if($query -> num_rows() > 0)
         {
@@ -122,14 +111,15 @@ Class Data_model extends CI_Model
         }
     }
     
-    public function get_items($idMarket=-1, $type=-1, $ignore=array())
+    public function get_items($idMarket=-1, $type=-1, $ignore=array(), $active=true)
     {
         if(!empty($ignore)) $this->db->where_not_in('idItem', $ignore);
         if ($idMarket!=-1) $this->db->where('Market_idMarket',$idMarket);
         if ($type!=-1) $this->db->where('typeItem',$type);
-        $this->db->select('idProduct AS id, typeItem AS type, priceItem AS price, categoryProduct');
+        if ($active) $this->db->where('isActiveItem',1);
+        $this->db->select('idProduct AS id, typeItem AS type, priceItem AS price, nameProduct AS name, categoryProduct');
         $this->db->from('product');
-        $this->db->join('item', 'idProduct = product_idProduct');
+        $this->db->join('item', 'idProduct = product_idProduct','right');
         $query = $this->db->get();
         
         if($query -> num_rows() > 0)
