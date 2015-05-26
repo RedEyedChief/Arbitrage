@@ -69,7 +69,7 @@ class Orders extends CI_Controller
 
     function getProducts(){
         $market = $this->input->post("market");
-        print json_encode($this->order_model->getProducts($market));
+        print json_encode($this->order_model->getProducts($market, true));
     }
 
     function placeOrder(){
@@ -78,7 +78,7 @@ class Orders extends CI_Controller
         $user_profile = $this->session->userdata("profile");                                                                                                                                                                                   
         $user_id = $user_profile["idProfile"];
         $products = $data["products"];
-        $start = $data["city"];
+        $start = $data['market'];
 
         if ($this->order_model->placeOrder($user_id, $products,$start)){
             print json_encode(array("result"=>true));

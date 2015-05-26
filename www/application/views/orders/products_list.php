@@ -27,6 +27,13 @@
     </div>
 
     <div class="form-group">
+        <label for="select_market" class="col-sm-3 control-label">Market</label>
+        <div class="col-sm-5">
+            <select id="select_market" name="select_market" class="form-control"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
         <div class="col-sm-offset-3 col-sm-5">
             <button type="submit" class="btn btn-default">Show products</button>
         </div>
