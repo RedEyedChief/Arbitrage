@@ -2,7 +2,10 @@ var idProduct = 0;
 
 $(document).ready(function()
 {
-    view_op();
+    //view_op();
+
+    $(".add_op").hide();
+    $(".view_op").show();
 
     //Machulyanskiy: Переходимо в пункт створення ОП
     $("#add_op").click(function() {
@@ -93,27 +96,26 @@ $(document).ready(function()
                 else
                 {
                     $('#parse_error_message').remove();
-                    var html = "<table class='table table-striped parseResult' >" +
+                    var html = "<table class='table table-striped table_parse_Result' >" +
                         "<thead>" +
                         "<tr>" + "</th>" +
                         "<th>ID</th>" +
                         "<th>Information</th>" +
-                        "<th style='width: 30px;'></th>" +
-                        "<th style='width: 30px;'></th>" +
+                        "<th class='width_30_px'></th>" +
+                        "<th class='width_30_px'></th>" +
                         "</tr>" +
                         "</thead>" +
                         "<tbody>";
 
                     for (index = 0; index < data.length; ++index) {
                         idProduct = data[index]['idProduct'];
-                        //idMarket = data[index]['idMarket'];
                         html += "<tr> <td>" + (index + 1) + "</td>" +
                         "<td>" + data[index]['info'] + "</td>" +
                         "<td> <i class='fa fa-edit text-muted cursor ' onclick='element_OP_edit(this)'> </i> </td>" +
                         "<td> <i class='fa fa-remove text-muted cursor ' onclick='element_OP_delete(this)'> </i> </td> </tr>"
                     }
                     html += "</tbody>" +
-                    "</table>";
+                    "</table><hr><button type='button' class='btn btn-success btn-lg center-block col-xs-4' id='continue_view'>Continue</button>";
                     $('#table_parsing_result').html(html);
                 }
 
@@ -132,6 +134,21 @@ $(document).ready(function()
     //Machulyanskiy: Зберігаємо екземляри товару
     $("#parserSave").click(function() {
         $('#Form_error').hide();
+
+        console.log($('tr.success:not(.already)').length, $('tr.success').length );
+        if($('tr.success:not(.already)').length > 0)
+        {
+            $('tbody tr.success:not(.already)').hide();
+            console.log($('.table_parse_Result tbody').children(0).hasClass('already'));
+            if(!($('.table_parse_Result tbody').children(0).hasClass('already')))
+            {
+                var html = "<tr class='success already'> <td class='round-icon'><i class='fa fa-plus-circle text-muted cursor bootstrap_success_color' onclick='view_elements()'> </i></td>" +
+                    "<td> </td>" +
+                    "<td> </td>" +
+                    "<td> </td> </tr>";
+                $('tr.success').before(html);
+            }
+        }
 
         $.ajax({
             url: 'http://arbitrage/dashboard/save_items_of_product',
@@ -201,11 +218,16 @@ $(document).ready(function()
 
                 else return true;
             },
-            success: function (msg) {
+            success: function (data) {
                 //console.log($('tr[class=warning]'));
-                $('tr[class=warning]').addClass('success');
-                $('.warning, .success').removeClass('warning');
-                console.log('success');
+                /*if(data['status'] === 'ok')
+                {*/
+                    $('tr[class=warning]').addClass('success');
+                    $('.warning, .success').removeClass('warning');
+                    $("#parserForm").hide('slow');
+                    $("#parserForm input:not(.btn)").val('');
+               // }
+
             },
             error: function () {
                 alert('retard');
@@ -213,6 +235,27 @@ $(document).ready(function()
         });
         return false;
     });
+
+    /*$('.already').click(function(){
+
+        $('tbody tr.success:not(.already)').show('normal');
+    });*/
+
+    $('#continue_view').click(function(){
+        console.log($('tr.success').length);
+        if($('tr.success').length > 0)
+        {
+            $(".add_op").hide();
+            $(".view_op").show();
+        }
+        else
+        {
+            var html='<div class="alert alert-danger"> <strong>' + 'For continuing you must save at least one element' + '</strong> </div>';
+            $('#continue_view').before(html);
+        }
+    });
+
+
 });
 
 //Machulyanskiy: Відображення списку ОП
@@ -221,7 +264,7 @@ function view_op()
     $(".add_op").hide();
     $(".view_op").show();
 
-    console.log('view');
+    /*console.log('view');
     $.ajax({
         url: 'http://arbitrage/dashboard/get_OP',
         dataType: 'json',
@@ -229,15 +272,17 @@ function view_op()
 			console.log(data);
 			if(data != false)
 			{
-			$('#empty_OP').hide();
-            var html = "<table class='table table-striped' >" +
+			$('#empty_OP').hide();*/
+            /*var html = "<table class='table table-striped' >" +
                 "<thead>" +
                 "<tr>" + "</th>" +
                 "<th>ID</th>" +
                 "<th>Adress</th>" +
                 "<th>Rule</th>" +
-                "<th style='width: 30px;'></th>" +
-                "<th style='width: 30px;'></th>" +
+                "<th>Product</th>" +
+                "<th>Category</th>" +
+                "<th class='width_30_px'></th>" +
+                "<th class='width_30_px'></th>" +
                 "</tr>" +
                 "</thead>" +
                 "<tbody>";
@@ -246,11 +291,50 @@ function view_op()
                 html += "<tr> <td>" + data[index]['idParser'] + "</td>" +
                 "<td>" + data[index]['adressParser'] + "</td>" +
                 "<td>" + data[index]['rurlesParser'] + "</td>" +
+                "<td>" + data[index]['nameProduct'] + "</td>" +
+                "<td>" + data[index]['categoryProduct'] + "</td>" +
                 "<td> <i class='fa fa-list-ul text-muted cursor ' onclick='get_elements_OP(this)'> </i> </td>" +
                 "<td> <i class='fa fa-remove text-muted cursor ' onclick='OP_delete(this)'> </i> </td> </tr>"
             }
             html += "</tbody>" +
-            "</table>";
+            "</table>";*/
+           /* var html = '<form class="form-inline form-add">' +
+            '<div class="form-group">' +
+            '<div class="input-group">' +
+            '<div class="form-control bg_eee" style="width: 42px;">ID</div>' +
+            '<div class="input-group-addon"></div>' +
+            '<input type="text" class="form-control" value="Adress" style="cursor:default" readonly>' +
+            '<div class="input-group-addon"></div>' +
+            '<input type="text" class="form-control" value="Rule" style="cursor:default" readonly>' +
+            '<div class="input-group-addon"></div>' +
+            '<input type="text" class="form-control" value="Product" style="cursor:default" readonly>' +
+            '<div class="input-group-addon"></div>' +
+            '<input type="text" class="form-control" value="Category" style="cursor:default" readonly>' +
+            '<div class="input-group-addon"></div>' +
+            '<div class="form-control bg_eee"><i class="fa fa-list-ul text-muted"></i></div>' +
+            '<div class="input-group-addon"></div>' +
+            '<div class="form-control bg_eee"><i class="fa fa-remove text-muted "></i></div>' +
+            '</div></div></form>';
+
+                for (index = 0; index < data.length; ++index) {
+                    html += '<form class="form-inline form-add">' +
+                    '<div class="form-group" id="form_group_OP">' +
+                    '<div class="input-group" id="element_OP">' +
+                    '<div class="form-control">' + data[index]["idParser"] + '</div>' +
+                    '<div class="input-group-addon"></div>' +
+                    '<input type="text" class="form-control" id="adressParser" value='+ data[index]["adressParser"] + '>' +
+                    '<div class="input-group-addon"></div>' +
+                    '<input type="text" class="form-control" id="rurlesParser" value='+ data[index]["rurlesParser"] + '>' +
+                    '<div class="input-group-addon"></div>' +
+                    '<input type="text" class="form-control" id="nameProduct" value='+ data[index]["nameProduct"] + '>' +
+                    '<div class="input-group-addon"></div>' +
+                    '<input type="text" class="form-control" id="categoryProduct" value='+ data[index]["categoryProduct"] + '>' +
+                    '<div class="input-group-addon"></div>' +
+                    '<div class="form-control "><i class="fa fa-list-ul text-muted cursor" onclick="get_elements_OP(this)"></i></div>' +
+                    '<div class="input-group-addon"></div>' +
+                    '<div class="form-control "><i class="fa fa-remove text-muted cursor" onclick="OP_delete(this)"></i></div>' +
+                    '</div></div></form>';
+                }
             $('#list_OP').html(html);
 			
 			}
@@ -262,12 +346,22 @@ function view_op()
             
         }
 
-    });
+    });*/
 }
 
-/*function get_elements_OP(op)
+function get_elements_OP(op)
 {
-    var id = $(op).parents('tr').children(0).html();
+    console.log($(op).parents('#form_group_OP').children(0));
+    if($(op).parents('#form_group_OP').children(1).hasClass('bg_eee'))
+    {
+        $(op).parents('#form_group_OP').find('#table_OP').remove();
+        return;
+    }
+
+    var id = $(op).parents('#element_OP').children(0).html();
+
+
+    console.log(id);
     $.ajax({
         type: "POST",
         url: 'http://arbitrage/dashboard/get_elements_OP',
@@ -275,38 +369,45 @@ function view_op()
         dataType: 'json',
         success:function(data){
             //console.log(data);
-            var html = "<div class='ok'><table class='table table-striped ' >" +
+            var html = "<table class='table' id='table_OP' >" +
                 "<thead>" +
                 "<tr>" + "</th>" +
-                "<th>ID</th>" +
+                "<th>#</th>" +
                 "<th>Name</th>" +
                 "<th>Price</th>" +
-                "<th style='width: 30px;'></th>" +
-                "<th style='width: 30px;'></th>" +
+                "<th>Count</th>" +
+                "<th>Type</th>" +
+                "<th>Seller</th>" +
+                "<th class='width_30_px'></th>" +
+                "<th class='width_30_px'></th>" +
                 "</tr>" +
                 "</thead>" +
                 "<tbody>";
             for (index = 0; index < data.length; ++index) {
-                html += "<tr> <td>" + data[index]['id'] + "</td>" +
-                "<td>" + data[index]['name'] + "</td>" +
-                "<td>" + data[index]['price'] + "</td>" +
-                "<td> <i class='fa fa-edit text-muted cursor ' onclick=''> </i> </td>" +
-                "<td> <i class='fa fa-remove text-muted cursor ' onclick=''> </i> </td> </tr>"
+                html += "<tr> <td class='not_this'>" + data[index]['idItem'] + "</td>" +
+                "<td>" + data[index]['nameItem'] + "</td>" +
+                "<td>" + data[index]['priceItem'] + "</td>" +
+                "<td>" + data[index]['countItem'] + "</td>" +
+                "<td>" + data[index]['typeItem'] + "</td>" +
+                "<td>" + data[index]['sellerItem'] + "</td>" +
+                "<td class='not_this'> <i class='fa fa-edit text-muted cursor ' onclick='item_OP_edit(this)'> </i> </td>" +
+                "<td class='not_this'> <i class='fa fa-remove text-muted cursor ' onclick='item_OP_delete(this)'> </i> </td> </tr>"
             }
             html += "</tbody>" +
-            "</table></div>";
-            $(op).parents('tr').html(html);
+            "</table>";
+            $(op).parents('#element_OP').after(html);
+            $('#table_OP').addClass('bg_eee');
         },
         error: function () {
             console.log('retard');
         }
     });
-}*/
+}
 
 //Machulyanskiy: Видалення ОП
 function OP_delete(op)
 {
-    var id = $(op).parents('tr').children(0).html();
+    var id = $(op).parents('#element_OP').children(0).html();
 
     $.ajax({
         type: "POST",
@@ -314,7 +415,7 @@ function OP_delete(op)
         url: 'http://arbitrage/dashboard/delete_OP',
         data: {id : id},
         success:function(data){
-            $(op).parents('tr').remove();
+            $(op).parents('#element_OP').remove();
         },
         error: function () {
             console.log('retard');
@@ -326,7 +427,7 @@ function OP_delete(op)
 //Machulyanskiy: Беремо на редагування елемент ОП
 function element_OP_edit(op)
 {
-    $("#parserForm").show();
+    $("#parserForm").show('slow');
     $(op).parents('tr').addClass('warning');
 }
 
@@ -334,4 +435,118 @@ function element_OP_edit(op)
 function element_OP_delete(op)
 {
     $(op).parents('tr').remove();
+}
+
+//Machulyanskiy: Беремо на редагування продукт ОП
+function item_OP_edit(op)
+{
+    $(op).parents('tr').removeClass('success');
+    if($(op).hasClass('fa-check-square-o'))
+    {
+        //console.log('need to save data');
+        $(op).removeClass('fa-check-square-o');
+        $(op).addClass('fa-edit');
+        $(op).parents('tr').removeClass('warning');
+        var save = $(op).parents('tr').find('.on_edit');
+        var val = save.children().val();
+        save.children().remove();
+        save.removeClass('on_edit');
+        save.text(val);
+
+        //console.log($(op).parents('tr').find('td:eq(1)').text())
+        $.ajax({
+            type: "POST",
+            url: 'http://arbitrage/dashboard/update_items_OP',
+            data:
+            {
+                id : $(op).parents('tr').find('td:eq(0)').text(),
+                name : $(op).parents('tr').find('td:eq(1)').text(),
+                price: $(op).parents('tr').find('td:eq(2)').text(),
+                count: $(op).parents('tr').find('td:eq(3)').text(),
+                type: $(op).parents('tr').find('td:eq(4)').text(),
+                seller: $(op).parents('tr').find('td:eq(5)').text()
+            },
+            dataType: 'json',
+            success:function(data){
+                console.log(data['status'], data["message"]);
+                if(data['status'] == 'not_ok')
+                {
+                    $('#for_error').html('<div class="alert alert-danger"><strong>' + data["message"] + '</strong> </div>');
+                }
+                else $(op).parents('tr').addClass('success');
+            },
+            error: function () {
+                console.log('retard');
+            }
+        });
+
+        return;
+    }
+    else if ($(op).hasClass('fa-edit'))
+    {
+        $(op).parents('tr').addClass('warning');
+        $(op).removeClass('fa-edit');
+        $(op).addClass('fa-check-square-o');
+        //console.log($(op));
+
+        var tr = $(op).parents('tr');
+        var td = tr.find('td:not(.not_this)');
+        //console.log(td);
+        //console.log($('#table_OP').click());
+        //console.log(tr);
+        //td.addClass('success');
+        td.click(function () {
+            if ($(this).hasClass('on_edit')) return;
+            var save = $(this).parent().find('.on_edit');
+            var val = save.children().val();
+            save.children().remove();
+            save.removeClass('on_edit');
+            save.text(val);
+
+            //console.log(save.children().val());
+            console.log('bibon');
+            //console.log($(this));
+            $(this).addClass('on_edit');
+            console.log($(this).text());
+            var html = '<input class="form-control" type="text" value=' + $(this).text() + '>';
+            $(this).html(html);
+            //$(this).innerText();
+            //console.log($(this).text());
+        });
+
+        //$("#parserForm").show();
+
+        return;
+    }
+}
+
+function item_OP_delete(op)
+{
+    var id = $(op).parents('tr').find('td:eq(0)').text();
+
+    $.ajax({
+        type: "POST",
+        async: true,
+        url: 'http://arbitrage/dashboard/item_OP_delete',
+        data: {id : id},
+        success:function(data){
+            if(data['status'] == 'not_ok')
+            {
+                $('#for_error').html('<div class="alert alert-danger"><strong>' + data["message"] + '</strong> </div>');
+            }
+            else $(op).parents('tr').remove();
+        },
+        error: function () {
+            console.log('retard');
+        }
+    });
+
+}
+
+function view_elements()
+{
+    if($('tbody tr.success:not(.already)').is(":hidden"))
+        $('tbody tr.success:not(.already)').show('slow');
+    else if($('tbody tr.success:not(.already)').is(":visible"))
+        $('tbody tr.success:not(.already)').hide('slow');
 }

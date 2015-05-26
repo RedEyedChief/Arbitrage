@@ -1,3 +1,4 @@
+
 #top-nav
 {
   background: #01579B;
@@ -11,6 +12,30 @@ body
   height: 100%;
 }
 
+.width_30_px
+{
+  width: 30px;
+}
+
+.padding_2_px
+{
+  padding: 2px;
+}
+
+.bg_eee
+{
+  background-color: #eee;
+}
+
+.brand-primary
+{
+  background-color: #337ab7;
+}
+
+.bootstrap_success_color
+{
+  color:#4cae4c;
+}
 /*.container
 {
   height: 100%;
@@ -131,6 +156,11 @@ body
 .form-add .input-group-addon
 {
   padding: 4px 4px;
+}
+
+.form_view_OP .input-group-addon
+{
+  padding: 2px;
 }
 
 .form-add select

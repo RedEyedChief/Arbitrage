@@ -18,10 +18,125 @@
 
 		<div class="view_op">
 
-			<div id="list_OP"></div>
+			<div id="list_OP">
+			<form class="form-inline form-add">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="form-control bg_eee" style="width: 42px;">ID</div>
+                        <div class="input-group-addon"></div>
+                        <input type="text" class="form-control" value="Adress" style="cursor:default" readonly>
+                        <div class="input-group-addon"></div>
+                        <input type="text" class="form-control" value="Rule" style="cursor:default" readonly>
+                        <div class="input-group-addon"></div>
+                        <input type="text" class="form-control" value="Product" style="cursor:default" readonly>
+                        <div class="input-group-addon"></div>
+                        <input type="text" class="form-control" value="Category" style="cursor:default" readonly>
+                        <div class="input-group-addon"></div>
+                        <div class="form-control bg_eee"><i class="fa fa-list-ul text-muted"></i></div>
+                        <div class="input-group-addon"></div>
+                        <div class="form-control bg_eee"><i class="fa fa-remove text-muted "></i></div>
+                    </div>
+                </div>
+            </form>
+
+			<?php foreach ($parsers as $item):?>
+            <form class="form-inline form-add">
+                <div class="form-group" id="form_group_OP">
+                    <div class="input-group" id="element_OP">
+                        <div class="form-control"><?=$item->idParser?></div>
+                        <div class="input-group-addon"></div>
+                        <input type="text" class="form-control" id="adressParser" value='<?=$item->adressParser?>'>
+                        <div class="input-group-addon"></div>
+                        <input type="text" class="form-control" id="rurlesParser" value='<?=$item->rurlesParser?>'>
+                        <div class="input-group-addon"></div>
+                        <input type="text" class="form-control" id="nameProduct" value='<?=$item->nameProduct?>'>
+                        <div class="input-group-addon"></div>
+                        <input type="text" class="form-control" id="categoryProduct" value='<?=$item->categoryProduct?>'>
+                        <div class="input-group-addon"></div>
+                        <div class="form-control "><i class="fa fa-list-ul text-muted cursor" onclick="get_elements_OP(this)"></i></div>
+                        <div class="input-group-addon"></div>
+                        <div class="form-control "><i class="fa fa-remove text-muted cursor" onclick="OP_delete(this)"></i></div>
+                    </div>
+                </div>
+            </form>
+            <?php endforeach;?>
+			</div>
 			<div id="empty_OP" style="display: none;">
 				<div class="alert alert-warning"> <strong> List of OP is empty ! </strong> </div>
 			</div>
+
+
+
+
+			<!--
+            <form class="form-inline form-add">
+                        	<div class="form-group">
+                        		<div class="input-group">
+                        			<div class="form-control ">#</div>
+                        			<div class="input-group-addon"></div>
+                        			<input type="text" class="form-control" name="nameItem" id="nameItem" value="Name">
+                        		    <div class="input-group-addon"></div>
+                        			<input type="text" class="form-control" name="priceItem" id="priceItem" value="Price">
+                        			<div class="input-group-addon"></div>
+                        			<input type="text" class="form-control" name="countItem" id="countItem" value="Count">
+                        			<div class="input-group-addon"></div>
+                        			<input type="text" class="form-control" name="typeItem" id="typeItem" value="Type">
+                        			<div class="input-group-addon"></div>
+                        			<input type="text" class="form-control" name="sellerItem" id="sellerItem" value="Seller">
+                                    <div class="input-group-addon"></div>
+                                    <div class="form-control"><i class='fa fa-edit text-muted cursor ' onclick=''> </i></div>
+                                    <div class="input-group-addon"></div>
+                                    <div class="form-control"><i class='fa fa-remove text-muted cursor ' onclick=''> </i></div>
+                        		</div>
+                        	</div>
+
+                        </form>
+
+            			<form class="form-inline form-add">
+                        	<div class="form-group">
+								<div class="input-group">
+                        			<div class="form-control bg_eee">#</div>
+                        			<div class="input-group-addon"></div>
+                        			<input type="text" class="form-control" name="nameItem" id="nameItem" value="Name" readonly>
+                        		    <div class="input-group-addon"></div>
+                        			<input type="text" class="form-control" name="priceItem" id="priceItem" value="Price" readonly>
+                        			<div class="input-group-addon"></div>
+                        			<input type="text" class="form-control" name="countItem" id="countItem" value="Count" readonly>
+                        			<div class="input-group-addon"></div>
+                        			<input type="text" class="form-control" name="typeItem" id="typeItem" value="Type" readonly>
+                        			<div class="input-group-addon"></div>
+                        			<input type="text" class="form-control" name="sellerItem" id="sellerItem" value="Seller" readonly>
+                                    <div class="input-group-addon"></div>
+                                    <div class="form-control bg_eee"><i class='fa fa-edit text-muted cursor'></i></div>
+                                    <div class="input-group-addon"></div>
+                                    <div class="form-control bg_eee"><i class='fa fa-remove text-muted cursor'></i></div>
+                        		</div>
+                        	</div>
+
+                        </form>
+            			<form class="form-inline form-add">
+                        	<div class="form-group">
+                        		<div class="input-group">
+                        			<div class="form-control ">#</div>
+                                        <div class="input-group-addon"></div>
+                                        <input type="text" class="form-control" name="nameItem" id="nameItem" value="Name">
+                                                              		    <div class="input-group-addon"></div>
+                                                              			<input type="text" class="form-control" name="priceItem" id="priceItem" value="Price">
+                                                              			<div class="input-group-addon"></div>
+                                                              			<input type="text" class="form-control" name="countItem" id="countItem" value="Count">
+                                                              			<div class="input-group-addon"></div>
+                                                              			<input type="text" class="form-control" name="typeItem" id="typeItem" value="Type">
+                                                              			<div class="input-group-addon"></div>
+                                                              			<input type="text" class="form-control" name="sellerItem" id="sellerItem" value="Seller">
+                                                                          <div class="input-group-addon"></div>
+                                                                          <div class="form-control"><i class='fa fa-edit text-muted cursor ' onclick=''> </i></div>
+                                                                          <div class="input-group-addon"></div>
+                                                                          <div class="form-control"><i class='fa fa-remove text-muted cursor ' onclick=''> </i></div>
+                                                              		</div>
+                        	</div>
+                        	 </form>-->
+                 <div id='for_error'></div>
+
 		</div>
 
 
@@ -99,7 +214,14 @@
 								<input type="text" class="form-control" id="parserSeller" width="1em" placeholder="Info about seller" value="" name="parserSeller">
 							</div>
 							<div class="col-xs-2">
+								<select class="form-control" name="role" id="parserMarket">
+								<?php foreach($markets as $elem): ?>
+                            		<option><?=$elem->name?></option>
+								<?php endforeach; ?>
+                            	</select>
+                            	<!--
                                 <input type="text" class="form-control" id="parserMarket" width="1em" placeholder="Market" value="" name="parserMarket">
+                            	-->
                             </div>
 							<div class="col-xs-4">
 								<input type="submit" class="btn btn-success form-control" id="parserSave" value="Save">
