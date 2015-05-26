@@ -29,11 +29,8 @@
 			  <?php endfor; ?>
 			</ul>
 			
-		  <table class="table table-striped">
-			<thead>
-			  <tr><th style="width: 28px;"></th></th><th>ID</th><th>Name</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
-			</thead>
-			<tbody id="listpoll">
+
+			<div id="listpoll">
 			  <?php endif;?>
 				<?php $c=1;foreach ($products as $item):?>
 				<?php switch('4'){
@@ -45,17 +42,16 @@
 				}
 				if($item->isActiveProduct==0) $removed = "removedUser"; else $removed = "";
 				if($async) $added = "newItem"; else $added = ""?>
-					<tr class="article link <?=$removed." ".$added?>">
-						<td class="remove-icon <?=$icon?>"></td>
-						<td class="id-article itemId"><?=$item->idProduct?></td>
-						<td class="author-article itemName"><?=$item->nameProduct?></td>
-						<td class="edit-icon" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-edit"><i class="fa fa-edit text-muted"></i></td>
-						<td class="remove-icon" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-remove text-muted"></i></td>
-					</tr>
+					<div class="item item-product-table <?=$removed." ".$added?>">
+						<span class="icon remove-icon <?=$icon?>"></span>
+						<span class="id-article itemId"><?=$item->idProduct?></span>
+						<span class="author-article itemName"><?=$item->nameProduct?></span>
+						<span class="icon edit-icon pull-right" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-edit"><i class="fa fa-edit text-muted"></i></span>
+						<span class="icon remove-icon pull-right" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-remove text-muted"></i></span>
+					</div>
 				<?php $c++;endforeach;?>
 				<?php if(!$async):?>
-			</tbody>
-		  </table>
+			</div>
 	    
 	  <div id="newsreaderFooter"><? if(count($products)==10): ?><div class="show-more">Show more ...</div><? endif;?></div>
 			

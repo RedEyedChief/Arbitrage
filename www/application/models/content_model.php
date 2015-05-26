@@ -36,6 +36,33 @@ Class Content_model extends CI_Model
      * @param Boolean $id ID ??????
      * @return var  ????? ??????
      */
+    function getItems($start=0,$end=10,$idProduct=false)
+    {
+        if($idProduct!=false) $this->db->where('item.product_idProduct',$idProduct);
+        $this->db->limit($end,$start);
+        $this->db->select('*');
+        $this -> db -> from('item');
+        $this -> db -> join('market','market_idMarket=idMarket','left');
+        $this -> db -> join('product','product_idProduct=idProduct','left');
+        $query = $this->db->get();
+        
+        if($query -> num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * ???????? ?? ?????? ? start ?? end, ?? ? id
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @param Boolean $id ID ??????
+     * @return var  ????? ??????
+     */
     function getProducts($start=0,$end=10,$id=false)
     {
         $where = $id!=false?"WHERE product.idProduct=".$id:"";
@@ -229,8 +256,17 @@ Class Content_model extends CI_Model
     
     function removeProduct($id)
     {
+        $data = array(
+               'isActiveProduct' => 0
+            );
         $this->db->where('idProduct',$id);
-        $this->db->delete("product");
+        $this->db->update('product',$data);
+    }
+    
+    function removeItem($id)
+    {
+        $this->db->where('idItem',$id);
+        $this->db->delete("item");
     }
     
     function removeUser($id)
@@ -337,6 +373,18 @@ Class Content_model extends CI_Model
         else return false;
     }
     
+    function getItemFields($id)
+    {
+        $query = $this -> db -> query("SELECT
+                                    idItem,product_idProduct,market_idMarket,priceItem 
+                                    FROM item
+                                    WHERE idItem='".$id."'
+                                    LIMIT 1");
+      
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
+    }
+    
     function getPriceFields($id)
     {
         $query = $this -> db -> query("SELECT
@@ -369,6 +417,13 @@ Class Content_model extends CI_Model
         else return false;
     }
     
+    function addItem($data)
+    {
+        $this->db->insert('item',$data);
+        $query = $this->db->get_where('item', array('idItem' => $this->db->insert_id()));
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
+    }
     
     //Machulyanskiy: insert object of parsing
      function saveOP ($parserURL, $parserRule)

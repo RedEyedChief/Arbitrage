@@ -95,9 +95,10 @@ Class Data_model extends CI_Model
         }
     }
     
-    public function get_markets($ignore=array())
+    public function get_markets($ignore=array(), $active=true)
     {
         if(!empty($ignore)) $this->db->where_not_in('idMarket', $ignore);
+        if ($active) $this->db->where('isActiveMarket',1);
         $this->db->select('idMarket AS id, latMarket AS lat, lngMarket AS lng, nameMarket AS name');
         $query = $this->db->get('market');
         

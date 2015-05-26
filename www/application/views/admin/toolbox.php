@@ -10,9 +10,9 @@
 	    <hr>	    
 	    <ul class="nav nav-stacked">
 		  <li><a href="/dashboard/users"><i class="fa fa-users"></i> Users</a></li>
-		  <li><a href="/dashboard/news"><i class="fa fa-newspaper-o"></i> News</a></li>
+		  <li><a href="/dashboard/map"><i class="fa fa-suitcase"></i> Orders</a></li>
 		  <li><a href="/dashboard/products"><i class="fa fa-shopping-cart"></i> Products</a></li>
-		  <li><a href="/dashboard/cities"><i class="fa fa-map-marker"></i> Cities</a></li>
+		  <!--<li><a href="/dashboard/cities"><i class="fa fa-map-marker"></i> Cities</a></li>-->
 		  <li><a href="/dashboard/prices"><i class="fa fa-money"></i> Prices</a></li>
 	    </ul>
 	    <hr>

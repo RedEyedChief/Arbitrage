@@ -6,7 +6,7 @@ $nextItem = 0;
 $next = 0;
 $total = 0;
 foreach ($chains as $chain): ?>
-		  <li>
+		  <li class="<?=$next>0?'timeline-inverted':''?>">
 		    <div class="timeline-badge"><i class="fa fa-map-marker"></i></div>
 		    <div class="timeline-panel">
 		      <div class="timeline-heading">

@@ -65,7 +65,7 @@ class Moderator extends CI_Controller {
 		$data['num_city'] = $num[0]->num;
 		$data['markets'] = $this->data_model->get_markets();
 		$data['products'] = $this->data_model->get_products();
-    		$this->load->view('general/map', $data);
+    		$this->load->view('moderator/moderator_order', $data);
     		$this->load->view('admin/splitters/end_row');
     		$this->load->view('admin/admin_footer');
 	}

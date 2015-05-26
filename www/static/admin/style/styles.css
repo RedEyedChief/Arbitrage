@@ -250,6 +250,19 @@ footer {
  * Dashboard
  * ================================== */
 
+.item-product-table {
+  padding: 10px;
+  border: 1px solid lightgrey;
+}
+
+.item-product-table > .icon {
+  padding: 0px 10px 0 10px;
+}
+
+.item-product-table > .itemId {
+  padding: 10px;
+}
+
 .body-admin
 {
   background: #E7E7E7;

@@ -138,6 +138,21 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/admin_footer');
 	}
 	
+	function item($idProduct=false)
+	{
+		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
+		$this->data['items'] = $this->content_model->getItems($start, $end, $idProduct);
+		$this->data['markets'] = $this->data_model->get_markets();
+		$this->data['products'] = $this->data_model->get_products();
+		$this->data['async']=false;
+		$this->data['num']=count($this->data['items']);
+		$this->load->view('admin/lists/items_list',$this->data);
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
+	}
+	
 	function cities()
 	{
 		$this->blocsBefore();
