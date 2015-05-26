@@ -415,7 +415,7 @@ function OP_delete(op)
         url: 'http://arbitrage/dashboard/delete_OP',
         data: {id : id},
         success:function(data){
-            $(op).parents('#element_OP').remove();
+            $(op).parents('form').remove();
         },
         error: function () {
             console.log('retard');
@@ -427,7 +427,8 @@ function OP_delete(op)
 //Machulyanskiy: Беремо на редагування елемент ОП
 function element_OP_edit(op)
 {
-    $("#parserForm").show('slow');
+    $("#parserForm").show('slow')
+    $(op).parents('.table_parse_Result').find('tr.warning').removeClass('warning');
     $(op).parents('tr').addClass('warning');
 }
 
@@ -435,6 +436,10 @@ function element_OP_edit(op)
 function element_OP_delete(op)
 {
     $(op).parents('tr').remove();
+    /*if($(op).parents('tr').hasClass('success'))
+    {
+
+    }*/
 }
 
 //Machulyanskiy: Беремо на редагування продукт ОП
