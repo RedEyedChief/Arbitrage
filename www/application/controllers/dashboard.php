@@ -204,10 +204,12 @@ class Dashboard extends CI_Controller {
 function parsing()
     {
     	$this->blocsBefore();
-    	$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
-    	//$this->data['parser'] = $this->content_model->get_OP();
 
-    	$this->load->view('admin/parsing_view');
+
+    	$data['parsers'] = $this->content_model->get_OP();
+		$data['markets'] = $this->data_model->get_markets();
+
+    	$this->load->view('admin/parsing_view', $data);
     	$this->load->view('admin/splitters/end_row');
     	$this->load->view('admin/admin_footer');
 
@@ -236,13 +238,13 @@ function parsing()
         			}
         			else
         			{
-        				//save object of parsing to db
-                    	//$id_parser = $this->content_model->saveOP($parserURL, $parserRule);
-                    	$id_parser = 6;
-
-                    	//save product of parsing to db
+        				//save product of parsing to db
                         //$id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
                         $id_product = 10;
+
+        				//save object of parsing to db
+                    	//$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
+                    	$id_parser = 6;
 
         				foreach ($rule as $element) //'ul[class=book-tabl] li'
         				{
@@ -269,7 +271,9 @@ function parsing()
         $parserType = $this->input->post('parserType', TRUE);
         $idProduct = $this->input->post('idProduct', TRUE);
         $parserMarket = $this->input->post('parserMarket', TRUE);
-        $idMarket = $parserMarket;
+        $idMarket = $this->content_model->get_idMarket_by_name($parserMarket);
+        //$idMarket = $Market['idMarket'];
+        //$idMarket = $parserMarket;
         echo $idMarket . '  ' . $idProduct . '  ' . $parserSeller;
 
         //$idCity = $this->content_model->get_idCity($parserCity);
@@ -303,9 +307,9 @@ function parsing()
     	$id = $this->input->post('id', TRUE);
     	$error = $this->content_model->get_elements_OP($id);
     	//print_r ($error);
+    	//print_r ($error);
     	foreach ($error as $client_info)
-			$arr[] =  array('id' => $client_info['idProduct'], 'name' => $client_info['nameProduct'], 'price' => $client_info['priceProduct']);
-
+			$arr[] =  array('nameItem' => $client_info['nameItem'], 'priceItem' => $client_info['priceItem'], 'typeItem' => $client_info['typeItem'], 'countItem' => $client_info['countItem'], 'sellerItem' => $client_info['sellerItem']);
     	echo json_encode($arr);
     }
 }
