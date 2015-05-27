@@ -39,11 +39,12 @@
                 </div>
             </form>
 
-			<?php foreach ($parsers as $item):?>
+			<?php if($parsers == '') echo '<div class="alert alert-warning margin_top_10px"> <strong>' . 'List of OP is empty !' . '</strong> </div>';
+				else foreach ($parsers as $item):?>
             <form class="form-inline form-add">
                 <div class="form-group" id="form_group_OP">
                     <div class="input-group" id="element_OP">
-                        <div class="form-control"><?=$item->idParser?></div>
+                        <div class="form-control" style="width: 42px;"><?=$item->idParser?></div>
                         <div class="input-group-addon"></div>
                         <input type="text" class="form-control" id="adressParser" value='<?=$item->adressParser?>'>
                         <div class="input-group-addon"></div>
@@ -61,9 +62,11 @@
             </form>
             <?php endforeach;?>
 			</div>
+
+			<!--
 			<div id="empty_OP" style="display: none;">
 				<div class="alert alert-warning"> <strong> List of OP is empty ! </strong> </div>
-			</div>
+			</div> -->
 
 
 
@@ -143,7 +146,7 @@
 		<div class="add_op" style="display: none;">
 
 			<!--
-			<form class="form-inline form-add" id="let_parsing" action="http://arbitrage/dashboard/parsing_request" method="POST" style="font-family: 'FontAwesome', 'Helvetica Neue', Helvetica, Arial, sans-serif">
+			<form class="form-inline form-add" id="let_parsing" action="/dashboard/parsing_request" method="POST" style="font-family: 'FontAwesome', 'Helvetica Neue', Helvetica, Arial, sans-serif">
             	<div class="form-group">
             		<div class="input-group">
             			<div class="input-group-addon"></div>
@@ -158,21 +161,21 @@
             </form> -->
 
 
-			<form class="form row " id="let_parsing" action="http://arbitrage/dashboard/parsing_request" method="POST">
+			<form class="form row " id="let_parsing" action="/dashboard/parsing_request" method="POST">
 				<div class="form-group row">
 					<div class="parserURL col-xs-7">
-						<input type="text" class="form-control" id="parserURL" placeholder="URL" value="">
+						<input type="text" class="form-control" id="parserURL" placeholder="URL" value="http://hotline.ua/knigi/">
 					</div>
 					<div class="parserRule col-xs-5">
-						<input type="text" class="form-control" id="parserRule" placeholder="Rule" value="" >
+						<input type="text" class="form-control" id="parserRule" placeholder="Rule" value="ul[class=book-tabl] li" >
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-xs-4">
-						<input type="text" class="form-control" id="parserProductType" width="1em" placeholder="ProductType" value="" name="parserProductType">
+						<input type="text" class="form-control" id="parserProductType" width="1em" placeholder="ProductType" value="book" name="parserProductType">
 					</div>
 					<div class="col-xs-3">
-						<input type="text" class="form-control" id="parserCategory" width="1em" placeholder="Category" value="" name="parserCategory" >
+						<input type="text" class="form-control" id="parserCategory" width="1em" placeholder="Category" value="reading" name="parserCategory" >
 					</div>
 					<div class="parserSub col-xs-5">
                 		<div type="submit" id="doParse" class="btn btn-success form-control">Parse!</div>

@@ -428,7 +428,7 @@ Class Content_model extends CI_Model
     //Machulyanskiy: insert object of parsing
      function saveOP ($parserURL, $parserRule, $id_product)
      {
-        $this->db->insert("parser",array( "rurlesParser"=>$parserRule,"adressParser"=>$parserURL, "Report_idReport"=>0, "Product_idProduct"=>$id_product));
+        $this->db->insert("parser",array( "rurlesParser"=>$parserRule,"adressParser"=>$parserURL, "Report_idReport"=>0, "Product_idProduct"=>$id_product, 'Market_idMarket'=>32));
         /*$id = $this->db->insert_id();
         $data = array(
             'Market_idMarket' => $id
