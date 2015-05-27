@@ -277,10 +277,7 @@ class Dashboard extends CI_Controller {
         $idProduct = $this->input->post('idProduct', TRUE);
         $parserMarket = $this->input->post('parserMarket', TRUE);
         $idMarket = $this->content_model->get_idMarket_by_name($parserMarket);
-        //$idMarket = $Market['idMarket'];
-        //$idMarket = $parserMarket;
-        echo $idMarket . '  ' . $idProduct . '  ' . $parserSeller;
-        //$idCity = $this->content_model->get_idCity($parserCity);
+
 		$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller);
         if($error == null)
         	echo json_encode(array('status' => 'ok', 'message' => 'Success saving!'));
@@ -298,9 +295,6 @@ class Dashboard extends CI_Controller {
     function get_OP()
     {
     	$error = $this->content_model->get_OP();
-		//print_r ($error);
-		//prin($error);
-		//if($error !== NULL) echo json_encode($error);
     	echo json_encode($error);
     }
 	//Machulyanskiy: get list of elements OP
@@ -308,8 +302,7 @@ class Dashboard extends CI_Controller {
     {
     	$id = $this->input->post('id', TRUE);
     	$error = $this->content_model->get_elements_OP($id);
-    	//print_r ($error);
-    	//print_r ($error);
+
     	foreach ($error as $client_info)
 			$arr[] =  array('idItem'=>$client_info['idItem'], 'nameItem' => $client_info['nameItem'], 'priceItem' => $client_info['priceItem'], 'typeItem' => $client_info['typeItem'], 'countItem' => $client_info['countItem'], 'sellerItem' => $client_info['sellerItem']);
     	echo json_encode($arr);

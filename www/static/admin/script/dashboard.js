@@ -22,7 +22,7 @@ $(document).ready(function()
         $.ajax({
             type: 'POST',
             dataType: 'json',
-            url: 'http://arbitrage/dashboard/parsing_request',
+            url: '/dashboard/parsing_request',
             data: {
                 parserURL: $('#parserURL').val(),
                 parserRule: $('#parserRule').val(),
@@ -151,7 +151,7 @@ $(document).ready(function()
         }
 
         $.ajax({
-            url: 'http://arbitrage/dashboard/save_items_of_product',
+            url: '/dashboard/save_items_of_product',
             data: {
                 parserProductName: $('#parserProductName').val(),
                 parserPrice: $('#parserPrice').val(),
@@ -266,7 +266,7 @@ function view_op()
 
     /*console.log('view');
     $.ajax({
-        url: 'http://arbitrage/dashboard/get_OP',
+        url: '/dashboard/get_OP',
         dataType: 'json',
         success: function (data) {
 			console.log(data);
@@ -364,7 +364,7 @@ function get_elements_OP(op)
     console.log(id);
     $.ajax({
         type: "POST",
-        url: 'http://arbitrage/dashboard/get_elements_OP',
+        url: '/dashboard/get_elements_OP',
         data: {id : id},
         dataType: 'json',
         success:function(data){
@@ -412,7 +412,7 @@ function OP_delete(op)
     $.ajax({
         type: "POST",
         async: true,
-        url: 'http://arbitrage/dashboard/delete_OP',
+        url: '/dashboard/delete_OP',
         data: {id : id},
         success:function(data){
             $(op).parents('form').remove();
@@ -461,7 +461,7 @@ function item_OP_edit(op)
         //console.log($(op).parents('tr').find('td:eq(1)').text())
         $.ajax({
             type: "POST",
-            url: 'http://arbitrage/dashboard/update_items_OP',
+            url: '/dashboard/update_items_OP',
             data:
             {
                 id : $(op).parents('tr').find('td:eq(0)').text(),
@@ -532,7 +532,7 @@ function item_OP_delete(op)
     $.ajax({
         type: "POST",
         async: true,
-        url: 'http://arbitrage/dashboard/item_OP_delete',
+        url: '/dashboard/item_OP_delete',
         data: {id : id},
         success:function(data){
             if(data['status'] == 'not_ok')
