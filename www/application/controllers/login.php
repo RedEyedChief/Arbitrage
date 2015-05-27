@@ -84,8 +84,13 @@ class Login extends CI_Controller {
             $id = $this->user->register($data);
 
             if ($id) {
-                // Login user if registration was successful
-                if ($this->check_database($data['password'], $data['mail']))
+                if ($ajax==true) {
+			$this->data['users']=$this->user->getProfileInfo($id);
+			$this->data['async']=true;
+			$this->load->view('admin/lists/users_list',$this->data);
+		}
+		// Login user if registration was successful
+                else if ($this->check_database($data['password'], $data['mail']))
                     print json_encode("");
             }
             else {

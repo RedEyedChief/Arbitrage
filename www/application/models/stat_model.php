@@ -31,6 +31,14 @@ class Stat_model extends CI_Model {
         file_put_contents($file, $lines);
     }
     
+    public function insertLog()
+    {
+        $data = array(
+                      
+                      );
+        $this->db->insert();
+    }
+    
     //function viewArticle($id) {
     //    $this->db->start_cache();
     //    $this->db->where('idArticle', $id);

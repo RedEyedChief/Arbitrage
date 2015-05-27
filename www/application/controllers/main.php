@@ -73,7 +73,7 @@ class Main extends CI_Controller {
 		$ajax = $this->input->post("ajax");
 		$this->blocsBefore($ajax);
 		
-		//$this->load->view('site/site_content',$this->data);
+		$this->load->view('site/site_main');
 		
 		$this->blocksAfter($ajax);
 	}

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -16,11 +16,12 @@
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		<link href="/static/admin/style/styles.css" rel="stylesheet">
+		
 		<link href="/static/site/style/main.css" rel="stylesheet">
 	</head>
 	<body>
 <!-- Header -->
-<div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+<nav id="top-nav" class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -35,11 +36,12 @@
         <li><a href="javascript:login.modal.show('signInModal')" role="button">Sign in</a></li>
 	<li><a href="javascript:login.modal.show('signUpModal')" role="button">Sign up</a></li>
 	<? else: ?>
-	<li><a href="javascript:login.modal.show('')" role="button"><?=$firstName." ".$surName?></a></li>
-	<li style="padding:0px"><a style="padding: 5px;" href="/my" role="button"><img src="<?=isset($avatar)?$avatar:'/static/images/avatar-default.jpg'?>" class="avatar-min img-circle" style="width:3em"></a></li>
-	        <ul class="nav navbar-nav">
+		        <ul class="nav navbar-nav">
             <li><a href="/orders">Orders </a></li>
         </ul>
+	<li><a href="javascript:login.modal.show('')" role="button"><?=$firstName." ".$surName?></a></li>
+	<li style="padding:0px"><a style="padding: 5px;" href="/my" role="button"><img src="<?=isset($avatar)?$avatar:'/static/images/avatar-default.jpg'?>" class="avatar-min img-circle" style="width:3em"></a></li>
+
 	<li style="padding:0px"><a href="/login/logout" role="button"><i class="fa fa-sign-out" style="font-size: 20px;"></i></a></li>
 	<?endif;?>
 	<li style="padding:0px"><a href="/content/lang/ukrainian" role="button" style="padding-right: 0;"><img src="/static/images/ukraine-flag-icon.png" style="width: 16px; height: 16px;"></i></a></li>
@@ -47,9 +49,6 @@
       </ul>
     </div>
   </div><!-- /container -->
-</div>
+</nav>
 <!-- /Header -->
 
-<!-- Main -->
-<div class="container row">
-	<div class="col-md-10">

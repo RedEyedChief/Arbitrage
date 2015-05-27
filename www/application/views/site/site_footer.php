@@ -1,6 +1,3 @@
-﻿    </div><!--/container-->
-</div><!-- /Main -->
-
 
 <footer class="text-center"></footer>
 

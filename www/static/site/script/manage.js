@@ -2,8 +2,10 @@ $('.confirm-delete').click(function(e) {
     manage.remove()
 });
 
-$('.confirm-edit').click(function(e) {
-    manage.remove()
+$('#formEdit').submit(function() {
+    $('#confirm-edit').modal('hide')
+    editor.save(this)
+    return false
 });
 
 $('#formAdd').submit(function(){
@@ -41,11 +43,11 @@ var manage = {
     {
         if($("#itemType").html()=="Users") {
             $.post('/login/register/true', $(form).serialize(),function(data){
-                $(data).insertBefore($("#listpoll tr:first"));
+                $(data).insertBefore($("#listpoll > .item:first"));
             })
         } else {
             $.post('/content/add'+$("#itemType").html(), $(form).serialize(),function(data){
-                $(data).insertBefore($("#listpoll tr:first"));
+                $(data).insertBefore($("#listpoll > .item:first"));
             })
         }    
     },
@@ -74,29 +76,41 @@ var editor = {
             $("#editorFields").html("")
             for (var key in data) {
                 if (data.hasOwnProperty(key)) {
-                    var string = '<div><div class="input-group">'+userTemplate+'</div><br></div>'
-                    var group = $('<div/>').html(string).contents();
-                    
-                    var obj = data[key];
-                    //alert(key+" "+obj);
                     var replacer = editor.replacers.replace(editor.replacers[$("#itemType").html()],key)
-                    group.find("#description").html(replacer.name)
-                    if(replacer.attr!='')group.find("#data").attr(replacer.attr,replacer.attr)
-                    console.log(group.find("#data").val())
-                    group.find("#data").attr('value',obj)
-                    group.find("#data").attr('name',key)
-                    $("#editorFields").append(group.html());
+                    if (replacer.selector!==undefined) {
+                        $("#editorFields").append('<div><div class="input-group"><div class="input-group-addon">'+replacer.name+'</div>'+$('<div>').append($("[name="+replacer.selector+"]").clone()).html() + '</div></div><br>');
+                    }
+                    else{
+                        var string = '<div><div class="input-group">'+userTemplate+'</div><br></div>'
+                        var group = $('<div/>').html(string).contents();
+                        
+                        var obj = data[key];
+                        //alert(key+" "+obj);
+                        
+                        group.find("#description").html(replacer.name)
+                        if(replacer.attr!='')group.find("#data").attr(replacer.attr,replacer.attr)
+                        console.log(group.find("#data").val())
+                        group.find("#data").attr('value',obj)
+                        group.find("#data").attr('name',key)
+                        $("#editorFields").append(group.html());
+                    }
                 }
             }
         })
     },
     
+    save: function(form)
+    {
+        $.post('/content/update'+$("#itemType").html(), $(form).serialize(),function(data){
+            $(".remove-icon[element-id="+editor.id+"]").parent().replaceWith($(data));
+        })    
+    },
     
     replacers: {
         replace: function(replacer,key){
             if (replacer.hasOwnProperty(key))
             {
-                return {name:replacer[key][0], attr:replacer[key][1]}
+                return {name:replacer[key][0], attr:replacer[key][1], selector:replacer[key][2]}
             }
             else
             {
@@ -130,6 +144,13 @@ var editor = {
         Cities: {
             idCity: ['ID','readonly'],
             nameCity: ['Name','']
+        },
+        
+        Items: {
+            idItem: ['ID','readonly'],
+            priceItem: ['Name',''],
+            product_idProduct: ['Product','','product_idProduct'],
+            market_idMarket: ['Market','','market_idMarket']
         }
     }
 }

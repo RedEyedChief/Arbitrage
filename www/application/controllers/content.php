@@ -73,6 +73,14 @@ class Content extends CI_Controller {
 	{
 		if($this->isLogged >= 3) $this->content_model->removeProduct($this->input->post("id"));
 	}
+	/**
+	 * Видалити користувача
+	 * @return true  None
+	 */
+	public function removeItems()
+	{
+		if($this->isLogged >= 3) $this->content_model->removeItem($this->input->post("id"));
+	}
 	
 	/**
 	 * Видалити користувача
@@ -186,6 +194,11 @@ class Content extends CI_Controller {
 		echo json_encode($this->content_model->getProductFields($this->input->post("id")));
 	}
 	
+	public function getItemsFields()
+	{
+		echo json_encode($this->content_model->getItemFields($this->input->post("id")));
+	}
+	
 	public function getCitiesFields()
 	{
 		echo json_encode($this->content_model->getCityFields($this->input->post("id")));
@@ -215,6 +228,13 @@ class Content extends CI_Controller {
 		$this->load->view('admin/lists/products_list',$this->data);
 	}
 	
+	public function addItems()
+	{
+		$this->data['items'] = $this->content_model->addItem($this->input->post(null));
+		$this->data['async'] = true;
+		$this->load->view('admin/lists/items_list',$this->data);
+	}
+	
 	public function addPrices()
 	{
 		$this->data['prices'] = $this->content_model->addPrice($this->input->post(null));
@@ -227,6 +247,14 @@ class Content extends CI_Controller {
 		$this->data['cities'] = $this->content_model->addCity($this->input->post(null));
 		$this->data['async'] = true;
 		$this->load->view('admin/lists/cities_list',$this->data);
+	}
+	
+	public function updateUsers()
+	{
+		$this->content_model->updateUser($this->input->post(null));
+		$this->data['users'] = $this->user_model->getProfileInfo($this->input->post('idProfile'));
+		$this->data['async'] = true;
+		$this->load->view('admin/lists/users_list',$this->data);
 	}
 }
 

@@ -36,10 +36,37 @@ Class Content_model extends CI_Model
      * @param Boolean $id ID ??????
      * @return var  ????? ??????
      */
+    function getItems($start=0,$end=10,$idProduct=false)
+    {
+        if($idProduct!=false) $this->db->where('item.product_idProduct',$idProduct);
+        $this->db->limit($end,$start);
+        $this->db->select('*');
+        $this -> db -> from('item');
+        $this -> db -> join('market','market_idMarket=idMarket','left');
+        $this -> db -> join('product','product_idProduct=idProduct','left');
+        $query = $this->db->get();
+        
+        if($query -> num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * ???????? ?? ?????? ? start ?? end, ?? ? id
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @param Boolean $id ID ??????
+     * @return var  ????? ??????
+     */
     function getProducts($start=0,$end=10,$id=false)
     {
         $where = $id!=false?"WHERE product.idProduct=".$id:"";
-        $query = $this -> db -> query("SELECT * FROM product INNER JOIN market ON Market_idMarket = idMarket ".$where." ORDER BY idProduct DESC LIMIT ".$start.",".$end);
+        $query = $this -> db -> query("SELECT * FROM product ".$where." ORDER BY idProduct DESC LIMIT ".$start.",".$end);
         
         if($query -> num_rows() > 0)
         {
@@ -229,8 +256,17 @@ Class Content_model extends CI_Model
     
     function removeProduct($id)
     {
+        $data = array(
+               'isActiveProduct' => 0
+            );
         $this->db->where('idProduct',$id);
-        $this->db->delete("product");
+        $this->db->update('product',$data);
+    }
+    
+    function removeItem($id)
+    {
+        $this->db->where('idItem',$id);
+        $this->db->delete("item");
     }
     
     function removeUser($id)
@@ -337,6 +373,18 @@ Class Content_model extends CI_Model
         else return false;
     }
     
+    function getItemFields($id)
+    {
+        $query = $this -> db -> query("SELECT
+                                    idItem,product_idProduct,market_idMarket,priceItem 
+                                    FROM item
+                                    WHERE idItem='".$id."'
+                                    LIMIT 1");
+      
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
+    }
+    
     function getPriceFields($id)
     {
         $query = $this -> db -> query("SELECT
@@ -364,68 +412,122 @@ Class Content_model extends CI_Model
     function addProduct($data)
     {
         $this->db->insert('product',$data);
-        $query = $this->db->get_where('product INNER JOIN market ON Market_idMarket = idMarket', array('idProduct' => $this->db->insert_id()));
+        $query = $this->db->get_where('product', array('idProduct' => $this->db->insert_id()));
         if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
         else return false;
     }
-
+    
+    function addItem($data)
+    {
+        $this->db->insert('item',$data);
+        $query = $this->db->get_where('item', array('idItem' => $this->db->insert_id()));
+        if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        else return false;
+    }
+    
     //Machulyanskiy: insert object of parsing
-     function saveOP ($parserURL, $parserRule)
+     function saveOP ($parserURL, $parserRule, $id_product)
      {
-        $this->db->insert("parser",array( "rurlesParser"=>$parserRule,"adressParser"=>$parserURL, "Market_idMarket"=>0, "Report_idReport"=>0));
-        $id = $this->db->insert_id();
+        $this->db->insert("parser",array( "rurlesParser"=>$parserRule,"adressParser"=>$parserURL, "Report_idReport"=>0, "Product_idProduct"=>$id_product));
+        /*$id = $this->db->insert_id();
         $data = array(
             'Market_idMarket' => $id
         );
         $this->db->where('idParser',$id);
-        $this->db->update('parser',$data);
-        return $id;
+        $this->db->update('parser',$data);*/
+        return $this->db->insert_id();
      }
-
      //Machulyanskiy: insert product of OP with check on exist
      function save_product_OP($parserProductType, $parserCategory)
      {
         $this->db->where('nameProduct',$parserProductType);
         $this->db->where('categoryProduct',$parserCategory);
         $query = $this->db->get('product');
-
         if ($query->num_rows == 1)
             foreach ($query->result_array() as $row)
                 return $row['idProduct'];
-
         else
         {
             $this->db->insert("product",array( "nameProduct"=>$parserProductType, "categoryProduct"=>$parserCategory, "Report_idReport"=>0, "isActiveProduct"=>1));
             return $this->db->insert_id();
         }
      }
-
      //Machulyanskiy: insert items of product
-     function save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket)
+     function save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller)
      {
         $query = $this->db->insert("item",array( "nameItem"=>$parserProductName,"priceItem"=>$parserPrice, "typeItem"=>$parserType,
-                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct));
+                                                "isActiveItem"=>1, "countItem"=>$parserCount, "Market_idMarket"=>$idMarket, "product_idProduct"=>$idProduct, 'sellerItem' => $parserSeller));
+        return $this->db->_error_message();
      }
-
      function get_OP()
      {
-        $query = $this->db->query("SELECT * FROM parser");
-		if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
+        $query = $this->db->query("SELECT
+                                         p.idParser,
+                                         p.rurlesParser,
+                                         p.adressParser,
+                                         pr.nameProduct,
+                                         pr.categoryProduct
+                                     FROM parser p
+                                     INNER JOIN product pr
+                                        ON p.Product_idProduct = pr.idProduct");
+		if($query -> num_rows() !== 0)return $query->result();//toDataArray($query->result());
         else return false;
      }
-
      function delete_OP($id)
      {
         $this->db->where('idParser',$id);
         $this->db->delete("parser");
      }
-
      function get_elements_OP($id)
      {
      	//$query = $this->db->query("select * from parser  order by chain_alias");
-     	$this->db->where('Market_idMarket',$id);
-     	$query = $this->db->get('product');
-     	return $query->result_array();
+     	/*$this->db->where('Market_idMarket',$id);
+     	$query = $this->db->get('item');
+     	return $query->result_array();*/
      		//return $this->_get_as_array($sql);
+     	$query = $this->db->query("SELECT
+     	                                i.idItem,
+                                        i.nameItem,
+                                        i.priceItem,
+                                        i.typeItem,
+                                        i.countItem,
+                                        i.sellerItem
+                                    FROM parser p
+                                    JOIN item i
+                                      ON p.Product_idProduct = i.product_idProduct
+                                    WHERE p.idParser = '".$id."'");
+     	return $query->result_array();
+     }
+     function get_idMarket_by_name($parserMarket)
+     {
+        $this->db->where('nameMarket',$parserMarket);
+        $query = $this->db->get('market');
+        if ($query->num_rows !== 0)
+            foreach ($query->result_array() as $row)
+                return $row['idMarket'];
+     }
+     function get_Markets()
+     {
+        $query = $this->db->get('market');
+        return $query->result_array();
+     }
+     function update_items_OP($id, $name, $price, $count, $type, $seller)
+     {
+        $data = array(
+                       'nameItem' => $name,
+                       'priceItem' => $price,
+                       'typeItem' => $type,
+                       'countItem' => $count,
+                       'sellerItem' => $seller
+                    );
+        $this->db->where('idItem', $id);
+        $this->db->update('item', $data);
+        return $this->db->_error_message();
+     }
+     function item_OP_delete($id)
+     {
+        $this->db->where('idItem',$id);
+        $this->db->delete("item");
+        return $this->db->_error_message();
      }
 }

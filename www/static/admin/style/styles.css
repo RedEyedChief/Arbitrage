@@ -1,7 +1,146 @@
+
 #top-nav
 {
   background: #01579B;
   color: white;
+}
+
+body
+{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.width_30_px
+{
+  width: 30px;
+}
+
+.padding_2_px
+{
+  padding: 2px;
+}
+
+.bg_eee
+{
+  background-color: #eee;
+}
+
+.brand-primary
+{
+  background-color: #337ab7;
+}
+
+.bootstrap_success_color
+{
+  color:#4cae4c;
+}
+/*.container
+{
+  height: 100%;
+}
+
+.container > .row, .container > .row > .admin-panel .panel-body
+{
+  position: relative;
+  height: 75%;
+}
+
+.container > .row > .admin-panel
+{
+  height: 100%;
+}*/
+
+.btn-item
+{
+  width: 100%;
+}
+
+.resultsControl
+{
+  border-left: 3px solid rgb(187, 255, 255);
+  padding: 20px;
+}
+
+.resultsControl .panel-collapse .btn
+{
+  margin: 1px;
+  text-align: left;
+  border: 1px dotted #FFED89;
+  border-left: 5px solid #FFED89;
+  border-radius: 0;
+}
+
+.resultsControl .panel-collapse .btn.active
+{
+  box-shadow: none;
+  margin: 1px;
+  text-align: left;
+  border: 1px dotted lightgreen;
+  border-left: 5px solid lightgreen;
+  border-radius: 0;
+}
+
+.resultsControl .panel-collapse .btn:active
+{
+  box-shadow: none;
+  margin: 1px;
+  text-align: left;
+  border: 1px dotted lightgreen;
+  border-left: 5px solid lightgreen;
+  border-radius: 0;
+}
+
+.red
+{
+  color:red;
+}
+
+.blue
+{
+  color:blue;
+}
+
+.map-labels {
+  color: white;
+  background-color: red;
+  font-family: "Lucida Grande", "Arial", sans-serif;
+  font-size: 10px;
+  text-align: center;
+  width: 10px;     
+  white-space: nowrap;
+}
+
+#factorWeight {
+  background: lightskyblue;
+}
+
+#factorWeight .ui-slider-range
+{
+  background: lawngreen;
+}
+
+.resultControls
+{
+  margin: 20px;
+}
+
+#startPoint
+{
+  width: 50%;
+}
+
+#maxDepth .ui-slider-range
+{
+  background: darkorchid;
+}
+
+#map-canvas
+{
+  height: 500px;
+  margin: 0;
+  padding: 0;
 }
 
 #parserID
@@ -17,6 +156,11 @@
 .form-add .input-group-addon
 {
   padding: 4px 4px;
+}
+
+.form_view_OP .input-group-addon
+{
+  padding: 2px;
 }
 
 .form-add select
@@ -65,7 +209,7 @@
 }
 
 .navbar-static-top {
-  margin-bottom:20px;
+  margin-bottom:0px;
 }
 
 i {
@@ -136,9 +280,27 @@ footer {
  * Dashboard
  * ================================== */
 
+.item-product-table {
+  padding: 10px;
+  border: 1px solid lightgrey;
+}
+
+.item-product-table > .icon {
+  padding: 0px 10px 0 10px;
+}
+
+.item-product-table > .itemId {
+  padding: 10px;
+}
+
 .body-admin
 {
   background: #E7E7E7;
+}
+
+.body-moderator
+{
+  background: #ffffff;
 }
 
 .admin-panel
@@ -155,6 +317,14 @@ footer {
 #top-nav-admin
 {
   background: #BA68C8;
+  box-shadow: 1px 1px 1px 1px rgb(200, 200, 200);
+  color: white;
+  border: 0;
+}
+
+#top-nav-moderator
+{
+  background: #43A047;
   box-shadow: 1px 1px 1px 1px rgb(200, 200, 200);
   color: white;
   border: 0;

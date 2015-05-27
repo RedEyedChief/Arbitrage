@@ -45,11 +45,7 @@ $( document ).ready(function(){
 
 $("#select_market").on("change", function(e){
 var t = $(e.target),
-id = t.val();
-});
-
-
-    $("#order_form").on("submit", function(e){
+id = t.val();    $("#order_form").on("submit", function(e){
         e.preventDefault();
         var frm = $("#order_form"),
             //sel_area = frm.find("#select_area").val(),
@@ -99,10 +95,8 @@ id = t.val();
             product_id.push($(v).data('product'));
         });
 
-        $.post("orders/placeOrder", {products:product_id,market}, function(response){
-            if(response.result){
-                window.location.replace("my/");
-                t.addClass("btn-success");
+        $.post("orders/placeOrder", {products:product_id,market}, function(response){            if(response.result){
+                window.location.replace("my/");                t.addClass("btn-success");
                 t.removeClass("btn-danger");
                 alert('Order was successful!');
             }

@@ -45,7 +45,7 @@
 				}
 				if($item->isActivePrice==0) $removed = "removedUser"; else $removed = "";
 				if($async) $added = "newItem"; else $added = ""?>
-					<tr class="article link <?=$removed?>" href="/matherials/article/<?=$item->idPrice?>">
+					<tr class="item link <?=$removed?>" href="/matherials/article/<?=$item->idPrice?>">
 						<td class="remove-icon <?=$icon?>"></td>
 						<td class="id-article itemId"><?=$item->idPrice?></td>
 						<td class="itemName"><?=$item->namePrice?></td>
