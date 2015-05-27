@@ -248,11 +248,11 @@ class Dashboard extends CI_Controller {
         			else
         			{
         				//save product of parsing to db
-                        //$id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
-                        $id_product = 10;
+                        $id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
+                        //$id_product = 10;
         				//save object of parsing to db
-                    	//$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
-                    	$id_parser = 6;
+                    	$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
+                    	//$id_parser = 6;
         				foreach ($rule as $element) //'ul[class=book-tabl] li'
         				{
         					$count++;
