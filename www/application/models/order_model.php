@@ -86,15 +86,16 @@ Class Order_model extends CI_Model
     {
         if (empty($products))
             return false;
-
+        $str = serialize($products);
         $order_info = array(      
             'Profile_idProfile' => $user_id,
             'Date' => date("Y-m-d H:i:s"),
-            'start' =>$start);
+            'id_start_market' =>$start,
+            'products'=>$str);
         $this->db->insert("orders",$order_info);
         $order_id = $this->db->insert_id();
 
-        foreach ($products as $key => $value)
+      /*  foreach ($products as $key => $value)
         {
 
             $order_details = array(
@@ -104,7 +105,7 @@ Class Order_model extends CI_Model
 
             $this->db->insert('orders_details', $order_details);
                 
-        }
+        }*/
 
 
         if($this->db->_error_number() == 0)

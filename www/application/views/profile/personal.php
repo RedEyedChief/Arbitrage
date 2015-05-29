@@ -81,7 +81,15 @@
                     foreach($orders as $order){
                         print "<tr>";
                         print "<td>".$order['date']."</td>";
-                        print "<td>".$order['products']."</td>";
+                        $arr=unserialize($order['products']);
+                       // print_r( $arr);
+                        print "<td>";
+                        foreach ($arr as $el)
+                        {
+                            print $el;
+                            print (" ");
+                        }
+                        print "</td>";
                         print "</tr>";
                     }
                 ?>

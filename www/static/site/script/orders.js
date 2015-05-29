@@ -43,26 +43,9 @@ $( document ).ready(function(){
        }
     });
 
-    $("#select_market").on("change", function(e){
-       var t = $(e.target),
-           id = t.val();
-        
-       /*if (id!=-1){
-           $.post("orders/getProducts", {market: id}, function(response){
-               var select_gg = $("#select_market");
-
-               select_gg.empty();
-
-               if (response != ''){
-                   $.each(response, function() {
-                       select_gg.append($("<option />").val(this.idgg).text(this.namegg));
-                   });
-               }
-           }, 'json')
-       }*/
-    });
-
-    $("#order_form").on("submit", function(e){
+$("#select_market").on("change", function(e){
+var t = $(e.target),
+id = t.val();    $("#order_form").on("submit", function(e){
         e.preventDefault();
         var frm = $("#order_form"),
             //sel_area = frm.find("#select_area").val(),
@@ -106,17 +89,14 @@ $( document ).ready(function(){
         var checked_items = $("#datatable_products input:checked");
 
         var product_id = [];
-        var city = document.getElementById("select_city").value; // А ЭТО ТОГДА БЛЯТЬ ЧТО ТАКОЕ ?! КАКОГО ХУЯ ТЫ ИЩЕШЬ ЕГО ВООБЩЕ В ЛЕВОЙ ФУНКЦИИ
         var market = document.getElementById("select_market").value;
 
         $.each(checked_items,function(n,v){
             product_id.push($(v).data('product'));
         });
 
-        $.post("orders/placeOrder", {products:product_id,city,market}, function(response){
-            if(response.result){
-                window.location.replace("my");
-                t.addClass("btn-success");
+        $.post("orders/placeOrder", {products:product_id,market}, function(response){            if(response.result){
+                window.location.replace("my/");                t.addClass("btn-success");
                 t.removeClass("btn-danger");
                 alert('Order was successful!');
             }
