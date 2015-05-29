@@ -220,12 +220,34 @@ class Dashboard extends CI_Controller {
 	function parsing()
     {
     	$this->blocsBefore();
-    	$data['parsers'] = $this->content_model->get_OP();
+    	//$data['parsers'] = $this->content_model->get_OP();
 		$data['markets'] = $this->data_model->get_markets();
     	$this->load->view('admin/parsing_view', $data);
     	$this->load->view('admin/splitters/end_row');
     	$this->load->view('admin/admin_footer');
     }
+
+	function checkURLExists($url){
+        if(empty($url))	return false;
+
+        $ch = curl_init($url);
+        //$ch = 47;
+
+        //echo $ch . '</br>' . curl_init($url) . '	</br>	' . $url . '	';
+
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        //echo $ch . '</br>' . CURLINFO_HTTP_CODE . '	</br>	' . $http_code . '	';
+
+        curl_close($ch);
+        if($http_code>=200 && $http_code<300)	return true;
+        return false;
+    }
+
 	//Machulyanskiy: processing the request to the source
     function parsing_request()
     {
@@ -233,39 +255,48 @@ class Dashboard extends CI_Controller {
 		$parserRule = $this->input->post('parserRule', TRUE);
 		$parserProductType = $this->input->post('parserProductType', TRUE);
 		$parserCategory = $this->input->post('parserCategory', TRUE);
-		$headers = @get_headers($parserURL);
-        if($headers[0] == 'HTTP/1.1 200 OK')
-        {
-        			$count = 0;
-        			$this->data['html'] = file_get_html($parserURL);
-        			$rule = $this->data['html']->find($parserRule);
-        			if($rule == NULL)
-        			{
-        				$this->data['html'] -> clear();
-        				unset($this->data['html']);
-        				echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong Rule!'));
-        			}
-        			else
-        			{
-        				//save product of parsing to db
-                        $id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
-                        //$id_product = 10;
-        				//save object of parsing to db
-                    	$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
-                    	//$id_parser = 6;
-        				foreach ($rule as $element) //'ul[class=book-tabl] li'
-        				{
-        					$count++;
-        					$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext,
-        					'idProduct' => $id_product, 'idParser' => $id_parser);
-        				}
-        				$this->data['html'] -> clear();
-        				unset($this->data['html']);
-						echo json_encode($arr);
-        			}
-       	}
-        else echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong URL!'));
+
+		$check_url = $this->checkURLExists($parserURL);
+		if($check_url == 1)
+		/*$headers = @get_headers($parserURL);
+		if($headers[0] == 'HTTP/1.1 200 OK')*/
+                    {
+                    			$count = 0;
+                    			$this->data['html'] = file_get_html($parserURL);
+                    			$rule = $this->data['html']->find($parserRule);
+                    			if($rule == NULL)
+                    			{
+                    				$this->data['html'] -> clear();
+                    				unset($this->data['html']);
+                    				echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong Rule!'));
+                    			}
+                    			else
+                    			{
+                    				//save product of parsing to db
+                                    //$id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
+                                    $id_product = 10;
+
+                    				//save object of parsing to db
+                                	//$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
+                                	$id_parser = 6;
+
+                    				foreach ($rule as $element) //'ul[class=book-tabl] li'
+                    				{
+                    					$count++;
+                    					//$text = str_replace(" ", '&nbsp', $element->plaintext);
+                    					$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext,
+                    					'idProduct' => $id_product, 'idParser' => $id_parser);
+                    				}
+
+                    				$this->data['html'] -> clear();
+                    				unset($this->data['html']);
+									//echo '  got here and suck  ';
+                    				echo json_encode($arr);
+                    			}
+                   	}
+                    else echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong URL!'));
     }
+
 	//Machulyanskiy: processing the element OP
     function save_items_of_product()
     {
@@ -276,9 +307,9 @@ class Dashboard extends CI_Controller {
         $parserType = $this->input->post('parserType', TRUE);
         $idProduct = $this->input->post('idProduct', TRUE);
         $parserMarket = $this->input->post('parserMarket', TRUE);
-        $idMarket = $this->content_model->get_idMarket_by_name($parserMarket);
+        //$idMarket = $this->content_model->get_idMarket_by_name($parserMarket);
 
-		$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller);
+		//$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller);
         if($error == null)
         	echo json_encode(array('status' => 'ok', 'message' => 'Success saving!'));
         else
@@ -295,6 +326,7 @@ class Dashboard extends CI_Controller {
     function get_OP()
     {
     	$error = $this->content_model->get_OP();
+
     	echo json_encode($error);
     }
 	//Machulyanskiy: get list of elements OP
@@ -305,6 +337,7 @@ class Dashboard extends CI_Controller {
 
     	foreach ($error as $client_info)
 			$arr[] =  array('idItem'=>$client_info['idItem'], 'nameItem' => $client_info['nameItem'], 'priceItem' => $client_info['priceItem'], 'typeItem' => $client_info['typeItem'], 'countItem' => $client_info['countItem'], 'sellerItem' => $client_info['sellerItem']);
+
     	echo json_encode($arr);
     }
     function update_items_OP()

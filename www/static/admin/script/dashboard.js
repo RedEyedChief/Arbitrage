@@ -1,21 +1,24 @@
 var idProduct = 0;
+var idParser = 0;
 
 $(document).ready(function()
 {
-    //view_op();
+    view_op();
 
     $(".add_op").hide();
     $(".view_op").show();
 
     //Machulyanskiy: Переходимо в пункт створення ОП
     $("#add_op").click(function() {
-        $(".view_op").hide();
-        $(".add_op").show();
+        $(".view_op").hide('slow');
+        $(".add_op").show('slow');
     });
 
     //Machulyanskiy: Задаємо правила і парсимо сторінку (створюємо ОП) + зберігаємо тип продукту
     $("#doParse").click(function() {
-        $('#progress_parsing').show();
+    //$('#let_parsing').submit(function(event)
+        //event.preventDefault();
+        $('#progress_parsing').show('slow');
         $('#parser_error').hide();
         $('#parser_data_error').hide();
 
@@ -30,7 +33,7 @@ $(document).ready(function()
                 parserCategory: $('#parserCategory').val()
             },
             beforeSend: function(){
-                console.log('validator');
+                //console.log('validator');
                 var parserURL = $('#parserURL').val();
                 var parserRule = $('#parserRule').val();
                 var parserProductType = $('#parserProductType').val();
@@ -57,7 +60,7 @@ $(document).ready(function()
                     $('#parserCategory').parent().addClass('has-success');
                 }
                 if (parserProductType == "" || parserURL == "" || parserRule=="" || parserCategory==""){
-                    $('#parser_error').show();
+                    $('#parser_error').show('slow');
 
                     if (parserURL =="") $('#parserURL').parent().addClass('has-error');
                     if (parserRule =="") $('#parserRule').parent().addClass('has-error');
@@ -71,17 +74,18 @@ $(document).ready(function()
             },
 
             success: function (data) {
+                //console.log('Do do parse do parse it');
                 /*idProduct = data['idProduct'];
                 console.log(idProduct,data, data[0]['idProduct']);*/
-                $('#progress_parsing').hide();
-				$('#parse_nothing_found').hide();
-                $("#parseResult").fadeIn(2000);
+                $('#progress_parsing').hide('slow');
+				$('#parse_nothing_found').hide('slow');
+                $("#parseResult").fadeIn(500);
                 //console.log('success', data['status'], data["message"]);
                 if(data['status'] == 'not_ok')
                 {
                     if(data["message"] == 'Wrong URL!')
                     {
-                        console.log('message');
+                        //console.log('message');
                         $('#parserURL').parent().removeClass('has-success');
                         $('#parserURL').parent().addClass('has-error');
                     }
@@ -115,7 +119,7 @@ $(document).ready(function()
                         "<td> <i class='fa fa-remove text-muted cursor ' onclick='element_OP_delete(this)'> </i> </td> </tr>"
                     }
                     html += "</tbody>" +
-                    "</table><hr><button type='button' class='btn btn-success btn-lg center-block col-xs-4' id='continue_view'>Continue</button>";
+                    "</table><hr><button type='button' class='btn btn-success btn-lg center-block col-xs-4' onclick='continue_view()'>View this OP</button>";
                     $('#table_parsing_result').html(html);
                 }
 
@@ -124,29 +128,31 @@ $(document).ready(function()
             },
             error: function (data) {
                 //console.log('retard',data[status]);
-                $('#progress_parsing').hide();
-				$('#parse_nothing_found').show();
+                $('#progress_parsing').hide('slow');
+				$('#parse_nothing_found').show('slow');
             }
         });
         return false;
     });
 
     //Machulyanskiy: Зберігаємо екземляри товару
-    $("#parserSave").click(function() {
+    $("#parserSave").click(function(event) {
+        event.preventDefault();
         $('#Form_error').hide();
 
-        console.log($('tr.success:not(.already)').length, $('tr.success').length );
+        //console.log($('tr.success:not(.already)').length, $('tr.success').length );
         if($('tr.success:not(.already)').length > 0)
         {
             $('tbody tr.success:not(.already)').hide();
-            console.log($('.table_parse_Result tbody').children(0).hasClass('already'));
+            //console.log($('.table_parse_Result tbody').children(0).hasClass('already'));
             if(!($('.table_parse_Result tbody').children(0).hasClass('already')))
             {
                 var html = "<tr class='success already'> <td class='round-icon'><i class='fa fa-plus-circle text-muted cursor bootstrap_success_color' onclick='view_elements()'> </i></td>" +
                     "<td> </td>" +
                     "<td> </td>" +
                     "<td> </td> </tr>";
-                $('tr.success').before(html);
+                //$('tr.success').before(html);
+                $('.table_parse_Result tbody tr:first').before(html);
             }
         }
 
@@ -163,7 +169,7 @@ $(document).ready(function()
 
             },
             type: 'POST',
-            beforeSend: function(){
+            /*beforeSend: function(){
                 console.log('validate');
                 var parserProductName = $('#parserProductName').val();
                 var parserPrice = $('#parserPrice').val();
@@ -217,12 +223,13 @@ $(document).ready(function()
 
 
                 else return true;
-            },
+            },*/
             success: function (data) {
                 //console.log($('tr[class=warning]'));
                 /*if(data['status'] === 'ok')
                 {*/
                     $('tr[class=warning]').addClass('success');
+                    $('.warning, .success').find('.fa-remove').remove();
                     $('.warning, .success').removeClass('warning');
                     $("#parserForm").hide('slow');
                     $("#parserForm input:not(.btn)").val('');
@@ -233,7 +240,7 @@ $(document).ready(function()
                 alert('retard');
             }
         });
-        return false;
+        //return false;
     });
 
     /*$('.already').click(function(){
@@ -241,38 +248,69 @@ $(document).ready(function()
         $('tbody tr.success:not(.already)').show('normal');
     });*/
 
-    $('#continue_view').click(function(){
+    /*$('#continue_view').click(function(){
+        $("#doParse").click(function() {
         console.log($('tr.success').length);
         if($('tr.success').length > 0)
         {
-            $(".add_op").hide();
-            $(".view_op").show();
+            $(".add_op").hide('slow');
+            $(".view_op").show('slow');
         }
         else
         {
             var html='<div class="alert alert-danger"> <strong>' + 'For continuing you must save at least one element' + '</strong> </div>';
             $('#continue_view').before(html);
         }
-    });
+    });*/
 
 
 });
 
+function continue_view()
+{
+    if($('tr.success').length > 0)
+    {
+        view_op();
+        //console.log(idParser);
+        //console.log($('.parser_id').text());
+        //console.log($('.parser_id').val());
+        if($('.parser_id:contains('+idParser+')'))
+        {
+           // console.log('cute');
+            //var find = $('.parser_id:contains('+idParser+')').parent().find('.fa-list-ul').click();
+            //$('.parser_id:contains('+idParser+')').parent().find('.fa-list-ul').click();
+            //var find = $('.parser_id:contains('+idParser+')').parent().find('.fa-list-ul');
+            //console.log($('.parser_id:contains('+idParser+')').parent().find('.fa-list-ul').click());
+            console.log($('.parser_id:contains('+idParser+')').html());
+            //console.log($('.parser_id:contains('+idParser+')').parent().html());
+            //console.log($(this).parent().find('.fa-list-ul').html());
+            //get_elements_OP(find);
+        }
+    }
+    else
+    {
+        var html='<div class="alert alert-danger"> <strong>' + 'For continuing you must save at least one element' + '</strong> </div>';
+        $('#table_parse_Result').after(html);
+    }
+}
+
 //Machulyanskiy: Відображення списку ОП
 function view_op()
 {
-    $(".add_op").hide();
-    $(".view_op").show();
+    $(".add_op").hide('slow');
+    $(".view_op").show('slow');
+    $('#table_parsing_result').children().remove();
 
-    /*console.log('view');
+    $(".add_op input:not(.btn)").val('');
+    //console.log('view');
     $.ajax({
         url: '/dashboard/get_OP',
         dataType: 'json',
         success: function (data) {
-			console.log(data);
+			//console.log(data);
 			if(data != false)
 			{
-			$('#empty_OP').hide();*/
+			$('#empty_OP').hide();
             /*var html = "<table class='table table-striped' >" +
                 "<thead>" +
                 "<tr>" + "</th>" +
@@ -298,10 +336,10 @@ function view_op()
             }
             html += "</tbody>" +
             "</table>";*/
-           /* var html = '<form class="form-inline form-add">' +
+            var html = '<form class="form-inline form-add">' +
             '<div class="form-group">' +
             '<div class="input-group">' +
-            '<div class="form-control bg_eee" style="width: 42px;">ID</div>' +
+            '<div class="form-control bg_eee " style="width: 42px;">ID</div>' +
             '<div class="input-group-addon"></div>' +
             '<input type="text" class="form-control" value="Adress" style="cursor:default" readonly>' +
             '<div class="input-group-addon"></div>' +
@@ -313,18 +351,21 @@ function view_op()
             '<div class="input-group-addon"></div>' +
             '<div class="form-control bg_eee"><i class="fa fa-list-ul text-muted"></i></div>' +
             '<div class="input-group-addon"></div>' +
+            '<div class="form-control bg_eee"><i class="fa fa-repeat text-muted"></i></div>' +
+            '<div class="input-group-addon"></div>' +
             '<div class="form-control bg_eee"><i class="fa fa-remove text-muted "></i></div>' +
             '</div></div></form>';
 
                 for (index = 0; index < data.length; ++index) {
+                    idParser = data[index]["idParser"];
                     html += '<form class="form-inline form-add">' +
-                    '<div class="form-group" id="form_group_OP">' +
-                    '<div class="input-group" id="element_OP">' +
-                    '<div class="form-control">' + data[index]["idParser"] + '</div>' +
+                    '<div class="form-group form_group_OP">' +
+                    '<div class="input-group element_OP">' +
+                    '<div class="form-control parser_id">' + data[index]["idParser"] + '</div>' +
                     '<div class="input-group-addon"></div>' +
                     '<input type="text" class="form-control" id="adressParser" value='+ data[index]["adressParser"] + '>' +
                     '<div class="input-group-addon"></div>' +
-                    '<input type="text" class="form-control" id="rurlesParser" value='+ data[index]["rurlesParser"] + '>' +
+                    '<input type="text" class="form-control" id="rurlesParser" value="'+ data[index]["rurlesParser"] + '">' +
                     '<div class="input-group-addon"></div>' +
                     '<input type="text" class="form-control" id="nameProduct" value='+ data[index]["nameProduct"] + '>' +
                     '<div class="input-group-addon"></div>' +
@@ -332,33 +373,36 @@ function view_op()
                     '<div class="input-group-addon"></div>' +
                     '<div class="form-control "><i class="fa fa-list-ul text-muted cursor" onclick="get_elements_OP(this)"></i></div>' +
                     '<div class="input-group-addon"></div>' +
+                    '<div class="form-control "><i class="fa fa-repeat text-muted cursor" onclick="OP_repeat(this)"></i></div>' +
+                    '<div class="input-group-addon"></div>' +
                     '<div class="form-control "><i class="fa fa-remove text-muted cursor" onclick="OP_delete(this)"></i></div>' +
                     '</div></div></form>';
                 }
             $('#list_OP').html(html);
 			
 			}
-			else $('#empty_OP').show();
-			//$('#empty_OP').html('<div class="alert alert-warning"> <strong>' + 'List of OP is empty !' + '</strong> </div>');
+			else $('#empty_OP').show('slow');
+			$('#empty_OP').html('<div class="alert alert-warning"> <strong>' + 'List of OP is empty !' + '</strong> </div>');
         },
         error: function () {
             console.log('retard');
             
         }
 
-    });*/
+    });
 }
 
 function get_elements_OP(op)
 {
-    console.log($(op).parents('#form_group_OP').children(0));
-    if($(op).parents('#form_group_OP').children(1).hasClass('bg_eee'))
+    console.log(op);
+    //console.log($(op).parents('.form_group_OP').children(0));
+    if($(op).parents('.form_group_OP').children(1).hasClass('bg_eee'))
     {
-        $(op).parents('#form_group_OP').find('#table_OP').remove();
+        $(op).parents('.form_group_OP').find('#table_OP').remove();
         return;
     }
 
-    var id = $(op).parents('#element_OP').children(0).html();
+    var id = $(op).parents('.element_OP').children(0).html();
 
 
     console.log(id);
@@ -368,7 +412,7 @@ function get_elements_OP(op)
         data: {id : id},
         dataType: 'json',
         success:function(data){
-            //console.log(data);
+            console.log(data);
             var html = "<table class='table' id='table_OP' >" +
                 "<thead>" +
                 "<tr>" + "</th>" +
@@ -384,6 +428,8 @@ function get_elements_OP(op)
                 "</thead>" +
                 "<tbody>";
             for (index = 0; index < data.length; ++index) {
+                //$text = str_replace(" ", &nbsp;, $doc);
+                //data[index]['nameItem'] =
                 html += "<tr> <td class='not_this'>" + data[index]['idItem'] + "</td>" +
                 "<td>" + data[index]['nameItem'] + "</td>" +
                 "<td>" + data[index]['priceItem'] + "</td>" +
@@ -395,8 +441,11 @@ function get_elements_OP(op)
             }
             html += "</tbody>" +
             "</table>";
-            $(op).parents('#element_OP').after(html);
+            console.log('so');
+            $(op).parents('.element_OP').after(html);
+            console.log('what');
             $('#table_OP').addClass('bg_eee');
+            console.log('?');
         },
         error: function () {
             console.log('retard');
@@ -404,10 +453,27 @@ function get_elements_OP(op)
     });
 }
 
+function OP_repeat(op)
+{
+    var adress = $(op).parents('.element_OP').find('#adressParser').val();
+    var rule = $(op).parents('.element_OP').find('#rurlesParser').val();
+    var product = $(op).parents('.element_OP').find('#nameProduct').val();
+    var category = $(op).parents('.element_OP').find('#categoryProduct').val();
+
+    $('#parserURL').val(adress);
+    $('#parserRule').val(rule);
+    $('#parserProductType').val(product);
+    $('#parserCategory').val(category);
+
+    $(".view_op").hide('slow');
+    $(".add_op").show('slow');
+
+}
+
 //Machulyanskiy: Видалення ОП
 function OP_delete(op)
 {
-    var id = $(op).parents('#element_OP').children(0).html();
+    var id = $(op).parents('.element_OP').children(0).html();
 
     $.ajax({
         type: "POST",
@@ -446,6 +512,14 @@ function element_OP_delete(op)
 function item_OP_edit(op)
 {
     $(op).parents('tr').removeClass('success');
+    //console.log('Choose way');
+    if($(op).parents('tr').mousedown())
+    {
+        //console.log('pussy');
+    }
+    /*$(op).parents('tr').mousedown(function(event){
+        console.log('pussy');
+    });*/
     if($(op).hasClass('fa-check-square-o'))
     {
         //console.log('need to save data');
@@ -473,19 +547,23 @@ function item_OP_edit(op)
             },
             dataType: 'json',
             success:function(data){
-                console.log(data['status'], data["message"]);
+                //console.log(data['status'], data["message"]);
                 if(data['status'] == 'not_ok')
                 {
                     $('#for_error').html('<div class="alert alert-danger"><strong>' + data["message"] + '</strong> </div>');
                 }
-                else $(op).parents('tr').addClass('success');
+                else
+                {
+                    $(op).parents('tr').addClass('success');
+                    return;
+                }
             },
             error: function () {
                 console.log('retard');
             }
         });
 
-        return;
+        //return;
     }
     else if ($(op).hasClass('fa-edit'))
     {
@@ -500,7 +578,12 @@ function item_OP_edit(op)
         //console.log($('#table_OP').click());
         //console.log(tr);
         //td.addClass('success');
-        td.click(function () {
+        //console.log('get click');
+        //td.click(function () {
+        //if(td.mousedown()) {
+        td.mousedown(function(event)
+        {
+            //console.log(event, $(this));
             if ($(this).hasClass('on_edit')) return;
             var save = $(this).parent().find('.on_edit');
             var val = save.children().val();
@@ -509,19 +592,20 @@ function item_OP_edit(op)
             save.text(val);
 
             //console.log(save.children().val());
-            console.log('bibon');
+            //console.log('bibon');
             //console.log($(this));
             $(this).addClass('on_edit');
-            console.log($(this).text());
-            var html = '<input class="form-control" type="text" value=' + $(this).text() + '>';
+            //console.log($(this).text());
+            var html = '<input class="form-control" type="text" value="' + $(this).text() + '">';
             $(this).html(html);
             //$(this).innerText();
             //console.log($(this).text());
+        //}
         });
 
         //$("#parserForm").show();
 
-        return;
+        //return;
     }
 }
 
@@ -551,7 +635,15 @@ function item_OP_delete(op)
 function view_elements()
 {
     if($('tbody tr.success:not(.already)').is(":hidden"))
+    {
+        $('.already i').addClass('fa-minus-circle');
+        $('.already i').removeClass('fa-plus-circle');
         $('tbody tr.success:not(.already)').show('slow');
+    }
     else if($('tbody tr.success:not(.already)').is(":visible"))
+    {
+        $('.already i').addClass('fa-plus-circle');
+        $('.already i').removeClass('fa-minus-circle');
         $('tbody tr.success:not(.already)').hide('slow');
+    }
 }

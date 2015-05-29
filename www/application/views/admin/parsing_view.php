@@ -19,6 +19,7 @@
 		<div class="view_op">
 
 			<div id="list_OP">
+			<!--
 			<form class="form-inline form-add">
                 <div class="form-group">
                     <div class="input-group">
@@ -39,7 +40,7 @@
                 </div>
             </form>
 
-			<?php if($parsers == '') echo '<div class="alert alert-warning margin_top_10px"> <strong>' . 'List of OP is empty !' . '</strong> </div>';
+			<//?php if($parsers == '') echo '<div class="alert alert-warning margin_top_10px"> <strong>' . 'List of OP is empty !' . '</strong> </div>';
 				else foreach ($parsers as $item):?>
             <form class="form-inline form-add">
                 <div class="form-group" id="form_group_OP">
@@ -60,8 +61,9 @@
                     </div>
                 </div>
             </form>
-            <?php endforeach;?>
+            <//?php endforeach;?> -->
 			</div>
+
 
 			<!--
 			<div id="empty_OP" style="display: none;">
@@ -161,21 +163,21 @@
             </form> -->
 
 
-			<form class="form row " id="let_parsing" action="/dashboard/parsing_request" method="POST">
+			<form class="form  " id="let_parsing" action="/dashboard/parsing_request" method="POST">
 				<div class="form-group row">
 					<div class="parserURL col-xs-7">
-						<input type="text" class="form-control" id="parserURL" placeholder="URL" value="http://hotline.ua/knigi/">
+						<input type="text" class="form-control" id="parserURL" placeholder="URL" value="" required="required">
 					</div>
 					<div class="parserRule col-xs-5">
-						<input type="text" class="form-control" id="parserRule" placeholder="Rule" value="ul[class=book-tabl] li" >
+						<input type="text" class="form-control" id="parserRule" placeholder="Rule" value="" required="required">
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-xs-4">
-						<input type="text" class="form-control" id="parserProductType" width="1em" placeholder="ProductType" value="book" name="parserProductType">
+						<input type="text" class="form-control" id="parserProductType" width="1em" placeholder="ProductType" value="" name="parserProductType" required="required">
 					</div>
 					<div class="col-xs-3">
-						<input type="text" class="form-control" id="parserCategory" width="1em" placeholder="Category" value="reading" name="parserCategory" >
+						<input type="text" class="form-control" id="parserCategory" width="1em" placeholder="Category" value="" name="parserCategory" required="required">
 					</div>
 					<div class="parserSub col-xs-5">
                 		<div type="submit" id="doParse" class="btn btn-success form-control">Parse!</div>
@@ -193,28 +195,28 @@
 
 			<hr>
 
-			<div id="parseResult" style="display: none;">
+			<div id="parseResult">
 
 				<div id="parserForm" style="display: none;" >
-					<form  class="form row margin_top_bot_20px">
+					<form  class="form margin_top_bot_20px">
 						<div class="form-group row">
 							<div class="col-xs-6">
-								<input type="text" class="form-control" id="parserProductName" width="1em" placeholder="ProductName" value="" name="parserProductName">
+								<input type="text" class="form-control" id="parserProductName" width="1em" placeholder="ProductName" value="" name="parserProductName" required="required">
 							</div>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="parserPrice" width="1em" placeholder="Price" value="" name="parserPrice">
+								<input type="number" class="form-control" id="parserPrice" width="1em" placeholder="Price" value="" name="parserPrice" min="1" required="required">
 							</div>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="parserCount" width="1em" placeholder="Count" value="" name="parserCount">
+								<input type="number" class="form-control" id="parserCount" width="1em" placeholder="Count" value="" name="parserCount" min="1" required="required">
 							</div>
 							<div class="col-xs-2">
-								<input type="text" class="form-control" id="parserType" width="1em" placeholder="Type" value="" name="parserType">
+								<input type="number" class="form-control" id="parserType" width="1em" placeholder="Type" value="" name="parserType" min="1" max="2" required="required">
 							</div>
 
 						</div>
 						<div class="form-group row">
 							<div class="col-xs-6">
-								<input type="text" class="form-control" id="parserSeller" width="1em" placeholder="Info about seller" value="" name="parserSeller">
+								<input type="text" class="form-control" id="parserSeller" width="1em" placeholder="Info about seller" value="" name="parserSeller"  required>
 							</div>
 							<div class="col-xs-2">
 								<select class="form-control" name="role" id="parserMarket">
