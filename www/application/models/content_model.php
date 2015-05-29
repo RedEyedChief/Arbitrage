@@ -428,14 +428,18 @@ Class Content_model extends CI_Model
     //Machulyanskiy: insert object of parsing
      function saveOP ($parserURL, $parserRule, $id_product)
      {
-        $this->db->insert("parser",array( "rurlesParser"=>$parserRule,"adressParser"=>$parserURL, "Report_idReport"=>0, "Product_idProduct"=>$id_product, 'Market_idMarket'=>32));
-        /*$id = $this->db->insert_id();
-        $data = array(
-            'Market_idMarket' => $id
-        );
-        $this->db->where('idParser',$id);
-        $this->db->update('parser',$data);*/
-        return $this->db->insert_id();
+        $this->db->where('adressParser',$parserURL);
+        $this->db->where('rurlesParser',$parserRule);
+        $query = $this->db->get('parser');
+        if ($query->num_rows == 1)
+           foreach ($query->result_array() as $row)
+               return $row['idParser'];
+        else
+        {
+           $this->db->insert("parser",array( "rurlesParser"=>$parserRule,"adressParser"=>$parserURL, "Report_idReport"=>0, "Product_idProduct"=>$id_product, 'Market_idMarket'=>32));
+           return $this->db->insert_id();
+        }
+
      }
      //Machulyanskiy: insert product of OP with check on exist
      function save_product_OP($parserProductType, $parserCategory)
