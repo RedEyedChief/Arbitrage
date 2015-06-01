@@ -57,16 +57,25 @@ class Orders extends CI_Controller
         $this->blocksAfter($ajax);
     }
     function getMarkets(){
+        try {
         $city = $this->input->post("city");
         print json_encode($this->order_model->getMarkets($city, true));
+        } catch (Exception $e) {
+        echo $e->getMEssage();
+        }
     }
 
     function getProducts(){
+        try {
         $market = $this->input->post("market");
         print json_encode($this->order_model->getProducts($market, true));
+        } catch (Exception $e) {
+        echo $e->getMEssage();
+        }
     }
 
     function placeOrder(){
+        try {
         $data = $this->input->post();
 
         $user_profile = $this->session->userdata("profile");                                                                                                                                                                                   
@@ -77,6 +86,10 @@ class Orders extends CI_Controller
             print json_encode(array("result"=>true));
         } else {
             print json_encode(array("result"=>false, "error"=>"Cant place new order!"));
+        }
+        
+        } catch (Exception $e) {
+        echo $e->getMEssage();
         }
     }
 }

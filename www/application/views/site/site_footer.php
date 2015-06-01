@@ -49,10 +49,10 @@
               </div>
 
               <div class="form-group">
-		<input type="text" name="firstname" class="form-control" placeholder="Surname"/>
+		<input type="text" name="firstname" class="form-control" placeholder="Name"/>
 	    </div>
 	    <div class="form-group">
-		<input type="text" name="surname" class="form-control" placeholder="Name"/>
+		<input type="text" name="surname" class="form-control" placeholder="Surname"/>
 	    </div>
 	    <div class="form-group">
 		<input type="text" name="mail" class="form-control" placeholder="Email"/>
