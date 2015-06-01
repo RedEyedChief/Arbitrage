@@ -1,0 +1,340 @@
+
+#top-nav
+{
+  background: #01579B;
+  color: white;
+}
+
+body
+{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.width_30_px
+{
+  width: 30px;
+}
+
+.padding_2_px
+{
+  padding: 2px;
+}
+
+.bg_eee
+{
+  background-color: #eee;
+}
+
+.brand-primary
+{
+  background-color: #337ab7;
+}
+
+.bootstrap_success_color
+{
+  color:#4cae4c;
+}
+/*.container
+{
+  height: 100%;
+}
+
+.container > .row, .container > .row > .admin-panel .panel-body
+{
+  position: relative;
+  height: 75%;
+}
+
+.container > .row > .admin-panel
+{
+  height: 100%;
+}*/
+
+.btn-item
+{
+  width: 100%;
+}
+
+.resultsControl
+{
+  border-left: 3px solid rgb(187, 255, 255);
+  padding: 20px;
+}
+
+.resultsControl .panel-collapse .btn
+{
+  margin: 1px;
+  text-align: left;
+  border: 1px dotted #FFED89;
+  border-left: 5px solid #FFED89;
+  border-radius: 0;
+}
+
+.resultsControl .panel-collapse .btn.active
+{
+  box-shadow: none;
+  margin: 1px;
+  text-align: left;
+  border: 1px dotted lightgreen;
+  border-left: 5px solid lightgreen;
+  border-radius: 0;
+}
+
+.resultsControl .panel-collapse .btn:active
+{
+  box-shadow: none;
+  margin: 1px;
+  text-align: left;
+  border: 1px dotted lightgreen;
+  border-left: 5px solid lightgreen;
+  border-radius: 0;
+}
+
+.red
+{
+  color:red;
+}
+
+.blue
+{
+  color:blue;
+}
+
+.map-labels {
+  color: white;
+  background-color: red;
+  font-family: "Lucida Grande", "Arial", sans-serif;
+  font-size: 10px;
+  text-align: center;
+  width: 10px;     
+  white-space: nowrap;
+}
+
+#factorWeight {
+  background: lightskyblue;
+}
+
+#factorWeight .ui-slider-range
+{
+  background: lawngreen;
+}
+
+.resultControls
+{
+  margin: 20px;
+}
+
+#startPoint
+{
+  width: 50%;
+}
+
+#maxDepth .ui-slider-range
+{
+  background: darkorchid;
+}
+
+#map-canvas
+{
+  height: 500px;
+  margin: 0;
+  padding: 0;
+}
+
+#parserID
+{
+    width: 3em;
+}
+
+#editorFields .input-group-addon
+{
+  min-width:170px;
+}
+
+.form-add .input-group-addon
+{
+  padding: 4px 4px;
+}
+
+.form_view_OP .input-group-addon
+{
+  padding: 2px;
+}
+
+.form-add select
+{
+  min-width: 18pt;
+  padding: 0 0px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.removedUser, .removedUser td
+{
+  background: navajowhite!important;
+}
+
+.newItem, .newItem td
+{
+  background: mediumspringgreen!important;
+}
+
+.parseResult
+{
+ 
+}
+.margin_top_10px
+{
+  margin-top:10px;
+}
+.admin-panel .nav-stacked .fa
+{
+    min-width: 20px;
+}
+.cursor
+{
+  cursor: pointer;
+}
+.navbar-brand
+{
+  color:white!important;
+}
+
+.navbar-nav a
+{
+  color: white!important;
+}
+
+.navbar-static-top {
+  margin-bottom:0px;
+}
+
+i {
+  font-size:18px;
+}
+  
+footer {
+  margin-top:20px;
+  padding-top:20px;
+  padding-bottom:20px;
+  background-color:#efefef;
+}
+
+.nav>li .count {
+  position: absolute;
+  top: 10%;
+  right: 25%;
+  font-size: 10px;
+  font-weight: normal;
+  background: rgba(41,200,41,0.75);
+  /*color: rgb(255,255,255);*/
+  line-height: 1em;
+  padding: 2px 4px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.table
+{
+  margin-bottom: 0!important;
+}
+
+.show-more
+{
+  width: 100%;
+  text-align: center;
+  background: aliceblue;
+}
+
+.nopadding {
+  padding: 0 !important;
+}
+
+.remove-icon, .edit-icon
+{
+  cursor: pointer;
+}
+
+.round-icon i
+{
+  font-size: 3em;
+}
+
+.round-icon
+{
+  font-size: 1em;
+}
+
+.summary hr
+{
+  margin-top: 0px;
+}
+
+/* ==================================
+ * Dashboard
+ * ================================== */
+
+.item-product-table {
+  padding: 10px;
+  border: 1px solid lightgrey;
+}
+
+.item-product-table > .icon {
+  padding: 0px 10px 0 10px;
+}
+
+.item-product-table > .itemId {
+  padding: 10px;
+}
+
+.body-admin
+{
+  background: #E7E7E7;
+}
+
+.body-moderator
+{
+  background: #ffffff;
+}
+
+.admin-panel
+{
+  background: #fff;
+  box-shadow: 2px 2px 2px 2px rgb(183, 182, 182);
+  margin: 20px;
+}
+
+.admin-panel-heading
+{
+  background: #fafafa;
+}
+#top-nav-admin
+{
+  background: #BA68C8;
+  box-shadow: 1px 1px 1px 1px rgb(200, 200, 200);
+  color: white;
+  border: 0;
+}
+
+#top-nav-moderator
+{
+  background: #43A047;
+  box-shadow: 1px 1px 1px 1px rgb(200, 200, 200);
+  color: white;
+  border: 0;
+}
+
+.navbar-header-admin
+{
+}
+
+.admin-tabs
+{
+  background: white;
+}
