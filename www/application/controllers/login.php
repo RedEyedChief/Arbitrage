@@ -90,13 +90,12 @@ class Login extends CI_Controller {
             $id = $this->user->register($data);
 
             if ($id) {
-<<<<<<< HEAD
                 if ($ajax==true) {
 			try{
 				$this->data['users']=$this->user->getProfileInfo($id);
 				$this->data['async']=true;
-				echo json_encode(array('data'=>$this->load->view('admin/lists/users_list',$this->data,true),
-						       'status'=>true));
+				die( json_encode(array('data'=>$this->load->view('admin/lists/users_list',$this->data,true),
+						       'status'=>true)));
 			}catch(Exception $e)
 			{
 				echo json_encode(array('data'=>'Error registring user',
@@ -105,10 +104,9 @@ class Login extends CI_Controller {
 		}
 		// Login user if registration was successful
                 else if ($this->check_database($data['password'], $data['mail']))
-=======
+
                 // Login user if registration was successful
                 if ($this->check_database($data['password'], $data['mail']))
->>>>>>> b01f82cdd860264ee2bbafca7bab041461207078
                     print json_encode("");
             }
             else {
@@ -191,12 +189,9 @@ class Login extends CI_Controller {
 
     function check_database($password,$mail)
 	{
-<<<<<<< HEAD
 		$this->stat_model->insertLog("login","login");
 		
-=======
 		try {
->>>>>>> b01f82cdd860264ee2bbafca7bab041461207078
 		//Field validation succeeded.&nbsp; Validate against database
 		if(!$mail) $mail = $this->input->post('mail');
 	      

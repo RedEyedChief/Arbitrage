@@ -21,8 +21,10 @@
 			      <div class="input-group-addon"></div>
 			      <input type="email" class="form-control" name="mail" id="exampleInputAmount" placeholder="E-mail" autocomplete="off">
 			      <div class="input-group-addon"></div>
-			      <input type="password" class="form-control" name="password" id="exampleInputAmount" placeholder="Password" autocomplete="off">
+			      <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off">
 			      <div class="input-group-addon"></div>
+			      <input type="password" class="form-control" name="password2" id="password2" placeholder="" autocomplete="off" style="display: none;">
+			      <div class="input-group-addon" style="display: none;"></div>
 			      <input type="text" class="form-control" name="firstname" id="exampleInputAmount" placeholder="Name" autocomplete="off">
 			      <div class="input-group-addon"></div>
 			      <input type="text" class="form-control" name="surname" id="exampleInputAmount" placeholder="Surname" autocomplete="off">
