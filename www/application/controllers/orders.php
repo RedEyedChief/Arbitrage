@@ -12,7 +12,8 @@ class Orders extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(array('user_model', 'order_model','profile_model', 'data_model'));        $this->load->database();
+        $this->load->model(array('user_model', 'order_model','profile_model', 'data_model','stat_model'));        
+        $this->load->database();
         $this->load->library(array('session','Dataloader'));
         $this->load->helper(array("cookie"));
         $lang = $this->input->cookie("lang") == "" ? "ukrainian" : $this->input->cookie("lang");
@@ -52,15 +53,32 @@ class Orders extends CI_Controller
         $price=$price_load[0]["idPrice"];
         $ajax = $this->input->post("ajax");
         $this->blocsBefore($ajax);
+        $num = $this->data_model->get_num_markets();
+        $data['num_city'] = $num[0]->num;
+        $data['markets'] = $this->data_model->get_markets();
+        $data['products'] = $this->data_model->get_products();
         if(($price == "1") || ($price =="2"))
         {
         $this->load->view('orders/products_list',$this->data);
         } else
         {
-        $this->load->view('orders/deluxe_product_list',$this->data);
+        $this->load->view('orders/deluxe_product_list',$data);
         }
         $this->blocksAfter($ajax);
     }
+    function request()
+        {
+            $this->blocsBefore();
+        $num = $this->data_model->get_num_markets();
+        $data['num_city'] = $num[0]->num;
+        $data['markets'] = $this->data_model->get_markets();
+        $data['products'] = $this->data_model->get_products();
+            $this->load->view('general/map', $data);
+            $this->load->view('admin/splitters/end_row');
+            $this->load->view('admin/admin_footer');
+        
+        $this->stat_model->insertLog("visit","dashboard/request");
+        }
     function getMarkets(){
         try {
         $city = $this->input->post("city");

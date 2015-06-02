@@ -1,51 +1,129 @@
-<link href="/static/site/style/styles.css" rel="stylesheet">
-<div class="row" style="padding-top:50px">
-    <div class="col-md-3"></div>
-<div class="col-md-6 admin-panel" >
-<form class="form-horizontal" id="order_form">
-    <div class="form-group">
-        <h3 align='center'>Choose starting city</h3>
-        <h4 align='center'>Make sure that you have chosen right price in your personal page</h4>
-        <label for="select_city" class="col-sm-3 control-label">City</label>
-        <div class="col-sm-5">
-            <select id="select_city" class="form-control">
-                <?php
-                if (!isset($city)){
-                    print "<option> There is no city available! </option>";
-                }
-                else{
-                    print '<option selected>Select your option</option>';
-                    foreach ($city as $val){
-                        print "<option value='".$val['nameCity']."'>".$val['nameCity']."</option>";
-                    }
-                }
-                ?>
-            </select>
+ <link href="/static/map/map.css" rel="stylesheet">
+  <link href="/static/admin/styles.css" rel="stylesheet">
+   <link href="/static/jquery/jquery-ui.css" rel="stylesheet">
+<div class="col-sm-8 admin-panel">
+        <hr>
+        <h4>Weight coefficient</h4>
+        <div class="resultsControl">
+          <div id="factorWeight"></div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+            <tr>
+              <th>Factor</th>
+              <th>Weight</th>
+            </tr>
+              </thead>
+              <tbody>
+            <tr><td>Distance</td><td style="color: green;"><span id="factorDistance">50</span><span>%</span></td></tr>
+            <tr><td>Income</td><td style="color: blue;"><span id="factorIncome">50</span><span>%</span></td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="select_market"  class="col-sm-3 control-label">Market</label>
-        <div class="col-sm-5">
-            <select id="select_market" name="select_market" class="form-control"></select>
+        
+        <hr>
+        <h4>Maximum depth</h4>
+        <div class="resultsControl">
+          <div type="text" id="maxDepth"></div>
+          <table class="table">
+            <thead>
+              <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Depth</td><td style="color: green;"><span id="parameterDepth"><?=$num_city?></span><span> of <?=$num_city?></span></td></tr>
+            </tbody>
+          </table>
         </div>
-    </div>
-
-
-    <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-5">
-            <button type="submit" class="btn btn-default">Show products</button>
+        
+        <?php if (!empty($markets)) : ?>
+        <hr>
+        <h4>Start point</h4>
+        <div class="resultsControl">
+          <select class="form-control" id="startPoint">
+            <?php foreach ($markets as $market) :?>
+            <option value="<?=$market->id?>"><?=$market->name." ( ".$market->id." )"?></option>
+            <?php endforeach;?>
+          </select>
         </div>
-    </div>
-</form>
-
-<table class="table table-bordered" id="datatable_products">
-</table>
-
-<div class="col-sm-offset-3 col-sm-5" style="padding-bottom:10px">
-    <button id="make_order" name="make_order" class="btn btn-default" >Order</button>
-
-</div>
-</div>
-</div>
-<div class="col-md-3"></div>
-</div>
+        
+        <?php endif; ?>
+        
+        <?php if (!empty($products)) : ?>    
+        <hr>
+        <h4>Available products</h4>
+        <div class="resultsControl">
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default active">
+              <input type="radio" name="availableProducts" id="option1" value='0' autocomplete="off"> All
+            </label>
+            <label class="btn btn-default">
+              <input type="radio" name="availableProducts" id="option2" value='1' autocomplete="off"> Selected
+            </label>
+          </div>
+          
+          <div class="panel-collapse collapse out" id="listProducts">
+            <div class="panel-body">
+              <div class="btn-group btn-item" data-toggle="buttons">
+            
+            <?php foreach ($products as $product) :?>
+            <label class="btn btn-item active item-product">
+              <input type="checkbox" name="itemProduct" id="option1" value='<?=$product->id?>' autocomplete="off"> <?=$product->name?>
+            </label>
+            <br>
+            <?php endforeach; ?>
+            
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <?php endif; ?>
+        <?php if (!empty($markets)) : ?>
+        
+        <hr>
+        <h4>Available markets</h4>
+        <div class="resultsControl">
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default active">
+              <input type="radio" name="availableMarkets" id="option1" value='0' autocomplete="off"> All
+            </label>
+            <label class="btn btn-default">
+              <input type="radio" name="availableMarkets" id="option2" value='1' autocomplete="off"> Selected
+            </label>
+          </div>
+          
+          <div class="panel-collapse collapse out" id="listMarkets">
+            <div class="panel-body">
+              <div class="btn-group btn-item" data-toggle="buttons">
+            
+            <?php foreach ($markets as $market) :?>
+            <label class="btn btn-item active item-market">
+              <input type="checkbox" name="itemMarket" id="option1" value='<?=$market->id?>' autocomplete="off"> <?=$market->name?>
+            </label>
+            <br>
+            <?php endforeach; ?>
+            
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <?php endif; ?>
+        
+        <hr>
+        
+        <button type="submit" class="btn btn-success form-control" id="getResultButton">Get result</button>
+            
+        </div><!--/panel-body-->
+        </div><!--/panel-->  
+      </div><!--/col-->
+    
+    <!-- Google Maps script -->
+    <script type="text/javascript" src="/static/map/load.js"></script>
+    <script type="text/javascript" src="/static/map/slider.js"></script>
+     <script type="text/javascript" src="/static/jquery-ui.js"></script>
+    

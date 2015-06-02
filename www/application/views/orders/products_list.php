@@ -38,7 +38,7 @@
     </div>
 </form>
 
-<table class="table table-bordered" id="datatable_products">
+<table class="table table-bordered table-striped" id="datatable_products">
 </table>
 
 <div class="col-sm-offset-3 col-sm-5" style="padding-bottom:10px">
