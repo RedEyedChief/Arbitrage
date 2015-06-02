@@ -449,13 +449,7 @@ function element_OP_edit(op)
 //Machulyanskiy: Видаляємо елемент ОП
 function element_OP_delete(op)
 {
-    //todo write
-    //упс забув дописати. Напишу як повернуся
-    $(op).parents('tr').remove();
-    /*if($(op).parents('tr').hasClass('success'))
-    {
-
-    }*/
+    $(op).parents('tr').hide('slow').remove();
 }
 
 //Machulyanskiy: Беремо на редагування продукт ОП
@@ -463,23 +457,50 @@ function item_OP_edit(op)
 {
     $(op).parents('tr').removeClass('success');
 
-    /*if($(op).parents('tr').mousedown())
-    {
-        //console.log('pussy');
-    }*/
 
-    //сохраняем измененные данные
-    if($(op).hasClass('fa-check-square-o'))
+    //переходим в режим редактирования таблицы
+    if ($(op).hasClass('fa-edit'))
     {
-        //console.log('need to save data');
+        $(op).parents('tr').addClass('warning');
+        $(op).removeClass('fa-edit');
+        $(op).addClass('fa-check-square-o');
+
+        var tr = $(op).parents('tr');
+        var td = tr.find('td:not(.not_this)'); //все поля помимо иконок и айди
+
+            td.mousedown(function (event) {
+                if($(op).hasClass('fa-check-square-o')) {
+
+                    if ($(this).hasClass('on_edit')) return; //если поле уже на редактировании - возвращаемся
+
+                    if ($(this).parent().find('.on_edit')) {
+                        var save = $(this).parent().find('.on_edit');
+                        var val = save.children().val();
+                        save.children().remove();
+                        save.removeClass('on_edit');
+                        save.text(val);
+                    }
+
+                    $(this).addClass('on_edit');    //берем поле на редактирование
+
+                    //вместо поля таблицы создаем инпут с его данными
+                    var html = '<input class="form-control" type="text" value="' + $(this).text() + '" style=" width:' + $(this).width() + 'px !important;">';
+                    $(this).html(html);
+                }
+            });
+
+    }
+    //сохраняем измененные данные
+    else if($(op).hasClass('fa-check-square-o'))
+    {
         $(op).removeClass('fa-check-square-o');
         $(op).addClass('fa-edit');
         $(op).parents('tr').removeClass('warning');
         var save = $(op).parents('tr').find('.on_edit'); //находим поле,которое на редактировании
-        var val = save.children().val(); //берем данные с инпута
-        save.children().remove(); //удаляем инпут
-        save.removeClass('on_edit'); //убираем поля с редактирования
-        save.text(val); //заносим данные просто в поле таблицы
+        var val = save.children().val();                //берем данные с инпута
+        save.children().remove();                      //удаляем инпут
+        save.removeClass('on_edit');                  //убираем поля с редактирования
+        save.text(val);                              //заносим данные просто в поле таблицы
 
         $.ajax({
             type: "POST",
@@ -503,41 +524,14 @@ function item_OP_edit(op)
                 else
                 {
                     $(op).parents('tr').addClass('success');
+
                     return;
+
                 }
             },
             error: function () {
                 console.log('retard');
             }
-        });
-
-    }
-    //переходим в режим редактирования таблицы
-    else if ($(op).hasClass('fa-edit'))
-    {
-        $(op).parents('tr').addClass('warning');
-        $(op).removeClass('fa-edit');
-        $(op).addClass('fa-check-square-o');
-
-        var tr = $(op).parents('tr');
-        var td = tr.find('td:not(.not_this)'); //все поля помимо иконок и айди
-
-        td.mousedown(function(event)
-        {
-
-            if ($(this).hasClass('on_edit')) return; //если поле уже на редактировании - возвращаемся
-
-            /*var save = $(this).parent().find('.on_edit');
-            var val = save.children().val();
-            save.children().remove();
-            save.removeClass('on_edit');
-            save.text(val);*/
-
-            $(this).addClass('on_edit'); //берем поле на редактирование
-
-            //вместо поля таблицы создаем инпут с его данными
-            var html = '<input class="form-control" type="text" value="' + $(this).text() + '">';
-            $(this).html(html);
         });
     }
 }

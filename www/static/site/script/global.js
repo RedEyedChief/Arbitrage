@@ -44,3 +44,4 @@ $('form').submit(function() {
     $('textarea[name=text]').val($('#editor').html())
 });
 
+

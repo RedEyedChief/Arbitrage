@@ -28,12 +28,15 @@ class Main extends CI_Controller {
 			{
 				$this->data['profile'] = $this->session->userdata("profile");
 				$this->load->view('site/site_header',$this->data['profile']);
-				
+				$this->data['isLogged'] = true;
+				$this->load->view('site/site_main', $this->data);
 				//$this->load->view('site/left-menu/site_left');
 			}
 			else
 			{
 				$this->load->view('site/site_header');
+				$this->data['isLogged'] = false;
+				$this->load->view('site/site_main', $this->data);
 				//$this->load->view('site/left-menu/site_menu');
 			}
 			
@@ -70,10 +73,12 @@ class Main extends CI_Controller {
 		//$this->data['news'] = $this->content_model->getNews();
 		$this->isLogged = $this->user_model->check_logged();
 		
+		$this->stat_model->insertLog("visit","site");
+		
 		$ajax = $this->input->post("ajax");
 		$this->blocsBefore($ajax);
 		
-		$this->load->view('site/site_main');
+		//$this->load->view('site/site_main');
 		
 		$this->blocksAfter($ajax);
 	}

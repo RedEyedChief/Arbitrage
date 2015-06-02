@@ -241,7 +241,7 @@ class Dataloader {
         $this->result['way'] = $this->way;
         $this->result['chain'] = $this->CI->load->view('general/chain_view',array('chains'=>$this->chain, 'markets'=>$this->markets),true);
         
-        echo json_encode($this->result);
+        return $this->result;
     }
     
     public function print_table($table)

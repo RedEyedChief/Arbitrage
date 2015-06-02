@@ -31,12 +31,29 @@ class Stat_model extends CI_Model {
         file_put_contents($file, $lines);
     }
     
-    public function insertLog()
+    public function insertLog($tag,$message)
     {
+        $mysqltime = date ("Y-m-d H:i:s");
         $data = array(
-                      
+                      'tagLog'=>$tag,
+                      'messageLog'=>$message,
+                      'dateLog'=>$mysqltime
                       );
-        $this->db->insert();
+        $this->db->insert('log',$data);
+    }
+    
+    public function selectLogs($tag)
+    {
+        $query = $this->db->query("SELECT DATE_FORMAT( from_unixtime( UNIX_TIMESTAMP( dateLog ) ), '%d-%m-%Y') AS date, COUNT(idLog) AS num FROM (`log`) WHERE `tagLog` = '".$tag."' GROUP BY `date` ORDER BY `dateLog` LIMIT 10");
+        
+        if($query -> num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
     }
     
     //function viewArticle($id) {

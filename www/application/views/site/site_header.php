@@ -16,8 +16,9 @@
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		<link href="/static/admin/style/styles.css" rel="stylesheet">
-		
-		<link href="/static/site/style/main.css" rel="stylesheet">
+		<link href="/static/admin/style/styles.css" rel="stylesheet">
+		<link href="/static/map/map.css" rel="stylesheet">
+		<script src="/static/jquery/jquery.min.js"></script>
 	</head>
 	<body>
 <!-- Header -->
@@ -27,7 +28,7 @@
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-toggle"></span>
       </button>
-      <a class="navbar-brand" href="/#"> Arbitrage</a>
+      <a class="navbar-brand" href="/"> Arbitrage</a>
 
     </div>
     <div class="navbar-collapse collapse">

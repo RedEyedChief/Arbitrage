@@ -8,6 +8,7 @@ class Login extends CI_Controller {
 		parent::__construct();
 		$this->load->helper('url'); 
 		$this->load->model('user_model','user',TRUE);
+		$this->load->model('stat_model');
 		$this->load->library("session");
 	}
 	private function blocsBefore($ajax)
@@ -89,6 +90,21 @@ class Login extends CI_Controller {
             $id = $this->user->register($data);
 
             if ($id) {
+                if ($ajax==true) {
+			try{
+				$this->data['users']=$this->user->getProfileInfo($id);
+				$this->data['async']=true;
+				die( json_encode(array('data'=>$this->load->view('admin/lists/users_list',$this->data,true),
+						       'status'=>true)));
+			}catch(Exception $e)
+			{
+				echo json_encode(array('data'=>'Error registring user',
+						       'status'=>false));
+			}
+		}
+		// Login user if registration was successful
+                else if ($this->check_database($data['password'], $data['mail']))
+
                 // Login user if registration was successful
                 if ($this->check_database($data['password'], $data['mail']))
                     print json_encode("");
@@ -146,7 +162,7 @@ class Login extends CI_Controller {
 		try {
 		$data = $this->input->post(NULL);
 		$this->load->library('form_validation');
-
+		
 		$this->form_validation->set_rules('mail', 'Email', 'trim|required|xss_clean|valid_email');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
 
@@ -173,6 +189,8 @@ class Login extends CI_Controller {
 
     function check_database($password,$mail)
 	{
+		$this->stat_model->insertLog("login","login");
+		
 		try {
 		//Field validation succeeded.&nbsp; Validate against database
 		if(!$mail) $mail = $this->input->post('mail');
