@@ -96,4 +96,5 @@ $("#order_form").on("submit", function(e){
     $("#orders").dataTable({
         "dom": 'rt<"bottom"p>',
     });
+
 });

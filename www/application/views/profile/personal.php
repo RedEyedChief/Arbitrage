@@ -75,14 +75,17 @@
             <table <table class="table table-bordered" id="orders">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Date</th>
                         <th>Product</th>
+                        <th>Show Results</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php
+                <?php $count = 1;
                     foreach($orders as $order){
                         print "<tr>";
+                        print "<td>". $order['idOrder'] ."</td>";
                         print "<td>".$order['date']."</td>";
                         $arr=unserialize($order['products']);
                        // print_r( $arr);
@@ -92,6 +95,12 @@
                             print $el;
                             print (" ");
                         }
+                         print "</td>";
+                         print "<td>";
+                         $count++; ?>
+
+                        <button id="show_result" name="show_result" class="btn btn-primary" onclick="window.location.href='orders/result/<?=$order['idOrder']?> '">Show results</button>
+                        <?php
                         print "</td>";
                         print "</tr>";
                     }

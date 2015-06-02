@@ -48,12 +48,14 @@ class Profile extends CI_Controller
 
          $user_profile = $this->session->userdata("profile");                                                                                                                                                                                   
         $user_id = $user_profile["idProfile"];
-        $this->data["user_info"] = $this->loadUserDetails($user_id);
-        $this->data["orders"] = $this->loadUserOrders($user_id);
-        $this->data["areas"] = $this->loadUserExtra($user_id);
+        $this->data["user_info"] = $this->profile_model->loadUserDetails($user_id);
+        $this->data["orders"] = $this->profile_model->loadUserOrders($user_id);
+        $this->data["areas"] = $this->profile_model->loadUserExtra($user_id);
         $this->data["price"] = $this->profile_model->getPrice($user_id,true);
         $this->data["area"] = $this->profile_model->getArea(true);
-        $this->data["user_price"] = $this->loadUserPrice($user_id);;
+        $this->data["user_price"] = $this->profile_model->loadUserPrice($user_id);
+        $this->data["order_price"] = $this->profile_model->loadOrderPrice($user_id);
+        $this->data["user_market"] = $this->profile_model->loadUserMarket($user_id);
         $ajax = $this->input->post("ajax");
         $this->blocsBefore($ajax);
 
@@ -62,43 +64,7 @@ class Profile extends CI_Controller
         $this->blocksAfter($ajax);
     }
 
-    function loadUserDetails($user_id){
-        $query = $this->db->get_where("profile",array("idProfile"=>$user_id), 1);
-        return $query->result_array();
-    }
-    function loadUserExtra($user_id){
-        $query = $this->db->get_where("profile_details",array("Profile_idProfile"=>$user_id), 1);
-        return $query->result_array();
-    }
-    function loadUserPrice($user_id){
-        $sql = "select namePrice
-                from price p
-                right join profile f on p.idPrice = f.id_price
-                where f.idProfile = ".intval($user_id)." ";
-
-        $query = $this->db->query($sql);
-        $result = array();
-        foreach ($query->result_array() as $row) {
-            $result[] = $row;
-        }
-        return $result;
-    }
-    function loadUserOrders($user_id){
-        $sql = "select DATE_FORMAT(o.date,'%d/%m/%Y %H:%s') as date, products
-                from orders o
-                where o.Profile_idProfile = ".intval($user_id)." 
-                group by o.idOrder";
-
-        $query = $this->db->query($sql);
-
-        $result = array();
-        foreach ($query->result_array() as $row)
-        {
-            $result[] = $row; 
-        }
-
-        return $result;
-    }
+   
     /*function loadPrices(){
         $price = $this->input->post("price");
         print json_encode($this->profile_model->getPrices($price, true));

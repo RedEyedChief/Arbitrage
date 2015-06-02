@@ -12,7 +12,7 @@ class Orders extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(array('user_model', 'order_model'));
+        $this->load->model(array('user_model', 'order_model','profile_model'));
         $this->load->database();
         $this->load->library('session');
         $this->load->helper("cookie");
@@ -46,14 +46,20 @@ class Orders extends CI_Controller
     function index()
     {
         $this->isLogged = $this->user_model->check_logged();
-
+        $user_profile = $this->session->userdata("profile");                                                                                                                                                                                   
+        $user_id = $user_profile["idProfile"];
         $this->data["city"] = $this->order_model->getCity(true);
-
+        $price_load = $this->profile_model->loadUserPrice($user_id);
+        $price=$price_load[0]["idPrice"];
         $ajax = $this->input->post("ajax");
         $this->blocsBefore($ajax);
-
+        if(($price == "1") || ($price =="2"))
+        {
         $this->load->view('orders/products_list',$this->data);
-
+        } else
+        {
+        $this->load->view('orders/deluxe_product_list',$this->data);
+        }
         $this->blocksAfter($ajax);
     }
     function getMarkets(){
@@ -87,7 +93,7 @@ class Orders extends CI_Controller
         } else {
             print json_encode(array("result"=>false, "error"=>"Cant place new order!"));
         }
-        
+
         } catch (Exception $e) {
         echo $e->getMEssage();
         }

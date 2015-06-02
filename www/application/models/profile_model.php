@@ -74,5 +74,87 @@ Class Profile_model extends CI_Model
 
         return $result;
     }
+function getMarket($market_id,$add_empty=false)
+    {
+        $query = $this->db->get("market",array("idMarket"=>$market_id));
+
+        $result = array();
+
+        foreach ($query->result() as $row)
+        {
+            $market['idArea'] = $row->idMArket;
+            $market['nameMarket'] = $row->nameMarket;
+            $result[] = $market;
+        }
+
+        return $result;
+    }
+    function loadUserDetails($user_id){
+        $query = $this->db->get_where("profile",array("idProfile"=>$user_id), 1);
+        return $query->result_array();
+    }
+    function loadUserExtra($user_id){
+        $query = $this->db->get_where("profile_details",array("Profile_idProfile"=>$user_id), 1);
+        return $query->result_array();
+    }
+    function loadUserPrice($user_id){
+        $sql = "select idPrice,namePrice
+                from price p
+                right join profile f on p.idPrice = f.id_price
+                where f.idProfile = ".intval($user_id)." ";
+
+        $query = $this->db->query($sql);
+        $result = array();
+        foreach ($query->result() as $row) {
+             $price['idPrice'] = $row->idPrice;
+            $price['namePrice'] = $row->namePrice;
+            $result[] = $price;
+        }
+        return $result;
+    }
+    function loadOrderPrice($user_id){
+        $sql = "select idPrice,namePrice
+                from price p
+                right join orders f on p.idPrice = f.id_price
+                where f.Profile_idProfile = ".intval($user_id)." ";
+
+        $query = $this->db->query($sql);
+        $result = array();
+        foreach ($query->result() as $row) {
+           $price['idPrice'] = $row->idPrice;
+            $price['namePrice'] = $row->namePrice;
+            $result[] = $price;
+        }
+        return $result;
+    }
+     function loadUserMarket($user_id){
+        $sql = "select nameMarket
+                from orders o
+                right join market f on o.id_start_market = f.idMarket
+                where o.Profile_idProfile = ".intval($user_id)." ";
+
+        $query = $this->db->query($sql);
+        $result = array();
+        foreach ($query->result_array() as $row) {
+            $result[] = $row;
+        }
+        return $result;
+    }
+    function loadUserOrders($user_id){
+        $sql = "select idOrder,DATE_FORMAT(o.date,'%d/%m/%Y %H:%s') as date, products
+                from orders o
+                where o.Profile_idProfile = ".intval($user_id)." 
+                group by o.idOrder";
+
+        $query = $this->db->query($sql);
+
+        $result = array();
+        foreach ($query->result_array() as $row)
+        {
+            $result[] = $row; 
+        }
+
+        return $result;
+    }
 
 }
