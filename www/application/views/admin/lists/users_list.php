@@ -27,12 +27,17 @@
 			      <div class="input-group-addon"></div>
 			      <input type="text" class="form-control" name="surname" id="exampleInputAmount" placeholder="Surname" autocomplete="off">
 			      <div class="input-group-addon"></div>
-			      <button type="submit" class="btn btn-success form-control" id="addItem">&#xf055;</button>
+			      <button type="submit" class="btn btn-success form-control" id="addItem"><span>&#xf055;</span></button>
 			    </div>
 			  </div>
 			  
 			</form>
 			
+			<br>
+			<div class="alert alert-danger alert-dismissible fade in" id="errorMessage" role="alert" style="display: none;">
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+			  <strong>Error!</strong><span class="details"></span>
+			</div>
 			<hr>
 			
 			<ul class="pagination">

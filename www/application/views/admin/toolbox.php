@@ -3,7 +3,7 @@
 	    <h3><i class="fa fa-briefcase"></i> Toolbox</h3>
 	    <hr>
 	    <ul class="nav nav-stacked">
-		  <li><a href="/dashboard/"><i class="fa fa-cog"></i> Controls</a></li>
+		  <!--<li><a href="/dashboard/"><i class="fa fa-cog"></i> Controls</a></li>-->
 		  <li><a href="/dashboard/stats"><i class="fa fa-bar-chart"></i> Stats</a></li>
 		  <li><a href="/dashboard/parsing"><i class="fa fa-tasks"></i> Parsing</a></li>
 	    </ul>

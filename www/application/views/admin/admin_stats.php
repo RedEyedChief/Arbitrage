@@ -1,6 +1,6 @@
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-location-arrow"></i> Countries</h3>
+      	<h3><i class="fa fa-location-arrow"></i> Stats</h3>
 	    <hr>
 		  
 	    <div class="panel-body">
@@ -11,8 +11,8 @@
       </div><!--/col-->
       
       
-      <script src="http://code.highcharts.com/highcharts.js"></script>
-      <script src="http://code.highcharts.com/modules/exporting.js"></script>
+      <script src="/static/admin/script/highcharts.js"></script>
+      <script src="/static/admin/script/exporting.js"></script>
       <script src="/static/admin/script/chart.js"></script>
       
          

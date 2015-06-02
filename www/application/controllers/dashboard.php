@@ -39,7 +39,6 @@ class Dashboard extends CI_Controller {
 		
 		$this->load->view('admin/splitters/start_row');
 		$this->load->view('admin/toolbox');
-	
 	}
 	
 	/**
@@ -58,35 +57,10 @@ class Dashboard extends CI_Controller {
 	
 	function index()
 	{
-		//$this->Dataloader->some_function();
-		//$this->isLogged = $this->user_model->check_logged();	//???????? ??????????????
-		//
-		//$ajax = $this->input->post("ajax");
-		//$this->blocsBefore($ajax);
-		//
-		//$this->load->view('admin/splitters/start_row');
-		//$this->load->view('admin/toolbox');
-		//$this->load->view('admin/admin_upper');
-		//$this->load->view('admin/splitters/end_row');
-		//$this->data['users'] = $this->content_model->getUsers();
-		//$this->load->view('admin/user_list',$this->data);
-		
-		///*$this->data['polls'] = $this->content_model->getPolls();
-		//$this->load->view('admin/poll_list',$this->data);*/
-		//$this->load->view('admin/admin_view');
-		//
-		////$this->blocksAfter($ajax);
 		$this->blocsBefore();
-		//$this->load->view('admin/splitters/start_row');
-		//
-		//$this->data['news'] = $this->content_model->getNews();
-		//$this->load->view('admin/news_list',$this->data);
-		//
-		//$this->data['polls'] = $this->content_model->getPolls();
-		//$this->load->view('admin/poll_list',$this->data);
-		//
+		$this->stat_model->insertLog("visit","dashboard");
 		
-		$this->load->view('admin/admin_control');
+		$this->load->view('admin/admin_stats');
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
 	}
@@ -97,6 +71,8 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/admin_stats');
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
+		
+		$this->stat_model->insertLog("visit","dashboard/stats");
 	}
 	
 	function users()
@@ -110,6 +86,8 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/lists/users_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
+		
+		$this->stat_model->insertLog("visit","dashboard/users");
 	}
 	
 	function news()
@@ -123,6 +101,8 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/lists/news_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
+		
+		$this->stat_model->insertLog("visit","dashboard/news");
 	}
 	
 	function products()
@@ -136,6 +116,8 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/lists/products_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
+		
+		$this->stat_model->insertLog("visit","dashboard/products");
 	}
 	
 	function items($idProduct=false)
@@ -151,6 +133,8 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/lists/items_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
+		
+		$this->stat_model->insertLog("visit","dashboard/items");
 	}
 	
 	function cities()
@@ -164,6 +148,8 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/lists/cities_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
+		
+		$this->stat_model->insertLog("visit","dashboard/cities");
 	}
 	
 	function prices()
@@ -177,21 +163,10 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/lists/prices_list',$this->data);
 		$this->load->view('admin/splitters/end_row');
 		$this->load->view('admin/admin_footer');
+		
+		$this->stat_model->insertLog("visit","dashboard/prices");
 	}
-	
-//	function parsing()
-//    	{
-//    		$this->blocsBefore();
-//    		$this->data['html'] = file_get_html('http://hotline.ua/knigi/');
-//    		//$this->load->view('admin/parsing_view', $this->data);
-//    		$this->load->view('admin/parsing_view2', $this->data);
-//    		$parserName = $this->input->post('parserName', TRUE);
-//    		echo $parserName;
-//    		//$this->data['html']->clear();
-//    		$this->load->view('admin/splitters/end_row');
-//    		$this->load->view('admin/admin_footer');
-//    	}
-	
+		
 	function testResult()
 	{
 		$start = $this->input->post('start');
@@ -201,6 +176,9 @@ class Dashboard extends CI_Controller {
 		$dis_markets = $this->input->post('disabledMarkets');
 		$dis_products = json_decode($dis_products);
 		$dis_markets = json_decode($dis_markets);
+		
+		$this->stat_model->insertLog("algo","dashboard/test");
+		
 		$this->dataloader->load(intval($start),intval($depth),intval($c_dist), $dis_products, $dis_markets);
 	}
 	
@@ -214,11 +192,14 @@ class Dashboard extends CI_Controller {
     		$this->load->view('general/map', $data);
     		$this->load->view('admin/splitters/end_row');
     		$this->load->view('admin/admin_footer');
-
+		
+		$this->stat_model->insertLog("visit","dashboard/map");
     	}
 
 	function parsing()
     {
+	$this->stat_model->insertLog("visit","dashboard/parsing");
+	
     	$this->blocsBefore();
     	$data['parsers'] = $this->content_model->get_OP();
 		$data['markets'] = $this->data_model->get_markets();

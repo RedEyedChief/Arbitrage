@@ -56,6 +56,19 @@ Class Content_model extends CI_Model
         }
     }
     
+    function getItem($id)
+    {
+        $this->db->select('*');
+        $this -> db -> from('item');
+        $this -> db -> where('idItem',$id);
+        $this -> db -> join('market','market_idMarket=idMarket','left');
+        $this -> db -> join('product','product_idProduct=idProduct','left');
+        $query = $this->db->get();
+        
+        if($query -> num_rows() > 0) return $query->result();
+        else return false;
+    }
+    
     /**
      * ???????? ?? ?????? ? start ?? end, ?? ? id
      * @param Number $start ????? ????, ?
@@ -364,7 +377,7 @@ Class Content_model extends CI_Model
     function getProductFields($id)
     {
         $query = $this -> db -> query("SELECT
-                                    idProduct,nameProduct,priceProduct,countProduct,categoryProduct 
+                                    idProduct,nameProduct,categoryProduct, isActiveProduct
                                     FROM product
                                     WHERE idProduct='".$id."'
                                     LIMIT 1");
@@ -420,9 +433,39 @@ Class Content_model extends CI_Model
     function addItem($data)
     {
         $this->db->insert('item',$data);
-        $query = $this->db->get_where('item', array('idItem' => $this->db->insert_id()));
+        $this->db->where('item.idItem',$this->db->insert_id());
+        $this->db->select('*');
+        $this -> db -> from('item');
+        $this -> db -> join('market','market_idMarket=idMarket','left');
+        $this -> db -> join('product','product_idProduct=idProduct','left');
+        $query = $this->db->get();
+        
         if($query -> num_rows() == 1)return $query->result();//toDataArray($query->result());
         else return false;
+    }
+    
+    function updateUser($data)
+    {
+        $this->db->where('idProfile', $data['idProfile']);
+        $this->db->update('profile', $data);
+    }
+    
+    function updateItem($data)
+    {
+        $this->db->where('idItem', $data['idItem']);
+        $this->db->update('item', $data);
+    }
+    
+    function updateProduct($data)
+    {
+        $this->db->where('idProduct', $data['idProduct']);
+        $this->db->update('product', $data);
+    }
+    
+    function updatePrice($data)
+    {
+        $this->db->where('idPrice', $data['idPrice']);
+        $this->db->update('price', $data);
     }
     
     //Machulyanskiy: insert object of parsing
