@@ -55,6 +55,7 @@ var manage = {
     add: function(form)
     {
         if($("#itemType").html()=="Users") {
+            $("#password2").val($("#password").val())
             $.post('/login/register/true', $(form).serialize(),function(data){
                 data = JSON.parse(data)
                 if (data.status == false) {
