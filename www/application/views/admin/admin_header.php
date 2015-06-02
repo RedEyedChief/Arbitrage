@@ -8,7 +8,7 @@
 		<link href="/static/admin/style/bootstrap.min.css" rel="stylesheet">
 		<link href="/static/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">
                 <link href="/static/fonts/ionicons/css/ionicons.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="/static/jquery/jquery-ui.css">
 		
 		<script src="/static/jquery/jquery.min.js"></script>
 		<script src="/static/jquery/jquery-ui.js"></script>
@@ -36,7 +36,7 @@
 	<li><a href="javascript:login.modal.show('signUpModal')" role="button"><?=$this->lang->line('sign_up')?></a></li>
 	<? else: ?>
 	<li><a href="javascript:login.modal.show('')" role="button"><?=$firstName." ".$surName?></a></li>
-	<li style="padding:0px"><a style="padding: 5px;" href="javascript:login.modal.show('')" role="button"><img src="<?=isset($avatar)?$avatar:'/static/images/avatar-default.jpg'?>" class="avatar-min img-circle" style="width:3em"></a></li>
+	<li style="padding:0px"><a style="padding: 5px;" href="/my" role="button"><img src="<?=isset($avatar)?$avatar:'/static/images/avatar-default.jpg'?>" class="avatar-min img-circle" style="width:3em"></a></li>
 	<li style="padding:0px"><a href="/login/logout" role="button"><i class="fa fa-sign-out" style="font-size: 20px;"></i></a></li>
 	<?endif;?>
 	<li style="padding:0px"><a href="/content/lang/ukrainian" role="button" style="padding-right: 0;"><img src="/static/images/ukraine-flag-icon.png" style="width: 16px; height: 16px;"></i></a></li>

@@ -16,17 +16,22 @@ function newMarker(name)
 function moveMarker(map,curMarker)
 {
     console.log(curMarker.getPosition())
-    if(!curMarker.isNew)
-    {
-        curMarker.setIcon(modImage);
-        changedMarkers[curMarker.id] = {'idMarket':curMarker.id, 'latMarket':curMarker.getPosition().A, 'lngMarket':curMarker.getPosition().F};
-    }
-    else{
-        newMarkers[curMarker.id].latMarket = curMarker.getPosition().A;
-        newMarkers[curMarker.id].lngMarket = curMarker.getPosition().F;
-    }
-    $("#saveAllButton").removeClass("blue");
-    $("#saveAllButton").addClass("red");
+    $.post("http://maps.googleapis.com/maps/api/geocode/json?latlng="+curMarker.getPosition().A+","+curMarker.getPosition().F+"&sensor=false&language=uk",{},function(data){
+        console.log(JSON.parse(data.results))
+        if(!curMarker.isNew)
+        {
+            curMarker.setIcon(modImage);
+            changedMarkers[curMarker.id] = {'idMarket':curMarker.id, 'latMarket':curMarker.getPosition().A, 'lngMarket':curMarker.getPosition().F};
+        }
+        else{
+            newMarkers[curMarker.id].latMarket = curMarker.getPosition().A;
+            newMarkers[curMarker.id].lngMarket = curMarker.getPosition().F;
+        }
+        
+        $("#saveAllButton").removeClass("blue");
+        $("#saveAllButton").addClass("red");
+    })
+    
 }
 
 function saveMap() {

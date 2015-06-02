@@ -5,51 +5,27 @@
  */
 Class Order_model extends CI_Model
 {
-    function getArea($add_empty=false)
+   
+        public function getCity($add_empty=false)
     {
-        $query = $this->db->get("area");
-
+        //$query = $this->db->get("market",array("nameCity"));
+        $this->db->select('DISTINCT(nameCity) as nameCity')->from('market');  
+        $query=$this->db->get(); 
         $result = array();
 
-        if ($add_empty){
-            $result[] = array("idArea"=>"-1",
-                              "nameArea" => "Please make choice");
-        }
+       
 
         foreach ($query->result() as $row)
         {
-            $area['idArea'] = $row->idArea;
-            $area['nameArea'] = $row->nameArea;
-            $result[] = $area;
+            //$city['idMarket'] = $row->idMarket;
+            $city['nameCity'] = $row->nameCity;
+            $result[] = $city;
         }
-
         return $result;
     }
-
-    public function getCities($area_id, $add_empty=false)
+    public function getMarkets($city, $add_empty=false)
     {
-        $query = $this->db->get_where("city",array("Area_idArea"=>$area_id));
-
-        $result = array();
-
-        if ($add_empty){
-            $result[] = array("idCity"=>"-1",
-                "nameCity" => "Please make choice");
-        }
-
-        foreach ($query->result() as $row)
-        {
-            $area['idCity'] = $row->idCity;
-            $area['nameCity'] = $row->nameCity;
-            $result[] = $area;
-        }
-
-        return $result;
-    }
-
-    public function getMarkets($city_id, $add_empty=false)
-    {
-        $query = $this->db->get_where("market",array("City_idCity"=>$city_id));
+        $query = $this->db->get_where("market",array("nameCity"=>$city));
 
         $result = array();
 
@@ -94,18 +70,6 @@ Class Order_model extends CI_Model
             'products'=>$str);
         $this->db->insert("orders",$order_info);
         $order_id = $this->db->insert_id();
-
-      /*  foreach ($products as $key => $value)
-        {
-
-            $order_details = array(
-                'id_order' => $order_id,
-                'id_product' => $value
-            );
-
-            $this->db->insert('orders_details', $order_details);
-                
-        }*/
 
 
         if($this->db->_error_number() == 0)

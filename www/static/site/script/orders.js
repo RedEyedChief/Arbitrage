@@ -1,51 +1,34 @@
 $( document ).ready(function(){
 
-    $("#select_area").val(-1);
+    //$("#select_city").val(-1);
 
-    $("#select_area").on("change", function(e){
+    $("#select_city").on("change", function(e){
         var t = $(e.target),
             id = t.val();
 
         if (id != -1){
             // Refresh City select
-            $.post("orders/getCities", {area: id}, function(response){
-                var select_city = $("#select_city"),
-                    select_marker = $("#select_market");
+            $.post("orders/getMarkets", {city: id}, function(response){
+                var select_market = $("#select_market");
 
-                select_city.empty();
-                select_marker.empty();
+                //select_city.empty();
+                select_market.empty();
 
                 if (response != ''){
                     $.each(response, function() {
-                        select_city.append($("<option />").val(this.idCity).text(this.nameCity));
+                        select_market.append($("<option />").val(this.idMarket).text(this.nameMarket));
                     });
                 }
             }, 'json')
         }
     });
 
-    $("#select_city").on("change", function(e){
-       var t = $(e.target),
-           id = t.val();
-
-       if (id!=-1){
-           $.post("orders/getMarkets", {city: id}, function(response){
-               var select_market = $("#select_market");
-
-               select_market.empty();
-
-               if (response != ''){
-                   $.each(response, function() {
-                       select_market.append($("<option />").val(this.idMarket).text(this.nameMarket));
-                   });
-               }
-           }, 'json')
-       }
-    });
-
 $("#select_market").on("change", function(e){
 var t = $(e.target),
-id = t.val();    $("#order_form").on("submit", function(e){
+id = t.val();    
+  });
+
+$("#order_form").on("submit", function(e){
         e.preventDefault();
         var frm = $("#order_form"),
             //sel_area = frm.find("#select_area").val(),
@@ -95,8 +78,10 @@ id = t.val();    $("#order_form").on("submit", function(e){
             product_id.push($(v).data('product'));
         });
 
-        $.post("orders/placeOrder", {products:product_id,market}, function(response){            if(response.result){
-                window.location.replace("my/");                t.addClass("btn-success");
+        $.post("orders/placeOrder", {products:product_id,market}, function(response){
+            if(response.result){
+                window.location.replace("/my");
+                t.addClass("btn-success");
                 t.removeClass("btn-danger");
                 alert('Order was successful!');
             }

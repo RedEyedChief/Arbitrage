@@ -5,7 +5,7 @@ class Content extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model(array('content_model','user_model'));
+		$this->load->model(array('content_model','user_model', 'stat_model'));
 		$this->load->helper('url','cookie');
 		$this->load->database();
 		$this->load->library("session");
@@ -35,6 +35,19 @@ class Content extends CI_Controller {
 		redirect(current_url());
 	}
 	
+	public function getChartData()
+	{
+		try{
+			$data['visits'] = $this->stat_model->selectLogs("visit");
+			$data['algo'] = $this->stat_model->selectLogs("algo");
+			$data['login'] = $this->stat_model->selectLogs("login");
+			echo json_encode(array("data"=>$data,"status"=>true));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
+	}
+	
 	/**
 	 * Отримати новини
 	 * @return json структура з новинами
@@ -62,7 +75,13 @@ class Content extends CI_Controller {
 	 */
 	public function removeUsers()
 	{
-		if($this->isLogged >= 3) $this->content_model->removeUser($this->input->post("id"));
+		try{
+			if($this->isLogged >= 3) $this->content_model->removeUser($this->input->post("id"));
+			json_encode(array("status"=>true));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	/**
@@ -71,7 +90,13 @@ class Content extends CI_Controller {
 	 */
 	public function removeProducts()
 	{
-		if($this->isLogged >= 3) $this->content_model->removeProduct($this->input->post("id"));
+		try{
+			if($this->isLogged >= 3) $this->content_model->removeProduct($this->input->post("id"));
+			json_encode(array("status"=>true));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	/**
 	 * Видалити користувача
@@ -79,7 +104,13 @@ class Content extends CI_Controller {
 	 */
 	public function removeItems()
 	{
-		if($this->isLogged >= 3) $this->content_model->removeItem($this->input->post("id"));
+		try{
+			if($this->isLogged >= 3) $this->content_model->removeItem($this->input->post("id"));
+			json_encode(array("status"=>true));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	/**
@@ -88,7 +119,13 @@ class Content extends CI_Controller {
 	 */
 	public function removePrices()
 	{
-		if($this->isLogged >= 3) $this->content_model->removePrice($this->input->post("id"));
+		try{
+			if($this->isLogged >= 3) $this->content_model->removePrice($this->input->post("id"));
+			json_encode(array("status"=>true));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	/**
@@ -186,32 +223,63 @@ class Content extends CI_Controller {
 	
 	public function getUsersFields()
 	{
-		echo json_encode($this->content_model->getUserFields($this->input->post("id")));
+		try{
+			echo json_encode(array("data"=>$this->content_model->getUserFields($this->input->post("id")),
+					       "status"=>true));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	public function getProductsFields()
 	{
-		echo json_encode($this->content_model->getProductFields($this->input->post("id")));
+		try{
+			echo json_encode(array("data"=>$this->content_model->getProductFields($this->input->post("id")),
+					       "status"=>true));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	public function getItemsFields()
 	{
-		echo json_encode($this->content_model->getItemFields($this->input->post("id")));
+		try{
+			echo json_encode(array("data"=>$this->content_model->getItemFields($this->input->post("id")),
+					       "status"=>true));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	public function getCitiesFields()
 	{
-		echo json_encode($this->content_model->getCityFields($this->input->post("id")));
+		try{
+			echo json_encode(array("data"=>$this->content_model->getCityFields($this->input->post("id")),
+					       "status"=>true));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	public function getNewsFields()
 	{
-		echo json_encode($this->content_model->getNewsFields($this->input->post("id")));
+		echo json_encode(array("data"=>$this->content_model->getNewsFields($this->input->post("id")),
+					       "status"=>true));
 	}
 	
 	public function getPricesFields()
 	{
-		echo json_encode($this->content_model->getPriceFields($this->input->post("id")));
+		try{
+			echo json_encode(array("data"=>$this->content_model->getPricesFields($this->input->post("id")),
+					       "status"=>true));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	//public function addUsers()
@@ -223,23 +291,41 @@ class Content extends CI_Controller {
 	
 	public function addProducts()
 	{
-		$this->data['products'] = $this->content_model->addProduct($this->input->post(null));
-		$this->data['async'] = true;
-		$this->load->view('admin/lists/products_list',$this->data);
+		try{
+			$this->data['products'] = $this->content_model->addProduct($this->input->post(null));
+			$this->data['async'] = true;
+			echo json_encode(array("data"=>$this->load->view('admin/lists/products_list',$this->data,true),
+					       'status'=>($this->data['products']!=false)));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	public function addItems()
 	{
-		$this->data['items'] = $this->content_model->addItem($this->input->post(null));
-		$this->data['async'] = true;
-		$this->load->view('admin/lists/items_list',$this->data);
+		try{
+			$this->data['items'] = $this->content_model->addItem($this->input->post(null));
+			$this->data['async'] = true;
+			echo json_encode(array('data'=>$this->load->view('admin/lists/items_list',$this->data,true),
+					       'status'=>($this->data['items']!=false)));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	public function addPrices()
 	{
-		$this->data['prices'] = $this->content_model->addPrice($this->input->post(null));
-		$this->data['async'] = true;
-		$this->load->view('admin/lists/prices_list',$this->data);
+		try{
+			$this->data['prices'] = $this->content_model->addPrice($this->input->post(null));
+			$this->data['async'] = true;
+			echo json_encode(array('data'=>$this->load->view('admin/lists/prices_list',$this->data,true),
+					       'status'=>($this->data['prices']!=false)));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 	
 	public function addCity()
@@ -251,10 +337,58 @@ class Content extends CI_Controller {
 	
 	public function updateUsers()
 	{
-		$this->content_model->updateUser($this->input->post(null));
-		$this->data['users'] = $this->user_model->getProfileInfo($this->input->post('idProfile'));
-		$this->data['async'] = true;
-		$this->load->view('admin/lists/users_list',$this->data);
+		try{
+			$this->content_model->updateUser($this->input->post(null));
+			$this->data['users'] = $this->user_model->getProfileInfo($this->input->post('idProfile'));
+			$this->data['async'] = true;
+			echo json_encode(array('data'=>$this->load->view('admin/lists/users_list',$this->data,true),
+					       'status'=>($this->data['users']!=false)));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
+	}
+	
+	public function updateItems()
+	{
+		try{
+			$this->content_model->updateItem($this->input->post(null));
+			$this->data['items'] = $this->content_model->getItem($this->input->post('idItem'));
+			$this->data['async'] = true;
+			echo json_encode(array('data'=>$this->load->view('admin/lists/items_list',$this->data,true),
+					       'status'=>($this->data['items']!=false)));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
+	}
+	
+	public function updateProducts()
+	{
+		try{
+			$this->content_model->updateProduct($this->input->post(null));
+			$this->data['products'] = $this->content_model->getProducts(0,1,$this->input->post('idProduct'));
+			$this->data['async'] = true;
+			echo json_encode(array('data'=>$this->load->view('admin/lists/products_list',$this->data,true),
+					       'status'=>($this->data['products']!=false)));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
+	}
+	
+	public function updatePrices()
+	{
+		try{
+			$this->content_model->updatePrice($this->input->post(null));
+			$this->data['prices'] = $this->content_model->getPrices(0,1,$this->input->post('idPrices'));
+			$this->data['async'] = true;
+			echo json_encode(array('data'=>$this->load->view('admin/lists/prices_list',$this->data,true),
+					       'status'=>($this->data['prices']!=false)));
+		}catch(Exception $e)
+		{
+			json_encode(array("status"=>false));
+		}
 	}
 }
 
