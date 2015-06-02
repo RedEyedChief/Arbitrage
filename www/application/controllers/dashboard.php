@@ -233,15 +233,20 @@ class Dashboard extends CI_Controller {
 
         $ch = curl_init($url);
 
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		try{
+			curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+			curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$response = curl_exec($ch);
+			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        curl_close($ch);
-        if($http_code>=200 && $http_code<300)	return true;
-        return false;
+			curl_close($ch);
+			if($http_code>=200 && $http_code<300)	return true;
+			return false;
+		}catch(Exception $e)
+        {
+        	echo $e->getMessage();
+        }
     }
 
 	//Machulyanskiy: processing the request to the source
@@ -252,42 +257,48 @@ class Dashboard extends CI_Controller {
 		$parserProductType = $this->input->post('parserProductType', TRUE);
 		$parserCategory = $this->input->post('parserCategory', TRUE);
 
-		//проверяем существование ссылки курлом
-		$check_url = $this->checkURLExists($parserURL);
-		if($check_url == 1)
-                    {
-                    			$count = 0;
-                    			$this->data['html'] = file_get_html($parserURL);
-                    			$rule = $this->data['html']->find($parserRule);
-                    			if($rule == NULL)
-                    			{
-                    				$this->data['html'] -> clear();
-                    				unset($this->data['html']);
-                    				echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong Rule!'));
-                    			}
-                    			else
-                    			{
-                    				//save product of parsing to db
-                                    $id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
-                                    //$id_product = 10; //просто тестовые данные
+		try
+		{
+			//проверяем существование ссылки курлом
+			$check_url = $this->checkURLExists($parserURL);
+			if($check_url == 1)
+						{
+									$count = 0;
+									$this->data['html'] = file_get_html($parserURL);
+									$rule = $this->data['html']->find($parserRule);
+									if($rule == NULL)
+									{
+										$this->data['html'] -> clear();
+										unset($this->data['html']);
+										echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong Rule!'));
+									}
+									else
+									{
+										//save product of parsing to db
+										$id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
+										//$id_product = 10; //просто тестовые данные
 
-                    				//save object of parsing to db
-                                	$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
-                                	//$id_parser = 6; //просто тестовые данные
+										//save object of parsing to db
+										$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
+										//$id_parser = 6; //просто тестовые данные
 
-                    				foreach ($rule as $element) //'ul[class=book-tabl] li'
-                    				{
-                    					$count++;
-                    					$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext,
-                    					'idProduct' => $id_product, 'idParser' => $id_parser);
-                    				}
+										foreach ($rule as $element) //'ul[class=book-tabl] li'
+										{
+											$count++;
+											$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext,
+											'idProduct' => $id_product, 'idParser' => $id_parser);
+										}
 
-                    				$this->data['html'] -> clear();
-                    				unset($this->data['html']);;
-                    				echo json_encode($arr);
-                    			}
-                   	}
-                    else echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong URL!'));
+										$this->data['html'] -> clear();
+										unset($this->data['html']);;
+										echo json_encode($arr);
+									}
+						}
+						else echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong URL!'));
+		}catch(Exception $e)
+			{
+				echo $e->getMessage();
+			}
     }
 
 	//Machulyanskiy: processing the element OP
@@ -302,11 +313,16 @@ class Dashboard extends CI_Controller {
         $parserMarket = $this->input->post('parserMarket', TRUE);
         $idMarket = $this->content_model->get_idMarket_by_name($parserMarket);
 
+		try{
 		$error = $this->content_model->save_items_of_product($parserProductName, $parserPrice, $parserCount, $parserType, $idProduct, $idMarket, $parserSeller);
         if($error == null)
         	echo json_encode(array('status' => 'ok', 'message' => 'Success saving!'));
         else
             echo json_encode(array('status' => 'not_ok', 'message' => $error));
+        }catch(Exception $e)
+        			{
+        				echo $e->getMessage();
+        			}
     }
 	//Machulyanskiy: delete OP
 	function delete_OP()
@@ -341,21 +357,33 @@ class Dashboard extends CI_Controller {
         $count = $this->input->post('count', TRUE);
         $type = $this->input->post('type', TRUE);
         $seller = $this->input->post('seller', TRUE);
+
+        try{
         $error = $this->content_model->update_items_OP($id, $name, $price, $count, $type, $seller);
         if($error == null)
         	echo json_encode(array('status' => 'ok', 'message' => 'Success update!'));
         else
             echo json_encode(array('status' => 'not_ok', 'message' => $error));
+        }catch(Exception $e)
+        			{
+        				echo $e->getMessage();
+        			}
     }
 
     function item_OP_delete()
     {
         $id = $this->input->post('id', TRUE);
+
+        try{
     	$error = $this->content_model->item_OP_delete($id);
         if($error == null)
         	echo json_encode(array('status' => 'ok', 'message' => 'Success delete!'));
         else
             echo json_encode(array('status' => 'not_ok', 'message' => $error));
+        }catch(Exception $e)
+        			{
+        				echo $e->getMessage();
+        			}
     }
 
 }
