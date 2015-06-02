@@ -44,7 +44,7 @@ class Stat_model extends CI_Model {
     
     public function selectLogs($tag)
     {
-        $query = $this->db->query("SELECT DATE_FORMAT( from_unixtime( UNIX_TIMESTAMP( dateLog ) ), '%d-%m-%Y') AS date, COUNT(idLog) AS num FROM (`log`) WHERE `tagLog` = '".$tag."' GROUP BY `date` ORDER BY `date`");
+        $query = $this->db->query("SELECT DATE_FORMAT( from_unixtime( UNIX_TIMESTAMP( dateLog ) ), '%d-%m-%Y') AS date, COUNT(idLog) AS num FROM (`log`) WHERE `tagLog` = '".$tag."' GROUP BY `date` ORDER BY `dateLog` LIMIT 10");
         
         if($query -> num_rows() > 0)
         {

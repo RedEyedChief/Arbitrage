@@ -112,6 +112,23 @@ Class Data_model extends CI_Model
         }
     }
     
+    public function get_order_params($id)
+    {
+        $this->db->select('idOrder AS id, id_start_market AS id_start, products, depth, c_dist, id_price AS price');
+        $this->db->where('idOrder',$id);
+        $query = $this->db->get('orders');
+        
+        if($query -> num_rows() > 0)
+        {
+            $query = $query->result();
+            return $query[0];
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
     public function get_items($idMarket=-1, $type=-1, $ignore=array(), $active=true)
     {
         if(!empty($ignore)) $this->db->where_not_in('idItem', $ignore);

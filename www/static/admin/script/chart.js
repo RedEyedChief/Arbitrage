@@ -41,6 +41,7 @@ $(function () {
         $.post("/content/getChartData",{},function(data){
                 data = JSON.parse(data)
                 console.log(data)
+                data = data.data
                 var c = 0;
                 for (var key in data) {
                         series[key] = []

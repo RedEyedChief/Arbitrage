@@ -63,11 +63,18 @@ Class Order_model extends CI_Model
         if (empty($products))
             return false;
         $str = serialize($products);
+        $sql = "select id_price
+                from profile
+                where profile.idProfile = ".intval($user_id)." ";
+
+        $query = $this->db->query($sql); 
+        $price = $query->result();
         $order_info = array(      
             'Profile_idProfile' => $user_id,
             'Date' => date("Y-m-d H:i:s"),
             'id_start_market' =>$start,
-            'products'=>$str);
+            'products'=>$str,
+            'id_price'=>$price[0]->id_price);
         $this->db->insert("orders",$order_info);
         $order_id = $this->db->insert_id();
 

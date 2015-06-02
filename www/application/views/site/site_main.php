@@ -2,11 +2,11 @@
 
 <section class="container-fluid" id="section1">
     <div class="v-center">
-        <h1 class="text-center">����-��������</h1>
-        <h2 class="text-center lato animate slideInDown">������, ���� ������!</h2>
+        <h1 class="text-center">Купи-продайко</h1>
+        <h2 class="text-center lato animate slideInDown">Зароби, якщо зможеш!</h2>
         <p class="text-center">
             <br>
-            <a href="#" class="btn btn-danger btn-lg btn-huge lato" data-toggle="modal" data-target="#myModal">�����!</a>
+            <a href="#" class="btn btn-danger btn-lg btn-huge lato" data-toggle="modal" data-target="#myModal">Звісно!</a>
         </p>
     </div>
     <a href="#section2">

@@ -12,16 +12,16 @@ class Orders extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(array('user_model', 'order_model'));
+        $this->load->model(array('user_model', 'order_model','data_model'));
         $this->load->database();
-        $this->load->library('session');
-        $this->load->helper("cookie");
+        $this->load->library(array('session','Dataloader'));
+        $this->load->helper(array("cookie"));
         $lang = $this->input->cookie("lang") == "" ? "ukrainian" : $this->input->cookie("lang");
         $this->lang->load($lang, $lang);
 
     }
 
-    private function blocsBefore($ajax)
+    private function blocsBefore($ajax=false)
     {
         if (!$ajax) {
             if ($this->isLogged) {
@@ -33,7 +33,7 @@ class Orders extends CI_Controller
         }
     }
 
-    private function blocksAfter($ajax)
+    private function blocksAfter($ajax=false)
     {
         if ($this->isLogged) {
             $this->load->helper('form');
@@ -91,5 +91,34 @@ class Orders extends CI_Controller
         } catch (Exception $e) {
         echo $e->getMEssage();
         }
+    }
+    
+    function result($id)
+    {
+        $this->isLogged = $this->user_model->check_logged();
+        
+        $this->blocsBefore();
+        
+        $this->data = $this->data_model->get_order_params($id);
+        //die(print_r($this->data));
+        
+        $start = $this->data->id_start;
+        $depth = $this->data->depth;
+        $c_dist = $this->data->c_dist;
+        $price = $this->data->price;
+        $depth = $depth==NULL?100000:$depth;
+        $dis_products = array();
+        $dis_markets = array();
+        $result = $this->dataloader->load(intval($start),intval($depth),intval($c_dist), $dis_products, $dis_markets);
+        $result['id'] = $id;
+        
+        switch(intval($price))
+        {
+                case 1: $this->load->view('general/map_result',$result); break;
+                default: $this->load->view('general/map_result',$result); break;
+                
+        }
+        
+        $this->blocksAfter();
     }
 }

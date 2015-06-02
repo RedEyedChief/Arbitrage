@@ -237,6 +237,33 @@ Class Content_model extends CI_Model
     }
     
     /**
+     * ???????? ??? ???????????? ? start ?? end
+     * @param Number $start ????? ????, ?
+     * @param Number $end ?????? ????, ??
+     * @return var  ????? ????????????
+     */
+    function getOrders($start=0,$end=10,$order="profile.isActive DESC, profile.role DESC")
+    {
+        $query = $this -> db -> query("SELECT idOrder AS id, id_start_market AS id_start, nameMarket AS start_market, mail, products, depth, c_dist, orders.id_price AS price
+                                      FROM orders LEFT JOIN profile ON idProfile = profile_idProfile LEFT JOIN market ON idMarket = id_start_market"." ORDER BY ".$order." LIMIT ".$start.",".$end);
+        
+        if($query -> num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    function getOrdersNum()
+    {
+        $query = $this -> db -> query("SELECT count(idOrder) AS num FROM orders");
+        return $query->result();
+    }
+    
+    /**
      * ???????? ??????, ??????? ????????
      * @param object $id ID ??????
      * @return true  None

@@ -12,16 +12,22 @@ function newMarker(name)
     $("#saveAllButton").removeClass("blue");
     $("#saveAllButton").addClass("red");
 }
-
+var test;
 function moveMarker(map,curMarker)
 {
     console.log(curMarker.getPosition())
     $.post("http://maps.googleapis.com/maps/api/geocode/json?latlng="+curMarker.getPosition().A+","+curMarker.getPosition().F+"&sensor=false&language=uk",{},function(data){
-        console.log(JSON.parse(data.results))
+        //console.log(data.results.formatted_address.split(', ')[1])
+        if (data.status!='ZERO_RESULTS') {
+            var addr = data.results[0].formatted_address.split(", ");
+            var place = addr[addr.length-2]
+        }else{
+            var place = "²íø³"
+        }
         if(!curMarker.isNew)
         {
             curMarker.setIcon(modImage);
-            changedMarkers[curMarker.id] = {'idMarket':curMarker.id, 'latMarket':curMarker.getPosition().A, 'lngMarket':curMarker.getPosition().F};
+            changedMarkers[curMarker.id] = {'idMarket':curMarker.id, 'nameCity': place, 'latMarket':curMarker.getPosition().A, 'lngMarket':curMarker.getPosition().F};
         }
         else{
             newMarkers[curMarker.id].latMarket = curMarker.getPosition().A;
@@ -32,6 +38,19 @@ function moveMarker(map,curMarker)
         $("#saveAllButton").addClass("red");
     })
     
+}
+
+function updateGeo(marker)
+{
+    var curLatLng = marker.getPosition()
+    var geocoder = new google.maps.Geocoder();
+	geocoder.geocode({'latLng': curLatLng}, function(results, status) {
+	if (status == google.maps.GeocoderStatus.OK) {
+	  console.log(results)
+	} else {
+	  alert('Geocoder failed due to: ' + status);
+	}
+    })
 }
 
 function saveMap() {

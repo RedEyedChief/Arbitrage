@@ -90,6 +90,21 @@ class Dashboard extends CI_Controller {
 		$this->stat_model->insertLog("visit","dashboard/users");
 	}
 	
+	function orders()
+	{
+		$this->blocsBefore();
+		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
+		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
+		$this->data['orders'] = $this->content_model->getOrders($start,$end);
+		$this->data['async']=false;
+		$this->data['num']=$this->content_model->getOrdersNum();
+		$this->load->view('admin/lists/orders_list',$this->data);
+		$this->load->view('admin/splitters/end_row');
+		$this->load->view('admin/admin_footer');
+		
+		$this->stat_model->insertLog("visit","dashboard/users");
+	}
+	
 	function news()
 	{
 		$this->blocsBefore();
@@ -179,10 +194,12 @@ class Dashboard extends CI_Controller {
 		
 		$this->stat_model->insertLog("algo","dashboard/test");
 		
-		$this->dataloader->load(intval($start),intval($depth),intval($c_dist), $dis_products, $dis_markets);
+		$result = $this->dataloader->load(intval($start),intval($depth),intval($c_dist), $dis_products, $dis_markets);
+			
+		echo json_encode($result);
 	}
 	
-	function map()
+	function request()
     	{
     		$this->blocsBefore();
 		$num = $this->data_model->get_num_markets();
@@ -193,9 +210,40 @@ class Dashboard extends CI_Controller {
     		$this->load->view('admin/splitters/end_row');
     		$this->load->view('admin/admin_footer');
 		
-		$this->stat_model->insertLog("visit","dashboard/map");
+		$this->stat_model->insertLog("visit","dashboard/request");
     	}
 
+	function result($id)
+    	{
+    		$this->blocsBefore();
+		
+		$this->data = $this->data_model->get_order_params($id);
+		//die(print_r($this->data));
+		
+		$start = $this->data->id_start;
+		$depth = $this->data->depth;
+		$c_dist = $this->data->c_dist;
+		$price = $this->data->price;
+		$depth = $depth==NULL?100000:$depth;
+		$dis_products = array();
+		$dis_markets = array();
+		$result = $this->dataloader->load(intval($start),intval($depth),intval($c_dist), $dis_products, $dis_markets);
+    		$result['id'] = $id;
+		
+		switch(intval($price))
+		{
+			case 1: $this->load->view('general/map_result',$result); break;
+			default: $this->load->view('general/map_result',$result); break;
+			
+		}
+		
+		$this->load->view('admin/splitters/end_row');
+    		$this->load->view('admin/admin_footer');
+		
+		$this->stat_model->insertLog("algo","dashboard/test");
+    	}
+
+	
 	function parsing()
     {
 	$this->stat_model->insertLog("visit","dashboard/parsing");

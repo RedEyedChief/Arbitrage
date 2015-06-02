@@ -5,6 +5,7 @@
 <form class="form-horizontal" id="order_form">
     <div class="form-group">
         <h3 align='center'>Choose starting city</h3>
+        <h4 align='center'>Make sure that you have chosen right price in your personal page</h4>
         <label for="select_city" class="col-sm-3 control-label">City</label>
         <div class="col-sm-5">
             <select id="select_city" class="form-control">
