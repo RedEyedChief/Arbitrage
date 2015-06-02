@@ -201,12 +201,30 @@ class Dashboard extends CI_Controller {
 	$this->stat_model->insertLog("visit","dashboard/parsing");
 	
     	$this->blocsBefore();
-    	$data['parsers'] = $this->content_model->get_OP();
+    	//$data['parsers'] = $this->content_model->get_OP();
 		$data['markets'] = $this->data_model->get_markets();
     	$this->load->view('admin/parsing_view', $data);
     	$this->load->view('admin/splitters/end_row');
     	$this->load->view('admin/admin_footer');
     }
+
+	//Machulyanskiy: logic of check URL by cURL
+	function checkURLExists($url){
+        if(empty($url))	return false;
+
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
+        if($http_code>=200 && $http_code<300)	return true;
+        return false;
+    }
+
 	//Machulyanskiy: processing the request to the source
     function parsing_request()
     {
@@ -214,39 +232,45 @@ class Dashboard extends CI_Controller {
 		$parserRule = $this->input->post('parserRule', TRUE);
 		$parserProductType = $this->input->post('parserProductType', TRUE);
 		$parserCategory = $this->input->post('parserCategory', TRUE);
-		$headers = @get_headers($parserURL);
-        if($headers[0] == 'HTTP/1.1 200 OK')
-        {
-        			$count = 0;
-        			$this->data['html'] = file_get_html($parserURL);
-        			$rule = $this->data['html']->find($parserRule);
-        			if($rule == NULL)
-        			{
-        				$this->data['html'] -> clear();
-        				unset($this->data['html']);
-        				echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong Rule!'));
-        			}
-        			else
-        			{
-        				//save product of parsing to db
-                        $id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
-                        //$id_product = 10;
-        				//save object of parsing to db
-                    	$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
-                    	//$id_parser = 6;
-        				foreach ($rule as $element) //'ul[class=book-tabl] li'
-        				{
-        					$count++;
-        					$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext,
-        					'idProduct' => $id_product, 'idParser' => $id_parser);
-        				}
-        				$this->data['html'] -> clear();
-        				unset($this->data['html']);
-						echo json_encode($arr);
-        			}
-       	}
-        else echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong URL!'));
+
+		//проверяем существование ссылки курлом
+		$check_url = $this->checkURLExists($parserURL);
+		if($check_url == 1)
+                    {
+                    			$count = 0;
+                    			$this->data['html'] = file_get_html($parserURL);
+                    			$rule = $this->data['html']->find($parserRule);
+                    			if($rule == NULL)
+                    			{
+                    				$this->data['html'] -> clear();
+                    				unset($this->data['html']);
+                    				echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong Rule!'));
+                    			}
+                    			else
+                    			{
+                    				//save product of parsing to db
+                                    $id_product = $this->content_model->save_product_OP($parserProductType, $parserCategory);
+                                    //$id_product = 10; //просто тестовые данные
+
+                    				//save object of parsing to db
+                                	$id_parser = $this->content_model->saveOP($parserURL, $parserRule, $id_product);
+                                	//$id_parser = 6; //просто тестовые данные
+
+                    				foreach ($rule as $element) //'ul[class=book-tabl] li'
+                    				{
+                    					$count++;
+                    					$arr[] =  array('status' => 'ok' ,'count' =>$count, 'info' => $element->plaintext,
+                    					'idProduct' => $id_product, 'idParser' => $id_parser);
+                    				}
+
+                    				$this->data['html'] -> clear();
+                    				unset($this->data['html']);;
+                    				echo json_encode($arr);
+                    			}
+                   	}
+                    else echo json_encode(array('status' => 'not_ok' , 'message' => 'Wrong URL!'));
     }
+
 	//Machulyanskiy: processing the element OP
     function save_items_of_product()
     {
@@ -276,6 +300,7 @@ class Dashboard extends CI_Controller {
     function get_OP()
     {
     	$error = $this->content_model->get_OP();
+
     	echo json_encode($error);
     }
 	//Machulyanskiy: get list of elements OP
@@ -286,6 +311,7 @@ class Dashboard extends CI_Controller {
 
     	foreach ($error as $client_info)
 			$arr[] =  array('idItem'=>$client_info['idItem'], 'nameItem' => $client_info['nameItem'], 'priceItem' => $client_info['priceItem'], 'typeItem' => $client_info['typeItem'], 'countItem' => $client_info['countItem'], 'sellerItem' => $client_info['sellerItem']);
+
     	echo json_encode($arr);
     }
     function update_items_OP()
@@ -302,6 +328,7 @@ class Dashboard extends CI_Controller {
         else
             echo json_encode(array('status' => 'not_ok', 'message' => $error));
     }
+
     function item_OP_delete()
     {
         $id = $this->input->post('id', TRUE);
@@ -311,4 +338,5 @@ class Dashboard extends CI_Controller {
         else
             echo json_encode(array('status' => 'not_ok', 'message' => $error));
     }
+
 }

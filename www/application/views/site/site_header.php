@@ -37,7 +37,8 @@
 	<li><a href="javascript:login.modal.show('signUpModal')" role="button">Sign up</a></li>
 	<? else: ?>
 		        <ul class="nav navbar-nav">
-            <li><a href="/orders">Orders </a></li>
+            <li><a href="/orders">Order </a></li>
+            <li><a href="/my">Personal page </a></li>
         </ul>
 	<li><a href="javascript:login.modal.show('')" role="button"><?=$firstName." ".$surName?></a></li>
 	<li style="padding:0px"><a style="padding: 5px;" href="/my" role="button"><img src="<?=isset($avatar)?$avatar:'/static/images/avatar-default.jpg'?>" class="avatar-min img-circle" style="width:3em"></a></li>

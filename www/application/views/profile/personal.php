@@ -1,4 +1,7 @@
-<h1>Personal Profile</h1>
+<link href="/static/site/style/styles.css" rel="stylesheet">
+<div class="row" style="padding-top:50px">
+    <div class="col-md-3"></div>
+<div class="col-md-6 admin-panel" >
 
 <div role="tabpanel">
     <ul class="nav nav-tabs" role="tablist">
@@ -8,7 +11,7 @@
 
     <div class="tab-content" >
         <div role="tabpanel" class="tab-pane active" id="personal_info">
-            <form id="profile_details" action="/profile/saveUserData" method="POST">
+            <form id="profile_details" action="/profile/saveUserData" style="padding-bottom:10px" method="POST">
                 <div class="form-group">
                     <label for="user_name">Name</label>
                     <input type="text" name="firstName" class="form-control" id="user_name" placeholder="Name" value="<?=$user_info[0]["firstName"]?>">
@@ -81,7 +84,15 @@
                     foreach($orders as $order){
                         print "<tr>";
                         print "<td>".$order['date']."</td>";
-                        print "<td>".$order['products']."</td>";
+                        $arr=unserialize($order['products']);
+                       // print_r( $arr);
+                        print "<td>";
+                        foreach ($arr as $el)
+                        {
+                            print $el;
+                            print (" ");
+                        }
+                        print "</td>";
                         print "</tr>";
                     }
                 ?>
@@ -90,4 +101,7 @@
         </div>
     </div>
 
+</div>
+</div>
+<div class="col-md-3"></div>
 </div>

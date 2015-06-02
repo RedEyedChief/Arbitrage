@@ -1,18 +1,21 @@
-<h1>Make order</h1>
-
+<link href="/static/site/style/styles.css" rel="stylesheet">
+<div class="row" style="padding-top:50px">
+    <div class="col-md-3"></div>
+<div class="col-md-6 admin-panel" >
 <form class="form-horizontal" id="order_form">
     <div class="form-group">
-        <h3>Choose starting city</h3>
-        <label for="select_area" class="col-sm-3 control-label">Area</label>
+        <h3 align='center'>Choose starting city</h3>
+        <label for="select_city" class="col-sm-3 control-label">City</label>
         <div class="col-sm-5">
-            <select id="select_area" class="form-control">
+            <select id="select_city" class="form-control">
                 <?php
-                if (!isset($area)){
-                    print "<option> There is no area available! </option>";
+                if (!isset($city)){
+                    print "<option> There is no city available! </option>";
                 }
                 else{
-                    foreach ($area as $val){
-                        print "<option value='".$val['idArea']."'>".$val['nameArea']."</option>";
+                    print '<option selected>Select your option</option>';
+                    foreach ($city as $val){
+                        print "<option value='".$val['nameCity']."'>".$val['nameCity']."</option>";
                     }
                 }
                 ?>
@@ -20,18 +23,12 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="select_city"  class="col-sm-3 control-label">City</label>
-        <div class="col-sm-5">
-            <select id="select_city" name="select_city" class="form-control"></select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="select_market" class="col-sm-3 control-label">Market</label>
+        <label for="select_market"  class="col-sm-3 control-label">Market</label>
         <div class="col-sm-5">
             <select id="select_market" name="select_market" class="form-control"></select>
         </div>
     </div>
+
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-5">
@@ -43,6 +40,11 @@
 <table class="table table-bordered" id="datatable_products">
 </table>
 
-<div class="col-sm-offset-3 col-sm-5">
-    <button id="make_order" name="make_order" class="btn btn-default">Order</button>
+<div class="col-sm-offset-3 col-sm-5" style="padding-bottom:10px">
+    <button id="make_order" name="make_order" class="btn btn-default" >Order</button>
+
+</div>
+</div>
+</div>
+<div class="col-md-3"></div>
 </div>

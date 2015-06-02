@@ -54,9 +54,14 @@ class Login extends CI_Controller {
 	
 	function logout()
 	{
+		try {
 		$this->session->sess_destroy();
 		redirect('/', 'refresh');
+		} catch (Exception $e) {
+			echo $e->getMEssage();
+		}
 	}
+	
 
     function register($ajax = 'false')
     {
@@ -65,13 +70,13 @@ class Login extends CI_Controller {
             $data['role'] = 0;
 
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('firstname', 'Name', 'trim|required|xss_clean|alpha');
-        $this->form_validation->set_rules('surname', 'Surname', 'trim|required|xss_clean|alpha');
+        $this->form_validation->set_rules('firstname', 'Name', 'trim|required|xss_clean|callback_alpha_dash_space');
+        $this->form_validation->set_rules('surname', 'Surname', 'trim|required|xss_clean|callback_alpha_dash_space');
         $this->form_validation->set_rules('mail', 'Email', 'trim|required|xss_clean|valid_email');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean');
-        $this->form_validation->set_rules('password2', 'Repeat_password', 'matches[password]|trim|xss_clean');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[4]');
+        $this->form_validation->set_rules('password2', 'Repeat password', 'required|matches[password]|trim|xss_clean|min_length[4]');
 
-        if ($this->form_validation->run() == FALSE) {
+       if ($this->form_validation->run() == FALSE) {
             print json_encode(validation_errors("<li>","</li>"));
         } else {
         	$mail = trim($this->input->post('mail'));
@@ -85,6 +90,7 @@ class Login extends CI_Controller {
             $id = $this->user->register($data);
 
             if ($id) {
+<<<<<<< HEAD
                 if ($ajax==true) {
 			try{
 				$this->data['users']=$this->user->getProfileInfo($id);
@@ -99,11 +105,24 @@ class Login extends CI_Controller {
 		}
 		// Login user if registration was successful
                 else if ($this->check_database($data['password'], $data['mail']))
+=======
+                // Login user if registration was successful
+                if ($this->check_database($data['password'], $data['mail']))
+>>>>>>> b01f82cdd860264ee2bbafca7bab041461207078
                     print json_encode("");
             }
             else {
                 print json_encode("<li>Cannot register new user. </li>");
             }
+            if($id)
+            {
+            if ($ajax==true)
+					{
+					$this->data['users']=$this->user->getProfileInfo($id);
+					$this->data['async']=true;
+					$this->load->view('admin/lists/users_list',$this->data);
+					}
+				}
 }
             //Go to private area
 //            if ($ajax != 'true') {
@@ -116,10 +135,33 @@ class Login extends CI_Controller {
 //            }
             //
         }
-    }
-	
+
+       
+}
+            //Go to private area
+            //if ($ajax != 'true') {
+            //    $this->check_database($data['password'], $data['mail']);
+          //      redirect('/', 'refresh');
+        //    } else {
+      //          $this->data['users'] = $this->user->getProfileInfo($id);
+    //            $this->data['async'] = true;
+  //              $this->load->view('admin/lists/users_list', $this->data);
+//            }
+            //
+       
+ 
+	function alpha_dash_space($str)
+{
+	if(! preg_match("/^([-aA-zZ_ _-аА-яЯ_-])+$/i", $str))
+	{
+		$this->form_validation->set_message('alpha_dash_space', 'Name and Surname fields must contain only alphabetical charecters, spaces and -');
+		return false;
+	} else
+	return true;
+} 
 	function signin()
 	{
+		try {
 		$data = $this->input->post(NULL);
 		$this->load->library('form_validation');
 		
@@ -140,14 +182,21 @@ class Login extends CI_Controller {
                 print json_encode("<li>Incorrect user or password</li>");
             }
 		}
+		} catch (Exception $e) {
+			echo $e->getMEssage();
+		}
 	}
 
 
 
     function check_database($password,$mail)
 	{
+<<<<<<< HEAD
 		$this->stat_model->insertLog("login","login");
 		
+=======
+		try {
+>>>>>>> b01f82cdd860264ee2bbafca7bab041461207078
 		//Field validation succeeded.&nbsp; Validate against database
 		if(!$mail) $mail = $this->input->post('mail');
 	      
@@ -178,9 +227,13 @@ class Login extends CI_Controller {
 			$this->form_validation->set_message('check_database', 'Invalid mail or password');
 			return false;
 		}
+	    } catch (Exception $e) {
+        echo $e->getMEssage();
+        }
 	}
 	function reset_password()
 	{
+		try {
 		$this->load->model('user_model');
 		$this->isLogged = $this->user_model->check_logged();
 		
@@ -213,6 +266,9 @@ class Login extends CI_Controller {
 					//$this->load->view('site_header');
 					$this->load->view('login/view_reset_pass');
 				}
+			} catch (Exception $e) {
+			echo $e->getMEssage();
+		}
 
 		}
 	function reset_pass_form($mail,$mail_code)
@@ -241,6 +297,7 @@ class Login extends CI_Controller {
 	}
 	function update_password()
 	{
+		try {
 	$this->load->model('user_model');
 		$this->isLogged = $this->user_model->check_logged();
 		
@@ -272,9 +329,14 @@ class Login extends CI_Controller {
 					$this->load->view('login/view_update_pass',array('error'=>'Problem updating your password.'));
 				}
 			}
+	        } catch (Exception $e) {
+        echo $e->getMEssage();
+        }
 	}
-	function send_reset_password_email($mail,$firstName){
-		
+
+	function send_reset_password_email($mail,$firstName)
+	{
+	try {	
     
 $config['charset'] = 'utf-8';
 		$this->load->library('email');
@@ -294,7 +356,12 @@ $config['charset'] = 'utf-8';
 		$message.='</body></html>';
 		$this->email->message($message);
 		$this->email->send();
+
+		} catch (Exception $e) {
+        echo $e->getMEssage();
+        }
 	}
+
 
 
 }
