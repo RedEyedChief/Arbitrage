@@ -95,6 +95,8 @@
 
         <script src="/static/site/script/orders.js"></script>
 
+        <script src="/static/site/script/slider.js"></script>
+		<script src="/static/site/script/jquery.easing.min.js""></script>
 		
 <!-- Piwik -->
 <script type="text/javascript">

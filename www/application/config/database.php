@@ -50,6 +50,8 @@ $active_record = TRUE;
 if(IS_LOCAL)
 {
     $db['default']['hostname'] = 'localhost';
+	//$db['default']['hostname'] = '10.254.0.70';
+	//$db['default']['hostname'] = '192.168.168.1';
     $db['default']['username'] = 'root';
     $db['default']['password'] = '';
     $db['default']['database'] = 'sql576163';
