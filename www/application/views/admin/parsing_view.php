@@ -90,7 +90,13 @@
 								<input type="number" class="form-control" id="parserCount" width="1em" placeholder="Count" value="" name="parserCount" min="1" required="required">
 							</div>
 							<div class="col-xs-2">
+							<select class="form-control" name="role" id="parserType">
+                                  <option>0</option>
+                                  <option>1</option>
+                            </select>
+                            <!--
 								<input type="number" class="form-control" id="parserType" width="1em" placeholder="Type" value="" name="parserType" min="1" max="2" required="required">
+							-->
 							</div>
 
 						</div>

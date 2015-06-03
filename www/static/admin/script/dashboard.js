@@ -24,6 +24,13 @@ $(document).ready(function()
         $('#parser_error').hide();
         $('#parser_data_error').hide();
 
+        /*if($('#parser_error').is(":visible"))
+        {
+            console.log('bag');
+            $('#progress_parsing').hide('slow');
+            $('#parse_error').hide('slow');
+        }*/
+
         $.ajax({
             type: 'POST',
             dataType: 'json',
@@ -63,6 +70,8 @@ $(document).ready(function()
                 }
                 if (parserProductType == "" || parserURL == "" || parserRule=="" || parserCategory==""){
                     $('#parser_error').show('slow');
+                    $('#progress_parsing').hide('slow');
+                    $('#parse_error_message').remove();
 
                     if (parserURL =="") $('#parserURL').parent().addClass('has-error');
                     if (parserRule =="") $('#parserRule').parent().addClass('has-error');
@@ -229,6 +238,7 @@ $(document).ready(function()
                     $("#parserForm").hide('slow');
                     $("#parserForm input:not(.btn)").val('');
                     $("#button_view_OP").show('slow');
+
             },
 
             error: function () {
@@ -287,7 +297,7 @@ function view_op()
             var html = '<form class="form-inline form-add">' +
             '<div class="form-group">' +
             '<div class="input-group">' +
-            '<div class="form-control bg_eee " style="width: 42px;">ID</div>' +
+            '<div class="form-control bg_eee " style="width: 39px;">ID</div>' +
             '<div class="input-group-addon"></div>' +
             '<input type="text" class="form-control" value="Adress" style="cursor:default" readonly>' +
             '<div class="input-group-addon"></div>' +
@@ -309,7 +319,7 @@ function view_op()
                     html += '<form class="form-inline form-add">' +
                     '<div class="form-group form_group_OP">' +
                     '<div class="input-group element_OP">' +
-                    '<div class="form-control parser_id">' + data[index]["idParser"] + '</div>' +
+                    '<div class="form-control parser_id" style="width: 39px;">' + data[index]["idParser"] + '</div>' +
                     '<div class="input-group-addon"></div>' +
                     '<input type="text" class="form-control" id="adressParser" value='+ data[index]["adressParser"] + '>' +
                     '<div class="input-group-addon"></div>' +

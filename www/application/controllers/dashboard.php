@@ -333,6 +333,8 @@ class Dashboard extends CI_Controller {
 	//Machulyanskiy: processing the element OP
     function save_items_of_product()
     {
+    	var_dump('wtf?');
+
     	$parserProductName = $this->input->post('parserProductName', TRUE);
         $parserPrice = $this->input->post('parserPrice', TRUE);
         $parserSeller = $this->input->post('parserSeller', TRUE);
