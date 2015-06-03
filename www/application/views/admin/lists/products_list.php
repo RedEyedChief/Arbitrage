@@ -1,19 +1,19 @@
       <?php if(!$async):?>
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-users"></i> <span id="itemType">Products</span></h3>
+      	<h3><i class="fa fa-users"></i> <span id="itemType">ĞŸÑ€Ğ¾Ğ´ÑƒĞºÑ‚Ğ¸</span></h3>
 	    <hr>
 		  
 	    <div class="panel-body">
 			
 		  <form class="form-inline form-add" id="formAdd" style="font-family: 'FontAwesome', 'Helvetica Neue', Helvetica, Arial, sans-serif">
 			  <div class="form-group">
-			    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+			    <label class="sr-only" for="exampleInputAmount"></label>
 			    <div class="input-group">
 			      <div class="input-group-addon"></div>
-			      <input type="text" class="form-control" name="nameProduct" id="exampleInputAmount" placeholder="Name">
+			      <input type="text" class="form-control" name="nameProduct" id="" placeholder="ĞĞ°Ğ·Ğ²Ğ°">
 			      <div class="input-group-addon"></div>
-			      <input type="text" class="form-control" name="categoryProduct" id="exampleInputAmount" placeholder="Category">
+			      <input type="text" class="form-control" name="categoryProduct" id="" placeholder="ĞšĞ°Ñ‚ĞµĞ³Ğ¾Ñ€Ñ–Ñ">
 			      <div class="input-group-addon"></div>
 			      <button type="submit" class="btn btn-success form-control" id="addItem"><span>&#xf055;</span></button>
 			    </div>
@@ -23,7 +23,7 @@
 			<br>
 			<div class="alert alert-danger alert-dismissible fade in" id="errorMessage" role="alert" style="display: none;">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
-			  <strong>Error!</strong>
+			  <strong>ĞŸĞ¾Ğ¼Ğ¸Ğ»ĞºĞ°!</strong>
 			</div>
 			<hr>
 
@@ -35,7 +35,7 @@
 
 			<table class="table table-striped">
 			<thead>
-			  <tr><th>ID</th><th>Name</th><th>Category</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
+			  <tr><th>ID</th><th>ĞĞ°Ğ·Ğ²Ğ°</th><th>ĞšĞ°Ñ‚ĞµĞ³Ğ¾Ñ€Ñ–Ñ</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
 			</thead>
 			<tbody id="listpoll">
 			  <?php endif;?>
@@ -61,7 +61,7 @@
       
       <script>
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
-	  return this.optional(element) || /^[1234567890àáâãäå¸³¿²¯´¥æçèéêëìíîïğñòóôõö÷øùüûúışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÜÛÚİŞ@.ßqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-]*$/.test(value);
+	  return this.optional(element) || /^[1234567890Ğ°Ğ±Ğ²Ğ³Ğ´ĞµÑ‘Ñ–'Ñ—Ğ†Ğ‡Ò‘ÒĞ¶Ğ·Ğ¸Ğ¹ĞºĞ»Ğ¼Ğ½Ğ¾Ğ¿Ñ€ÑÑ‚ÑƒÑ„Ñ…Ñ†Ñ‡ÑˆÑ‰ÑŒÑ‹ÑŠÑÑÑĞĞ‘Ğ’Ğ“Ğ”Ğ•ĞĞ–Ğ—Ğ˜Ğ™ĞšĞ›ĞœĞĞĞŸĞ Ğ¡Ğ¢Ğ£Ğ¤Ğ¥Ğ¦Ğ§Ğ¨Ğ©Ğ¬Ğ«ĞªĞ­Ğ®@.Ğ¯qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-]*$/.test(value);
 	}, "Letters only please");
 	
 	$('#formAdd').validate({
@@ -90,6 +90,9 @@ errorPlacement: function(error,element) {
     return true;
   }
     });
+	
+	var CATEGORY = "Products"
+	
       </script>
       
       <?php endif; ?>

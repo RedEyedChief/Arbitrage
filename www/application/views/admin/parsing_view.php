@@ -1,15 +1,15 @@
 <div class="col-sm-8 admin-panel">
-	<h3><i class="fa fa-tasks"></i> Parsing</h3>
+	<h3><i class="fa fa-tasks"></i> Парсинг</h3>
 	<hr>
 		  
 	<div class="panel-body">
 
 		<div class="form-group row">
 			<div class="col-xs-6">
-        		<button  type="button" class="btn btn-primary form-control" id="view_op" onclick="view_op()">View OP</button>
+        		<button  type="button" class="btn btn-primary form-control" id="view_op" onclick="view_op()">Переглянути ОП</button>
         	</div>
         	<div class="col-xs-6">
-                <button  type="button" class="btn btn-info form-control" id="add_op" >Add OP</button>
+                <button  type="button" class="btn btn-info form-control" id="add_op" >Додати ОП</button>
             </div>
 
 		</div>
@@ -19,7 +19,8 @@
 		<div class="view_op">
 
 			<div id="list_OP"></div>
-
+				
+			<div id="empty_OP"></div>
             <div id='for_error'></div>
 
 		</div>
@@ -49,28 +50,28 @@
 						<input type="text" class="form-control" id="parserURL" placeholder="URL" value="" required="required">
 					</div>
 					<div class="parserRule col-xs-5">
-						<input type="text" class="form-control" id="parserRule" placeholder="Rule" value="" required="required">
+						<input type="text" class="form-control" id="parserRule" placeholder="Правило" value="" required="required">
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-xs-4">
-						<input type="text" class="form-control" id="parserProductType" width="1em" placeholder="ProductType" value="" name="parserProductType" required="required">
+						<input type="text" class="form-control" id="parserProductType" width="1em" placeholder="Тип продукту" value="" name="parserProductType" required="required">
 					</div>
 					<div class="col-xs-3">
-						<input type="text" class="form-control" id="parserCategory" width="1em" placeholder="Category" value="" name="parserCategory" required="required">
+						<input type="text" class="form-control" id="parserCategory" width="1em" placeholder="Категорія" value="" name="parserCategory" required="required">
 					</div>
 					<div class="parserSub col-xs-5">
-                		<div type="submit" id="doParse" class="btn btn-success form-control">Parse!</div>
+                		<div type="submit" id="doParse" class="btn btn-success form-control">Парсити!</div>
                 	</div>
 				</div>
 
 			</form>
 
 			<div id="parser_error" class="alert alert-danger margin_top_10px" style="display: none;">
-				 <strong>Input data in this fields!</strong>
+				 <strong>Введіть дані в ці поля!</strong>
 			</div>
 			<div id="parser_data_error" class="alert alert-danger margin_top_10px" style="display: none;">
-				 <strong>Invalid data in this field!</strong>
+				 <strong>Некоректні дані в полях!</strong>
 			</div>
 
 			<hr>
@@ -81,22 +82,28 @@
 					<form  class="form margin_top_bot_20px">
 						<div class="form-group row">
 							<div class="col-xs-6">
-								<input type="text" class="form-control" id="parserProductName" width="1em" placeholder="ProductName" value="" name="parserProductName" required="required">
+								<input type="text" class="form-control" id="parserProductName" width="1em" placeholder="Назва Продукту" value="" name="parserProductName" required="required">
 							</div>
 							<div class="col-xs-2">
-								<input type="number" class="form-control" id="parserPrice" width="1em" placeholder="Price" value="" name="parserPrice" min="1" required="required">
+								<input type="number" class="form-control" id="parserPrice" width="1em" placeholder="Ціна" value="" name="parserPrice" min="1" required="required">
 							</div>
 							<div class="col-xs-2">
-								<input type="number" class="form-control" id="parserCount" width="1em" placeholder="Count" value="" name="parserCount" min="1" required="required">
+								<input type="number" class="form-control" id="parserCount" width="1em" placeholder="Кількість" value="" name="parserCount" min="1" required="required">
 							</div>
 							<div class="col-xs-2">
+							<select class="form-control" name="role" id="parserType">
+                                  <option>0</option>
+                                  <option>1</option>
+                            </select>
+                            <!--
 								<input type="number" class="form-control" id="parserType" width="1em" placeholder="Type" value="" name="parserType" min="1" max="2" required="required">
+							-->
 							</div>
 
 						</div>
 						<div class="form-group row">
 							<div class="col-xs-6">
-								<input type="text" class="form-control" id="parserSeller" width="1em" placeholder="Info about seller" value="" name="parserSeller"  required>
+								<input type="text" class="form-control" id="parserSeller" width="1em" placeholder="Інформація про продавця" value="" name="parserSeller"  required>
 							</div>
 							<div class="col-xs-2">
 								<select class="form-control" name="role" id="parserMarket">
@@ -115,7 +122,7 @@
 					</form>
 
 					<div id="Form_error" class="alert alert-danger margin_top_10px" style="display: none;">
-						<strong>Input data in this fields!</strong>
+						<strong>Введіть дані в ці поля!</strong>
 					</div>
 				</div>
 
@@ -126,7 +133,7 @@
                 </div>
 
 				<div id="parse_error" >
-					<div id="parse_nothing_found" class="alert alert-danger" style="display: none;"> <strong> Nothing found </strong> </div>
+					<div id="parse_nothing_found" class="alert alert-danger" style="display: none;"> <strong> Нічого не знайдено </strong> </div>
 				</div>
 				
 				<div id="table_parsing_result">
@@ -134,10 +141,10 @@
 
 				<div>
 					<div class='col-xs-6'>
-                        <button type='button' id='button_view_OP' class='btn btn-success btn-lg center-block col-xs-10' style="display: none;" onclick='continue_view()'>View this OP</button>
+                        <button type='button' id='button_view_OP' class='btn btn-success btn-lg center-block col-xs-10' style="display: none;" onclick='continue_view()'>Переглянути цей ОП</button>
                     </div>
                     <div class='col-xs-6'>
-                        <button type='button' id='button_abort_OP' class='btn btn-danger btn-lg center-block col-xs-10' style="display: none;" onclick='abort_parse()'>Cancel parsing</button>
+                        <button type='button' id='button_abort_OP' class='btn btn-danger btn-lg center-block col-xs-10' style="display: none;" onclick='abort_parse()'>Відмінити парсинг</button>
                     </div>
                 </div>
 

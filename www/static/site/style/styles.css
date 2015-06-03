@@ -282,10 +282,49 @@ section#services
   margin-bottom: 75px;
 }
 
-#services .scroll-down
+#services .scroll-down, #team .scroll-down
 {
   border: 2px solid #01579B;
-  }
+}
+
+.white
+{
+  color: #fff;
+}
+
+#price .section-heading
+{
+  margin-bottom: 50px;
+}
+
+#price .scroll-down:hover
+{
+color: #fff;
+}
+
+#price .service-heading i
+{
+  color: #fed136;
+  font-weight: normal;
+}
+
+ul.text-price li
+{
+  text-align: left;
+  padding-bottom: 3px;
+  color: #fff;
+}
+
+section#order
+{
+  background-color: rgba(36, 37, 70, 0.4);
+}
+
+section#profile_view
+{
+  background-color: rgba(35, 51, 43, 0.4);
+}
+
 /*
 section#contact {
     background-color: #222;

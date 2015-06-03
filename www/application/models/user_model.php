@@ -28,7 +28,9 @@ Class User_model extends CI_Model
      */
     function check_logged()
     {
-        return ($this->session->userdata('logged_in')) ? TRUE : FALSE;
+        $data = $this->session->userdata("profile");
+        $data['role'] = intval($data['role']);
+        return $data['role'];
     }
 
     /**

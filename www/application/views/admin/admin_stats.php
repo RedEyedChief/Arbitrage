@@ -1,6 +1,6 @@
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-location-arrow"></i> Stats</h3>
+      	<h3><i class="fa fa-location-arrow"></i> Статистика</h3>
 	    <hr>
 		  
 	    <div class="panel-body">

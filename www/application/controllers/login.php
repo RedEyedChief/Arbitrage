@@ -10,12 +10,13 @@ class Login extends CI_Controller {
 		$this->load->model('user_model','user',TRUE);
 		$this->load->model('stat_model');
 		$this->load->library("session");
+		$this->isLogged = $this->user->check_logged();
 	}
-	private function blocsBefore($ajax)
+	private function blocsBefore($ajax=false)
     {
         if (!$ajax) {
-            if ($this->isLogged) {
-                //$this->data['profile'] = $this->session->userdata("profile");
+            if ($this->isLogged>0) {
+                $this->data['profile'] = $this->session->userdata("profile");
                 $this->load->view('site/site_header', $this->data['profile']);
             } else {
                 $this->load->view('site/site_header');
@@ -23,9 +24,9 @@ class Login extends CI_Controller {
         }
     }
 
-    private function blocksAfter($ajax)
+    private function blocksAfter($ajax=false)
     {
-        if ($this->isLogged) {
+        if ($this->isLogged>0) {
             $this->load->helper('form');
         }
         if (!$ajax) {
@@ -63,8 +64,9 @@ class Login extends CI_Controller {
 	}
 	
 
-    function register($ajax = 'false')
+    function register($ajax = false)
     {
+	$ajax = filter_var($ajax, FILTER_VALIDATE_BOOLEAN);
         $data = $this->input->post(NULL);
         if (!isset($data['role']))
             $data['role'] = 0;
@@ -86,11 +88,13 @@ class Login extends CI_Controller {
             	 print json_encode("<li>User with this email already exists. </li>");
             }
             else{
-
+		
+		$data['role'] = 1;
+		if($ajax==true) $data['role'] = $this->input->post('role');
             $id = $this->user->register($data);
-
+		//die(var_dump($ajax));
             if ($id) {
-                if ($ajax==true) {
+                if ($ajax===true) {
 			try{
 				$this->data['users']=$this->user->getProfileInfo($id);
 				$this->data['async']=true;
@@ -103,25 +107,26 @@ class Login extends CI_Controller {
 			}
 		}
 		// Login user if registration was successful
-                else if ($this->check_database($data['password'], $data['mail']))
-
+                else {
                 // Login user if registration was successful
                 if ($this->check_database($data['password'], $data['mail']))
                     print json_encode("");
+		}
             }
             else {
                 print json_encode("<li>Cannot register new user. </li>");
             }
-            if($id)
-            {
-            if ($ajax==true)
-					{
-					$this->data['users']=$this->user->getProfileInfo($id);
-					$this->data['async']=true;
-					$this->load->view('admin/lists/users_list',$this->data);
-					}
-				}
-}
+	    }
+//            if($id)
+//            {
+//		if ($ajax==true)
+//					{
+//					$this->data['users']=$this->user->getProfileInfo($id);
+//					$this->data['async']=true;
+//					$this->load->view('admin/lists/users_list',$this->data);
+//					}
+//				}
+//}
             //Go to private area
 //            if ($ajax != 'true') {
 //                $this->check_database($data['password'], $data['mail']);
@@ -213,7 +218,6 @@ class Login extends CI_Controller {
 				$data = get_object_vars($data[0]);
 				
 				$this->session->set_userdata('profile', $data);
-				
 			}
 			return TRUE;
 		}
@@ -256,11 +260,11 @@ class Login extends CI_Controller {
 					$this->send_reset_password_email($mail,$result);
 					//$this->load->view('site_header');
 				//	$this->load->view('login/view_reset_pass_sent',array('mail'=>$mail));
-					print json_encode(array("<li>The email has been sent to ".$mail."</li>"));
-					$this->load->view('login/view_reset_pass_sent',array('mail'=>$mail));
+					print json_encode(array("<li>Листа відправлено на ".$mail."</li>"));
+					//$this->load->view('login/view_reset_pass_sent',array('mail'=>$mail));
 				}else{
 					//$this->load->view('site_header');
-					print json_encode("<li>User with this email dont exist. </li>");
+					print json_encode("<li>Користувача не знайдено. </li>");
 				}
 				
 			}
@@ -295,6 +299,22 @@ class Login extends CI_Controller {
 			}
 		}
 	}
+	
+	function updated()
+	{
+		$this->blocsBefore();
+		$this->load->view('login/view_update_pass_success');
+		$this->blocksAfter();
+	}
+	
+	function rejected()
+	{
+		$this->blocsBefore();
+		$this->load->view('login/view_update_pass',array('error'=>'Problem updating your password.'));
+		$this->blocksAfter();
+		
+	}
+	
 	function update_password()
 	{
 		try {
@@ -320,13 +340,19 @@ class Login extends CI_Controller {
 			}
 			else{
 				$result=$this->user_model->update_password();
+				
 				if($result)
 				{
+					redirect('/login/updated');
+					//die(var_dump($result));
 					//$this->load->view('site_header');
-					$this->load->view('login/view_update_pass_success');
+					//$this->load->view('login/view_update_pass_success');
+					//die();
 				}else{
+					redirect('/login/rejected');
 					//$this->load->view('site_header');
-					$this->load->view('login/view_update_pass',array('error'=>'Problem updating your password.'));
+					//$this->load->view('login/view_update_pass',array('error'=>'Problem updating your password.'));
+					//die();
 				}
 			}
 	        } catch (Exception $e) {

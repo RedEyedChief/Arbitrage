@@ -56,7 +56,7 @@ $("#order_form").on("submit", function(e){
                                 return '<form class="form-inline">' +
                                         '<div class="form-groupcheckbox checkbox-success">' +
 
-                                            '<input type="checkbox-circle" value="Order" data-product="'+ row["nameProduct"] +'"> ' +
+                                            '<input type="checkbox" value="Order" data-product="'+ row["nameProduct"] +'"> ' +
                                         '</div>' +
                                         ' </form>';
                             },

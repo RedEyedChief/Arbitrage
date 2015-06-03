@@ -59,6 +59,12 @@ Class Data_model extends CI_Model
         return $this->db->insert_id();
     }
     
+    public function remove_market($id)
+    {
+        $this->db->where('idMarket',$id);
+        $this->db->delete("market");
+    }
+    
     //public function get_products($idMarket=-1, $type=-1)
     //{
     //    $where = $idMarket!=-1?"WHERE Market_idMarket=".$idMarket:"";

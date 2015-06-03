@@ -4,7 +4,7 @@ $(function () {
                     type: 'column'
                 },
                 title: {
-                    text: 'Usage stats'
+                    text: 'Використання системи'
                 },
                 subtitle: {
                     text: ''
@@ -43,6 +43,13 @@ $(function () {
                 console.log(data)
                 data = data.data
                 var c = 0;
+                
+                var statKey = {
+                        visits: "Відвідування",
+                        algo: "Обчислення",
+                        login: "Авторизації"
+                }
+
                 for (var key in data) {
                         series[key] = []
                         
@@ -70,7 +77,7 @@ $(function () {
                 
                 for (key in series){
                         console.log(key)
-                        chart.series.push({name: key, data:series[key]})
+                        chart.series.push({name: statKey[key], data:series[key]})
                 }
                 //chart.xAxis.categories.for
                 
@@ -78,3 +85,4 @@ $(function () {
                 $("#container").highcharts(chart);
         });
     });
+

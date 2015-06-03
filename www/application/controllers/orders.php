@@ -24,7 +24,7 @@ class Orders extends CI_Controller
     private function blocsBefore($ajax=false)
     {
         if (!$ajax) {
-            if ($this->isLogged) {
+            if ($this->isLogged>0) {
                 $this->data['profile'] = $this->session->userdata("profile");
                 $this->load->view('site/site_header', $this->data['profile']);
             } else {
@@ -35,7 +35,7 @@ class Orders extends CI_Controller
 
     private function blocksAfter($ajax=false)
     {
-        if ($this->isLogged) {
+        if ($this->isLogged>0) {
             $this->load->helper('form');
         }
         if (!$ajax) {
@@ -57,13 +57,14 @@ class Orders extends CI_Controller
         $data['num_city'] = $num[0]->num;
         $data['markets'] = $this->data_model->get_markets();
         $data['products'] = $this->data_model->get_products();
-        if(($price == "1") || ($price =="2"))
-        {
+            $this->data["user_price"] = $this->profile_model->loadUserPrice($user_id);
+        //if(($price == "1") || ($price =="2"))
+        //{
         $this->load->view('orders/products_list',$this->data);
-        } else
-        {
-        $this->load->view('orders/deluxe_product_list',$data);
-        }
+        //} else
+        //{
+        //$this->load->view('orders/deluxe_product_list',$data);
+       // }
         $this->blocksAfter($ajax);
     }
     function request()
@@ -133,6 +134,7 @@ class Orders extends CI_Controller
         $dis_products = array();
         $dis_markets = array();
         $result = $this->dataloader->load(intval($start),intval($depth),intval($c_dist), $dis_products, $dis_markets);
+        
         $result['id'] = $id;
         
         switch(intval($price))

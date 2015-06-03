@@ -10,8 +10,8 @@ class Content extends CI_Controller {
 		$this->load->database();
 		$this->load->library("session");
 		$this->isLogged = $this->user_model->check_logged();
-		if($this->isLogged) $this->data['profile'] = $this->session->userdata("profile");
-		else $this->isLogged = false;
+		if($this->isLogged>0) $this->data['profile'] = $this->session->userdata("profile");
+		else $this->isLogged = 0;
 		$lang = $this->input->cookie("lang")==""?"ukrainian":$this->input->cookie("lang");
 		$this->lang->load($lang,$lang);
 		$this->data="";
@@ -37,6 +37,7 @@ class Content extends CI_Controller {
 	
 	public function getChartData()
 	{
+		if(!$this->isLogged >= 3) die("Доступ закрито");
 		try{
 			$data['visits'] = $this->stat_model->selectLogs("visit");
 			$data['algo'] = $this->stat_model->selectLogs("algo");
@@ -75,6 +76,7 @@ class Content extends CI_Controller {
 	 */
 	public function removeUsers()
 	{
+		if($this->input->post("id")==1) echo json_encode(array("status"=>false));
 		try{
 			if($this->isLogged >= 3) $this->content_model->removeUser($this->input->post("id"));
 			echo json_encode(array("status"=>true));
@@ -91,7 +93,7 @@ class Content extends CI_Controller {
 	public function removeProducts()
 	{
 		try{
-			if($this->isLogged >= 3) $this->content_model->removeProduct($this->input->post("id"));
+			if($this->isLogged >= 2) $this->content_model->removeProduct($this->input->post("id"));
 			echo json_encode(array("status"=>true));
 		}catch(Exception $e)
 		{
@@ -105,7 +107,7 @@ class Content extends CI_Controller {
 	public function removeItems()
 	{
 		try{
-			if($this->isLogged >= 3) $this->content_model->removeItem($this->input->post("id"));
+			if($this->isLogged >= 2) $this->content_model->removeItem($this->input->post("id"));
 			echo json_encode(array("status"=>true));
 		}catch(Exception $e)
 		{
@@ -223,6 +225,7 @@ class Content extends CI_Controller {
 	
 	public function getUsersFields()
 	{
+		if(!$this->isLogged >= 3) die("Доступ закрито");
 		try{
 			echo json_encode(array("data"=>$this->content_model->getUserFields($this->input->post("id")),
 					       "status"=>true));
@@ -234,6 +237,7 @@ class Content extends CI_Controller {
 	
 	public function getProductsFields()
 	{
+		if(!$this->isLogged >= 2) die("Доступ закрито");
 		try{
 			echo json_encode(array("data"=>$this->content_model->getProductFields($this->input->post("id")),
 					       "status"=>true));
@@ -245,6 +249,7 @@ class Content extends CI_Controller {
 	
 	public function getItemsFields()
 	{
+		if(!$this->isLogged >= 2) die("Доступ закрито");
 		try{
 			echo json_encode(array("data"=>$this->content_model->getItemFields($this->input->post("id")),
 					       "status"=>true));
@@ -256,6 +261,7 @@ class Content extends CI_Controller {
 	
 	public function getCitiesFields()
 	{
+		if(!$this->isLogged >= 3) die("Доступ закрито");
 		try{
 			echo json_encode(array("data"=>$this->content_model->getCityFields($this->input->post("id")),
 					       "status"=>true));
@@ -267,12 +273,14 @@ class Content extends CI_Controller {
 	
 	public function getNewsFields()
 	{
+		if(!$this->isLogged >= 3) die("Доступ закрито");
 		echo json_encode(array("data"=>$this->content_model->getNewsFields($this->input->post("id")),
 					       "status"=>true));
 	}
 	
 	public function getPricesFields()
 	{
+		if(!$this->isLogged >= 3) die("Доступ закрито");
 		try{
 			echo json_encode(array("data"=>$this->content_model->getPricesFields($this->input->post("id")),
 					       "status"=>true));
@@ -291,6 +299,7 @@ class Content extends CI_Controller {
 	
 	public function addProducts()
 	{
+		if(!$this->isLogged >= 2) die("Доступ закрито");
 		try{
 			$this->data['products'] = $this->content_model->addProduct($this->input->post(null));
 			$this->data['async'] = true;
@@ -304,6 +313,7 @@ class Content extends CI_Controller {
 	
 	public function addItems()
 	{
+		if(!$this->isLogged >= 2) die("Доступ закрито");
 		try{
 			$this->data['items'] = $this->content_model->addItem($this->input->post(null));
 			$this->data['async'] = true;
@@ -317,6 +327,7 @@ class Content extends CI_Controller {
 	
 	public function addPrices()
 	{
+		if(!$this->isLogged >= 3) die("Доступ закрито");
 		try{
 			$this->data['prices'] = $this->content_model->addPrice($this->input->post(null));
 			$this->data['async'] = true;
@@ -330,6 +341,7 @@ class Content extends CI_Controller {
 	
 	public function addCity()
 	{
+		if(!$this->isLogged >= 3) die("Доступ закрито");
 		$this->data['cities'] = $this->content_model->addCity($this->input->post(null));
 		$this->data['async'] = true;
 		$this->load->view('admin/lists/cities_list',$this->data);
@@ -337,6 +349,8 @@ class Content extends CI_Controller {
 	
 	public function updateUsers()
 	{
+		if($this->input->post('role')==4) echo json_encode(array("status"=>false));
+		if(!$this->isLogged >= 3) die("Доступ закрито");
 		try{
 			$this->content_model->updateUser($this->input->post(null));
 			$this->data['users'] = $this->user_model->getProfileInfo($this->input->post('idProfile'));
@@ -351,6 +365,7 @@ class Content extends CI_Controller {
 	
 	public function updateItems()
 	{
+		if(!$this->isLogged >= 2) die("Доступ закрито");
 		try{
 			$this->content_model->updateItem($this->input->post(null));
 			$this->data['items'] = $this->content_model->getItem($this->input->post('idItem'));
@@ -365,6 +380,7 @@ class Content extends CI_Controller {
 	
 	public function updateProducts()
 	{
+		if(!$this->isLogged >= 2) die("Доступ закрито");
 		try{
 			$this->content_model->updateProduct($this->input->post(null));
 			$this->data['products'] = $this->content_model->getProducts(0,1,$this->input->post('idProduct'));
@@ -380,6 +396,7 @@ class Content extends CI_Controller {
 	
 	public function updatePrices($id)
 	{
+		if(!$this->isLogged >= 3) die("Доступ закрито");
 		try{
 			$this->content_model->updatePrice($this->input->post(null),$id);
 			redirect('/dashboard/prices','refresh');

@@ -135,9 +135,10 @@ $(document).ready(function()
     });
 
     //Machulyanskiy: Зберігаємо екземляри товару
-    $("#parserSave").click(function() {
+    $("#parserSave").click(function(event) {
         $('#Form_error').hide();
 
+        event.preventDefault();
         //логика отображения рядка, где находятся сохраненные элементы
         if($('tr.success:not(.already)').length > 0)
         {

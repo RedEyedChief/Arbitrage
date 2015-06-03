@@ -7,7 +7,7 @@
   <div class="modal-content">
       <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
-          <h3 class="text-center" style="display: initial;">Login</h3>
+          <h3 class="text-center" style="display: initial;">Логін</h3>
       </div>
       <div class="modal-body">
 	<div class="row">
@@ -17,14 +17,14 @@
                   <ul id="login_errors"></ul>
               </div>
             <div class="form-group">
-              <input type="text" class="form-control input-sm" placeholder="Username" name="mail">
+              <input type="text" class="form-control input-sm" placeholder="Імейл" name="mail">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control input-sm" placeholder="Password" name="password">
+              <input type="password" class="form-control input-sm" placeholder="Пароль" name="password">
             </div>
             <div class="form-group">
-              <button class="btn btn-primary btn-sm btn-block">Sign In</button>
-              <span class="pull-right"><a href="/login/reset_password">Forgot your password?</a></span>
+              <button class="btn btn-primary btn-sm btn-block">Увійти</button>
+              <span class="pull-right"><a href="/login/reset_password">Забули ваш пароль?</a></span>
             </div>
           </form>
 	</div>
@@ -38,7 +38,7 @@
   <div class="modal-content">
       <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close"></i></button>
-          <h3 class="text-center" style="display: initial;">Register</h3>
+          <h3 class="text-center" style="display: initial;">Реєстрація</h3>
       </div>
       <div class="modal-body">
 	<div class="row">
@@ -49,22 +49,22 @@
               </div>
 
               <div class="form-group">
-		<input type="text" name="firstname" class="form-control" placeholder="Name"/>
+		<input type="text" name="firstname" class="form-control" placeholder="Ім'я"/>
 	    </div>
 	    <div class="form-group">
-		<input type="text" name="surname" class="form-control" placeholder="Surname"/>
+		<input type="text" name="surname" class="form-control" placeholder="Прізвище"/>
 	    </div>
 	    <div class="form-group">
-		<input type="text" name="mail" class="form-control" placeholder="Email"/>
+		<input type="text" name="mail" class="form-control" placeholder="Імейл"/>
 	    </div>
 	    <div class="form-group">
-		<input type="password" name="password" class="form-control" placeholder="Password"/>
+		<input type="password" name="password" class="form-control" placeholder="Пароль"/>
 	    </div>
 	    <div class="form-group">
-		<input type="password" name="password2" class="form-control" placeholder="Repeat password"/>
+		<input type="password" name="password2" class="form-control" placeholder="Повторіть пароль"/>
 	    </div>
             <div class="form-group">
-              <button class="btn btn-primary btn-sm btn-block">Register</button>
+              <button class="btn btn-primary btn-sm btn-block">Реєстрація</button>
     
             </div>
           </form>
@@ -87,6 +87,8 @@
 		<script src="/static/site/script/global.js"></script>
 		<script src="/static/admin/script/bootstrap.min.js"></script>
 		<script src="/static/site/script/poll.js"></script>
+		<script src="/static/site/script/jquery.easing.min.js"></script>
+		<script src="/static/site/script/slider.js"></script>
 		<script src="/static/site/script/reader.js"></script>
 		<script src="/static/site/script/manage.js"></script>
 		

@@ -1,7 +1,7 @@
       <?php if(!$async):?>
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-users"></i> <span id="itemType">Items</span><span> <?=isset($productId)?'[product '.$productId.']':''?></span></h3>
+      	<h3><i class="fa fa-users"></i> <span id="itemType">–ï–ª–µ–º–µ–Ω—Ç–∏</span><span> <?=isset($productId)?'[product '.$productId.']':''?></span></h3>
 	    <hr>
 		  
 	    <div class="panel-body">
@@ -16,7 +16,7 @@
 				<?php endforeach;}?>
 			      </select>
 			      <div class="input-group-addon"></div>
-			      <input type="text" class="form-control" name="priceItem" id="" placeholder="Price">
+			      <input type="text" class="form-control" name="priceItem" id="" placeholder="–¶—ñ–Ω–∞">
 			      <div class="input-group-addon"></div>
 			      <select class="form-control" name="market_idMarket">
 				<?php if(isset($markets)){ foreach ($markets as $market) :?>
@@ -25,8 +25,8 @@
 			      </select>
 			      <div class="input-group-addon"></div>
 			      <select class="form-control" name="typeItem">
-				<option value="0">Sell</option>
-				<option value="1">Buy</option>
+				<option value="0">–ü—Ä–æ–¥–∞–∂</option>
+				<option value="1">–ö—É–ø—ñ–≤–ª—è</option>
 			      </select>
 			      <div class="input-group-addon"></div>
 			      <button type="submit" class="btn btn-success form-control" id="addItem"><span>&#xf055;</span></button>
@@ -38,7 +38,7 @@
 			<br>
 			<div class="alert alert-danger alert-dismissible fade in" id="errorMessage" role="alert" style="display: none;">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
-			  <strong>Error!</strong>
+			  <strong>–ü–æ–º–∏–ª–∫–∞!</strong>
 			</div>
 			
 			<hr>
@@ -52,7 +52,7 @@
 
 			<table class="table table-striped">
 			<thead>
-			  <tr><th>ID</th><th>Product</th><th>Market</th><th>Price</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
+			  <tr><th>ID</th><th>–ü—Ä–æ–¥—É–∫—Ç</th><th>–†–∏–Ω–æ–∫</th><th>–¶—ñ–Ω–∞</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
 			</thead>
 			<tbody id="listpoll">
 			  <?php endif;?>
@@ -79,7 +79,7 @@
       
        <script>
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
-	  return this.optional(element) || /^[1234567890‡·‚„‰Â∏≥ø≤Ø¥•ÊÁËÈÍÎÏÌÓÔÒÚÛÙıˆ˜¯˘¸˚˙˝˛ˇ¿¡¬√ƒ≈®∆«»… ÀÃÕŒœ–—“”‘’÷◊ÿŸ‹€⁄›ﬁ@.ﬂqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-]*$/.test(value);
+	  return this.optional(element) || /^[1234567890'–∞–±–≤–≥–¥–µ—ë—ñ—ó–Ü–á“ë“ê–∂–∑–∏–π–∫–ª–º–Ω–æ–ø—Ä—Å—Ç—É—Ñ—Ö—Ü—á—à—â—å—ã—ä—ç—é—è–ê–ë–í–ì–î–ï–Å–ñ–ó–ò–ô–ö–õ–ú–ù–û–ü–†–°–¢–£–§–•–¶–ß–®–©–¨–´–™–≠–Æ@.–ØqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-]*$/.test(value);
 	}, "Letters only please");
 	
 	$('#formAdd').validate({
@@ -102,6 +102,9 @@ errorPlacement: function(error,element) {
     return true;
   }
     });
+	
+	
+	var CATEGORY = "Items"
       </script>
       
       <?php endif; ?>

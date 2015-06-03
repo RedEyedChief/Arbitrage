@@ -1,35 +1,35 @@
       <?php if(!$async):?>
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-users"></i> <span id="itemType">Users</span></h3>
+      	<h3><i class="fa fa-users"></i> <span id="itemType">Користувачі</span></h3>
 	    <hr>
 		  
 	    <div class="panel-body">
 			
 			<form class="form-inline form-add" id="formAdd" style="font-family: 'FontAwesome', 'Helvetica Neue', Helvetica, Arial, sans-serif">
 			  <div class="form-group">
-			    <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+			    <label class="sr-only" for="exampleInputAmount"></label>
 			    <div class="input-group">
 			      <input style="display:none">
 			      <input type="password" style="display:none">
-			      <select class="form-control has-tooltip" name="role" data-toggle="tooltip" data-placement="top" title="Role">
-				<option value="1">&#xf007; - User</option>
-				<option value="2">&#xf006; - Moderator</option>
-				<option value="3">&#xf132; - Admin</option>
-				<option value="4">&#xf0A3; - Superadmin</option>
+			      <select class="form-control has-tooltip" name="role" data-toggle="tooltip" data-placement="top" title="Роль">
+				<option value="1">&#xf007; - Користувач</option>
+				<option value="2">&#xf006; - Модератор</option>
+				<option value="3">&#xf132; - Адміністратор</option>
+				<!--<option value="4">&#xf0A3; - Superadmin</option>-->
 			      </select>
 			      <div class="input-group-addon"></div>
-			      <input type="email" class="form-control" name="mail" id="exampleInputAmount" placeholder="E-mail" autocomplete="off" required>
+			      <input type="email" class="form-control" name="mail" id="" placeholder="Емейл" autocomplete="off" required>
 			      <div class="input-group-addon"></div>
-			      <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" required>
+			      <input type="password" class="form-control" name="password" id="password" placeholder="Пароль" autocomplete="off" required>
 			      <div class="input-group-addon"></div>
 			      <input type="password" class="form-control" name="password2" id="password2" placeholder="" autocomplete="off" style="display: none;">
 			      <div class="input-group-addon" style="display: none;"></div>
-			      <input type="text" class="form-control" name="firstname" id="exampleInputAmount" placeholder="Name" autocomplete="off" required>
+			      <input type="text" class="form-control" name="firstname" id="" placeholder="Ім'я" autocomplete="off" required>
 			      <div class="input-group-addon"></div>
-			      <input type="text" class="form-control" name="surname" id="exampleInputAmount" placeholder="Surname" autocomplete="off" required>
+			      <input type="text" class="form-control" name="surname" id="" placeholder="Прізвище" autocomplete="off" required>
 			      <div class="input-group-addon"></div>
-			      <button type="submit" class="btn btn-success form-control has-tooltip" id="addItem" data-toggle="tooltip" data-placement="top" title="Add"><span>&#xf055;</span></button>
+			      <button type="submit" class="btn btn-success form-control has-tooltip" id="addItem" data-toggle="tooltip" data-placement="top" title="Додати"><span>&#xf055;</span></button>
 			    </div>
 			  </div>
 			  
@@ -38,7 +38,7 @@
 			<br>
 			<div class="alert alert-danger alert-dismissible fade in" id="errorMessage" role="alert" style="display: none;">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
-			  <strong>Error!</strong><span class="details"></span>
+			  <strong>Помилка!</strong><span class="details"></span>
 			</div>
 			<hr>
 			
@@ -50,7 +50,7 @@
 			
 		  <table class="table table-striped">
 			<thead>
-			  <tr><th style="width: 28px;"></th><th>ID</th><th>Email</th><th>Name</th><th>Role</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
+			  <tr><th style="width: 28px;"></th><th>ID</th><th>Емейл</th><th>Ім'я</th><th>Роль</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
 			</thead>
 			<tbody id="listpoll">
 			  <?php endif;?>
@@ -70,8 +70,10 @@
 						<td class="author-article"><?=$item->mail?></td>
 						<td class="itemName"><?=$item->firstName." ".$item->surName?></td>
 						<td><?=$item->role?></td>
-						<td class="edit-icon" element-id="<?=$item->idProfile?>" data-toggle="modal" data-target="#confirm-edit"><i class="fa fa-edit text-muted"></i></td>
-						<td class="remove-icon" element-id="<?=$item->idProfile?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-remove text-muted"></i></td>
+						
+						<td class="edit-icon" element-id="<?=$item->idProfile?>" data-toggle="modal" data-target="#confirm-edit"><?php if($item->role!=4):?><i class="fa fa-edit text-muted"></i><?php endif;?></td>
+						<td class="remove-icon" element-id="<?=$item->idProfile?>" data-toggle="modal" data-target="#confirm-delete"><?php if($item->role!=4):?><i class="fa fa-remove text-muted"></i><?php endif;?></td>
+						
 					</tr>
 				<?php $c++;endforeach;?>
 				<?php endif;?>
@@ -86,8 +88,10 @@
      
       
       <script>
+	$(".has-tooltip").tooltip()
+	
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
-	  return this.optional(element) || /^[1234567890абвгдеёіїІЇґҐжзийклмнопрстуфхцчшщьыъэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮ@.ЯqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-]*$/.test(value);
+	  return this.optional(element) || /^[1234567890абвгдеёіїІЇґҐжзи'йклмнопрстуфхцчшщьыъэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮ@.ЯqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-]*$/.test(value);
 	}, "Letters only please");
 	
 	$('#formAdd').validate({
@@ -126,6 +130,9 @@ errorPlacement: function(error,element) {
     return true;
   }
     });
+	
+	
+	var CATEGORY = "Users"
       </script>
       
        <?php endif; ?>   

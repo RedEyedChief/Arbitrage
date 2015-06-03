@@ -237,7 +237,7 @@ class Dataloader {
         {
             $this->way[$i] = array_search($this->way[$i], $this->markets_res);
         }
-        
+        //die(var_dump($this->chain));
         $this->result['way'] = $this->way;
         $this->result['chain'] = $this->CI->load->view('general/chain_view',array('chains'=>$this->chain, 'markets'=>$this->markets),true);
         

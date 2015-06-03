@@ -24,11 +24,12 @@ class Main extends CI_Controller {
 	{
 		if(!$ajax)
 		{
-			if($this->isLogged)
+			if($this->isLogged>0)
 			{
 				$this->data['profile'] = $this->session->userdata("profile");
 				$this->load->view('site/site_header',$this->data['profile']);
 				$this->data['isLogged'] = true;
+				
 				$this->load->view('site/site_main', $this->data);
 				//$this->load->view('site/left-menu/site_left');
 			}
@@ -56,7 +57,7 @@ class Main extends CI_Controller {
 	 */
 	private function blocksAfter($ajax)
 	{
-		if($this->isLogged)
+		if($this->isLogged>0)
 		{
 			$this->load->helper('form');
 			//$this->load->view('site/site_moderator');

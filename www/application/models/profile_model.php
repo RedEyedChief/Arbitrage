@@ -22,7 +22,7 @@ Class Profile_model extends CI_Model
         $result = array();
         if ($add_empty){
        $result[] = array("idPrice"=>"-1",
-                              "namePrice" => "Please make choice");
+                              "namePrice" => "Оберіть, будь ласка");
         }
         foreach ($query->result() as $row)
         {
@@ -41,7 +41,7 @@ Class Profile_model extends CI_Model
 
         if ($add_empty){
             $result[] = array("idArea"=>"-1",
-                              "nameArea" => "Please make choice");
+                              "nameArea" => "Оберіть, будь ласка");
         }
 
         foreach ($query->result() as $row)
@@ -62,7 +62,7 @@ Class Profile_model extends CI_Model
 
         if ($add_empty){
             $result[] = array("idCity"=>"-1",
-                "nameCity" => "Please make choice");
+                "nameCity" => "Оберіть, будь ласка");
         }
 
         foreach ($query->result() as $row)

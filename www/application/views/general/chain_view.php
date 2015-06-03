@@ -15,12 +15,12 @@ foreach ($chains as $chain): ?>
 		      <div class="timeline-body">
 		        <?php if ($next>0):?>
 			   <h5><?=$nextItem?></h5>
-			   <p>Sell <?=$next?></p>
+			   <p>Продати <?=$next?></p>
 			<?php $nextItem = $next = 0; endif;?>
 			<?php if ($chain['buy']<$chain['sell']):?>
 			
 			<h5><?=$chain['item']?></h5>
-			<p>Buy <?=$chain['buy']?></p>
+			<p>Придбати <?=$chain['buy']?></p>
 			<?php $next = $chain['sell']; $nextItem = $chain['item']; $dif = $chain['sell'] - $chain['buy']; $total+=$dif;?>
 			<?php endif; ?>
 		      </div>
@@ -37,7 +37,7 @@ foreach ($chains as $chain): ?>
 		      <div class="timeline-body">
 		        <?php if ($next>0):?>
 			   <h5><?=$nextItem?></h5>
-			   <p>Sell <?=$next?></p>
+			   <p>Продати <?=$next?></p>
 			<?php endif;?>
 		      </div>
 		    </div>
@@ -45,4 +45,4 @@ foreach ($chains as $chain): ?>
 
 </ul>
 
-<h4>Total income: <?=$total?></h4>
+<h4>Загальний прибуток: <?=$total?></h4>

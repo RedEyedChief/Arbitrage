@@ -1,7 +1,7 @@
 
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-suitcase"></i> <span id="itemType">Orders</span></h3>
+      	<h3><i class="fa fa-suitcase"></i> <span id="itemType">Замовлення</span></h3>
 	    <hr>
 		  
 	    <div class="panel-body">
@@ -16,7 +16,7 @@
 			
 		  <table class="table table-striped">
 			<thead>
-			  <tr><th>ID</th><th>Email</th><th>Start</th><th>Depth</th><th>Distance</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
+			  <tr><th>ID</th><th>Емейл</th><th>Початкова точка</th><th>Глибина</th><th>Коефіцієнт</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
 			</thead>
 			<tbody id="listpoll">
 			  <?php foreach($orders as $item): ?>

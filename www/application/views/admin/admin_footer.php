@@ -52,7 +52,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><?=$this->lang->line('list_remove_cancel')?></button>
-                <button type="submit" class="btn btn-primary primary confirm-edit"><?=$this->lang->line('list_edit_confirm')?></button>
+                <button type="submit" class="btn btn-primary primary confirm-edit">Зберегти</button>
             </div>
         </div>
       </form>

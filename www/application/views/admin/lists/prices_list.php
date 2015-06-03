@@ -1,7 +1,7 @@
       <?php if(!$async):?>
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-money"></i> <span id="itemType">Prices</span></h3>
+      	<h3><i class="fa fa-money"></i> <span id="itemType">Тарифи</span></h3>
 	    <hr>
 		  
 	    <div class="panel-body" style="font-family: 'FontAwesome', 'Helvetica Neue', Helvetica, Arial, sans-serif">

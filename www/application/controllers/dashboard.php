@@ -23,11 +23,12 @@ class Dashboard extends CI_Controller {
 	private function blocsBefore()
 	{	
 		$this->isLogged = $this->user_model->check_logged();
-		
+		//die(var_dump($this->isLogged));
 		$ajax = $this->input->post("ajax");
-		if($this->isLogged)
+		if($this->isLogged>=2)
 		{
 			$this->data['profile'] = $this->session->userdata("profile");
+			$this->data['profile']['admin'] = $this->isLogged>=3;
 			$this->load->view('admin/admin_header',$this->data['profile']);
 		}
 		else
@@ -35,10 +36,11 @@ class Dashboard extends CI_Controller {
 			redirect('/', 'refresh');
 		}
 		
-		if ($this->data['profile']['role'] != 4) redirect('/', 'refresh');
+		if ($this->data['profile']['role'] <2) redirect('/', 'refresh');
 		
 		$this->load->view('admin/splitters/start_row');
-		$this->load->view('admin/toolbox');
+		$data['admin'] = $this->isLogged >=3;
+		$this->load->view('admin/toolbox',$data);
 	}
 	
 	/**

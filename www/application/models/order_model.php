@@ -31,7 +31,7 @@ Class Order_model extends CI_Model
 
         if ($add_empty){
             $result[] = array("idMarket"=>"-1",
-                "nameMarket" => "Please make choice");
+                "nameMarket" => "Оберіть, будь ласка");
         }
 
         foreach ($query->result() as $row)
@@ -44,6 +44,21 @@ Class Order_model extends CI_Model
         return $result;
     }
 
+    function loadUserPrice($user_id){
+        $sql = "select idPrice,namePrice
+                from price p
+                right join profile f on p.idPrice = f.id_price
+                where f.idProfile = ".intval($user_id)." ";
+
+        $query = $this->db->query($sql);
+        $result = array();
+        foreach ($query->result() as $row) {
+             $price['idPrice'] = $row->idPrice;
+            $price['namePrice'] = $row->namePrice;
+            $result[] = $price;
+        }
+        return $result;
+}
     public function getProducts($market_id)
     {
         $this->db->select('DISTINCT(nameProduct) as nameProduct')->from('product');  

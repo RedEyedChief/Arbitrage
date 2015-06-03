@@ -43,7 +43,7 @@ var manage = {
     id: "",
     remove: function()
     {
-        $.post('/content/remove'+$("#itemType").html(), {id: this.id},function(data){
+        $.post('/content/remove'+CATEGORY, {id: this.id},function(data){
             data = JSON.parse(data)
             if (data.status == false) {
                 $("#errorMessage").show()
@@ -64,7 +64,7 @@ var manage = {
     
     add: function(form)
     {
-        if($("#itemType").html()=="Users") {
+        if(CATEGORY=="Users") {
             $("#password2").val($("#password").val())
             $.post('/login/register/true', $(form).serialize(),function(data){
                 data = JSON.parse(data)
@@ -79,7 +79,7 @@ var manage = {
                 }
             })
         } else {
-            $.post('/content/add'+$("#itemType").html(), $(form).serialize(),function(data){
+            $.post('/content/add'+CATEGORY, $(form).serialize(),function(data){
                 data = JSON.parse(data)
                 if (data.status == false) {
                     $("#errorMessage").show()
@@ -97,7 +97,7 @@ var manage = {
     {
         $("#removeName").html(this.source.parent().find(".itemName").html())
         $("#removeId").html(this.source.parent().find(".itemId").html())
-        $("#removeType").html($("#itemType").html())
+        $("#removeType").html(CATEGORY)
     }
 }
 
@@ -110,7 +110,7 @@ var editor = {
     getInfo: function()
     {
         userTemplate = this.userTemplate
-        $.post('/content/get'+$("#itemType").html()+'Fields', {id: this.id}, function(data){
+        $.post('/content/get'+CATEGORY+'Fields', {id: this.id}, function(data){
             data = JSON.parse(data);
             if (data.status == false) {
                 $("#errorMessage").show()
@@ -123,7 +123,7 @@ var editor = {
                 $("#editorFields").html("")
                 for (var key in data) {
                     if (data.hasOwnProperty(key)) {
-                        var replacer = editor.replacers.replace(editor.replacers[$("#itemType").html()],key)
+                        var replacer = editor.replacers.replace(editor.replacers[CATEGORY],key)
                         if (replacer.selector!==undefined) {
                             $("#editorFields").append('<div><div class="input-group"><div class="input-group-addon">'+replacer.name+'</div>'+$('<div>').append($("[name="+replacer.selector+"]").clone()).html() + '</div></div><br>');
                         }
@@ -166,7 +166,7 @@ var editor = {
     
     save: function(form)
     {
-        $.post('/content/update'+$("#itemType").html(), $(form).serialize(),function(data){
+        $.post('/content/update'+CATEGORY, $(form).serialize(),function(data){
             data = JSON.parse(data)
             if (data.status == false) {
                 $("#errorMessage").show()

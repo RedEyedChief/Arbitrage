@@ -1,80 +1,92 @@
 
       <div class="col-sm-8 admin-panel">
       	
-      	<h3><i class="fa fa-save blue" id="saveAllButton"></i> <span id="itemType">Map</span></h3>
+      	<h3><i class="fa fa-save blue" id="saveAllButton"></i> <span id="itemType">Карта</span></h3>
 	    <hr>
 		  
 		  
 	    <div class="panel-body">
 		<div class="form-group">
-		  <label class="sr-only" for="nameMarket">Name</label>
+		  <label class="sr-only" for="nameMarket">Назва</label>
 		  <div class="input-group">
 		    <div class="input-group-addon"></div>
 		    <input type="text" class="form-control" name="nameMarket" id="markerName" placeholder="Name">
 		    <div class="input-group-addon"></div>
-		    <button type="submit" class="btn btn-success form-control" id="newMarkerButton">Add</button>
+		    <button type="submit" class="btn btn-success form-control" id="newMarkerButton">Додати</button>
 		  </div>
 		</div>
 	      
 	      
 		<div id="map-canvas"></div>
 		
-		<hr>
-		<h4>Results</h4>
-		<div class="resultsControl">
-		  <div class="btn-group" data-toggle="buttons">
-		    <label class="btn btn-default">
-		      <input type="checkbox" name="showChain" id="showChain" value='0' autocomplete="off"> Show
-		    </label>
-		  </div>
-		  
-		  <div class="panel-collapse collapse out" id="listChains">
-		    <div class="panel-body">
+		<div class="alert alert-warning alert-dismissible fade in" id="errorMessage" role="alert" style="display: none;">
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+			  <strong>Для фільтрування по новим точкам продажу оновіть сторінку!</strong>
+			</div>
 		
+		<div class="alert alert-unsaved alert-dismissible fade in" id="unsavedMessage" role="alert" style="display: none;">
+			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-close"></i></span></button>
+			  <strong>Для фільтрування по новим точкам продажу оновіть сторінку!</strong>
+			</div>
+		
+		<div id="results" class="panel-collapse collapse out">
+		  <hr>
+		  <h4>Результати</h4>
+		  <div class="resultsControl">
+		    <div class="btn-group" data-toggle="buttons">
+		      <label class="btn btn-default">
+			<input type="checkbox" name="showChain" id="showChain" value='0' autocomplete="off"> Показати
+		      </label>
+		    </div>
+		    
+		    <div class="" id="listChains">
+		      <div class="panel-body">
+		  
+		      </div>
 		    </div>
 		  </div>
 		</div>
 		
 		<hr>
-		<h4>Weight coefficient</h4>
+		<h4>Ваговий коефіцієнт</h4>
 		<div class="resultsControl">
 		  <div id="factorWeight"></div>
 		  <div class="table-responsive">
 		    <table class="table">
 		      <thead>
 			<tr>
-			  <th>Factor</th>
-			  <th>Weight</th>
+			  <th>Фактор</th>
+			  <th>Значимість</th>
 			</tr>
 		      </thead>
 		      <tbody>
-			<tr><td>Distance</td><td style="color: green;"><span id="factorDistance">50</span><span>%</span></td></tr>
-			<tr><td>Income</td><td style="color: blue;"><span id="factorIncome">50</span><span>%</span></td></tr>
+			<tr><td>Відстань</td><td style="color: green;"><span id="factorDistance">50</span><span>%</span></td></tr>
+			<tr><td>Прибуток</td><td style="color: blue;"><span id="factorIncome">50</span><span>%</span></td></tr>
 		      </tbody>
 		    </table>
 		  </div>
 		</div>
 		
 		<hr>
-		<h4>Maximum depth</h4>
+		<h4>Максимальна глибина пошуку</h4>
 		<div class="resultsControl">
 		  <div type="text" id="maxDepth"></div>
 		  <table class="table">
 		    <thead>
 		      <tr>
-			<th>Parameter</th>
-			<th>Value</th>
+			<th>Параметр</th>
+			<th>Значення</th>
 		      </tr>
 		    </thead>
 		    <tbody>
-		      <tr><td>Depth</td><td style="color: green;"><span id="parameterDepth"><?=$num_city?></span><span> of <?=$num_city?></span></td></tr>
+		      <tr><td>Глибина</td><td style="color: green;"><span id="parameterDepth"><?=$num_city?></span><span> of <?=$num_city?></span></td></tr>
 		    </tbody>
 		  </table>
 		</div>
 		
 		<?php if (!empty($markets)) : ?>
 		<hr>
-		<h4>Start point</h4>
+		<h4>Початкова точка</h4>
 		<div class="resultsControl">
 		  <select class="form-control" id="startPoint">
 		    <?php foreach ($markets as $market) :?>
@@ -88,14 +100,14 @@
 		<?php if (!empty($products)) : ?>
 		
 		<hr>
-		<h4>Available products</h4>
+		<h4>Продукти</h4>
 		<div class="resultsControl">
 		  <div class="btn-group" data-toggle="buttons">
 		    <label class="btn btn-default active">
-		      <input type="radio" name="availableProducts" id="option1" value='0' autocomplete="off"> All
+		      <input type="radio" name="availableProducts" id="option1" value='0' autocomplete="off"> Всі
 		    </label>
 		    <label class="btn btn-default">
-		      <input type="radio" name="availableProducts" id="option2" value='1' autocomplete="off"> Selected
+		      <input type="radio" name="availableProducts" id="option2" value='1' autocomplete="off"> Вибрані
 		    </label>
 		  </div>
 		  
@@ -119,14 +131,14 @@
 		<?php if (!empty($markets)) : ?>
 		
 		<hr>
-		<h4>Available markets</h4>
+		<h4>Ринки</h4>
 		<div class="resultsControl">
 		  <div class="btn-group" data-toggle="buttons">
 		    <label class="btn btn-default active">
-		      <input type="radio" name="availableMarkets" id="option1" value='0' autocomplete="off"> All
+		      <input type="radio" name="availableMarkets" id="option1" value='0' autocomplete="off"> Всі
 		    </label>
 		    <label class="btn btn-default">
-		      <input type="radio" name="availableMarkets" id="option2" value='1' autocomplete="off"> Selected
+		      <input type="radio" name="availableMarkets" id="option2" value='1' autocomplete="off"> Вибрані
 		    </label>
 		  </div>
 		  
@@ -150,8 +162,10 @@
 		
 		<hr>
 		
-		<button type="submit" class="btn btn-success form-control" id="getResultButton">Get result</button>
+		<button type="submit" class="btn btn-success form-control" id="getResultButton">Отримати результат!</button>
 		    
+		<center><i style="font-size: 24pt; margin:5px; display:none" class="fa fa-refresh" id="getResultSpinner"></i></center>
+		
 	    </div><!--/panel-body-->
 	    </div><!--/panel-->  
       </div><!--/col-->

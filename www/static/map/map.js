@@ -62,6 +62,12 @@
         curMarker.isNew = (m_icon == newImage)
         curMarker.id = id;
 	markers[id] = curMarker;
+	
+	google.maps.event.addListener(iw,'closeclick',function(){
+	  curMarker.setMap(null); //removes the marker
+	  removeMarker(id);
+	  // then, remove the infowindows name from the array
+	});
       }
       
       function toggleBounce(curMarker) {

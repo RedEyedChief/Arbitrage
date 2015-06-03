@@ -21,10 +21,10 @@ class Matherials extends CI_Controller {
 	 */
 	private function blocsBefore($ajax)
 	{
-		if($this->isLogged) $this->data['profile'] = $this->session->userdata("profile");
+		if($this->isLogged>0) $this->data['profile'] = $this->session->userdata("profile");
 		if(!$ajax)
 		{
-			if($this->isLogged)
+			if($this->isLogged > 0)
 			{
 				$this->load->view('site/site_header',$this->data['profile']);
 				
@@ -52,7 +52,7 @@ class Matherials extends CI_Controller {
 	 */
 	private function blocksAfter($ajax)
 	{
-		if($this->isLogged)
+		if($this->isLogged > 0)
 		{
 			$this->load->helper('form');
 			$this->load->view('site/site_moderator');

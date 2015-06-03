@@ -23,7 +23,7 @@ class Main extends CI_Controller {
 	{
 		if(!$ajax)
 		{
-			if($this->isLogged)
+			if($this->isLogged>=3)
 			{
 				$this->data['profile'] = $this->session->userdata("profile");
 				$this->load->view('site/site_header',$this->data['profile']);

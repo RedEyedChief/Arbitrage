@@ -24,7 +24,7 @@ class Result extends CI_Controller
     private function blocsBefore($ajax)
     {
         if (!$ajax) {
-            if ($this->isLogged) {
+            if ($this->isLogged>0) {
                 $this->data['profile'] = $this->session->userdata("profile");
                 $this->load->view('site/site_header', $this->data['profile']);
             } else {
@@ -35,7 +35,7 @@ class Result extends CI_Controller
 
     private function blocksAfter($ajax)
     {
-        if ($this->isLogged) {
+        if ($this->isLogged>0) {
             $this->load->helper('form');
         }
         if (!$ajax) {

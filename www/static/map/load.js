@@ -36,8 +36,13 @@ function moveMarker(map,curMarker)
         
         $("#saveAllButton").removeClass("blue");
         $("#saveAllButton").addClass("red");
+        $("#unsavedMessage").show()
     })
     
+}
+
+function removeMarker(id) {
+    $.post("/map/removeMarker/"+id,{})
 }
 
 function updateGeo(marker)
@@ -70,6 +75,8 @@ function saveMap() {
         });
         newMarkers=[];
         changedMarkers=[];
+        $("#errorMessage").show()
+        $("#unsavedMessage").hide()
     });
 }
 
@@ -92,25 +99,27 @@ function getResult(start, depth, c_dist) {
         
         $("#listChains > .panel-body").html(data.chain)
         
-        if (typeof flightPath !== "undefined") {
-            flightPath.setMap(null);
-        }
-        flightPlanCoordinates = []
-        var way = data.way
-        
-        way.forEach(function(el){
-            var point = markers[el].getPosition()
-            flightPlanCoordinates.push(new google.maps.LatLng(point.A, point.F))
-        });
-           
-        flightPath = new google.maps.Polyline({
-            path: flightPlanCoordinates,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-        });
-        
-          flightPath.setMap(map);
+        try{
+            if (typeof flightPath !== "undefined") {
+                flightPath.setMap(null);
+            }
+            flightPlanCoordinates = []
+            var way = data.way
+            
+            way.forEach(function(el){
+                var point = markers[el].getPosition()
+                flightPlanCoordinates.push(new google.maps.LatLng(point.A, point.F))
+            });
+               
+            flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            });
+            
+              flightPath.setMap(map);
+        }catch(e){}
           
     });
 }
@@ -120,7 +129,24 @@ $(document).ready(function(){
         var depth = $("#parameterDepth").html();
         var start = $("#startPoint").val();
         var c_dist = $("#factorDistance").html();
-        getResult(start,depth,c_dist)
+        
+        $(this).attr('disabled','disabled');
+        $('#getResultSpinner').slideDown(500).addClass("spin-active add-item")
+    
+        try{
+            getResult(start,depth,c_dist)
+        }catch(e)
+        {
+            //console.error(e)
+        }
+        setTimeout(function(){
+            $("#getResultButton").removeAttr('disabled','disabled');
+            $('#getResultSpinner').slideUp(500).removeClass("spin-active add-item")
+            $('html,body').animate({scrollTop: 52},1500,'swing',function(){
+                $("#results").collapse("show")
+                $("#showChain").click()
+            })
+        },2000)
     })
 });
 
