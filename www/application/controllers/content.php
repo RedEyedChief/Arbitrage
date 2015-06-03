@@ -44,7 +44,7 @@ class Content extends CI_Controller {
 			echo json_encode(array("data"=>$data,"status"=>true));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -77,10 +77,10 @@ class Content extends CI_Controller {
 	{
 		try{
 			if($this->isLogged >= 3) $this->content_model->removeUser($this->input->post("id"));
-			json_encode(array("status"=>true));
+			echo json_encode(array("status"=>true));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -92,10 +92,10 @@ class Content extends CI_Controller {
 	{
 		try{
 			if($this->isLogged >= 3) $this->content_model->removeProduct($this->input->post("id"));
-			json_encode(array("status"=>true));
+			echo json_encode(array("status"=>true));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	/**
@@ -106,10 +106,10 @@ class Content extends CI_Controller {
 	{
 		try{
 			if($this->isLogged >= 3) $this->content_model->removeItem($this->input->post("id"));
-			json_encode(array("status"=>true));
+			echo json_encode(array("status"=>true));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -121,10 +121,10 @@ class Content extends CI_Controller {
 	{
 		try{
 			if($this->isLogged >= 3) $this->content_model->removePrice($this->input->post("id"));
-			json_encode(array("status"=>true));
+			echo json_encode(array("status"=>true));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -228,7 +228,7 @@ class Content extends CI_Controller {
 					       "status"=>true));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -239,7 +239,7 @@ class Content extends CI_Controller {
 					       "status"=>true));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -250,7 +250,7 @@ class Content extends CI_Controller {
 					       "status"=>true));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -261,7 +261,7 @@ class Content extends CI_Controller {
 					       "status"=>true));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -278,7 +278,7 @@ class Content extends CI_Controller {
 					       "status"=>true));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -298,7 +298,7 @@ class Content extends CI_Controller {
 					       'status'=>($this->data['products']!=false)));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -311,7 +311,7 @@ class Content extends CI_Controller {
 					       'status'=>($this->data['items']!=false)));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -324,7 +324,7 @@ class Content extends CI_Controller {
 					       'status'=>($this->data['prices']!=false)));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -345,7 +345,7 @@ class Content extends CI_Controller {
 					       'status'=>($this->data['users']!=false)));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -359,7 +359,7 @@ class Content extends CI_Controller {
 					       'status'=>($this->data['items']!=false)));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
@@ -369,25 +369,23 @@ class Content extends CI_Controller {
 			$this->content_model->updateProduct($this->input->post(null));
 			$this->data['products'] = $this->content_model->getProducts(0,1,$this->input->post('idProduct'));
 			$this->data['async'] = true;
+			//print_r($this->load->view('admin/lists/products_list',$this->data,true));
 			echo json_encode(array('data'=>$this->load->view('admin/lists/products_list',$this->data,true),
 					       'status'=>($this->data['products']!=false)));
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			echo json_encode(array("status"=>false));
 		}
 	}
 	
-	public function updatePrices()
+	public function updatePrices($id)
 	{
 		try{
-			$this->content_model->updatePrice($this->input->post(null));
-			$this->data['prices'] = $this->content_model->getPrices(0,1,$this->input->post('idPrices'));
-			$this->data['async'] = true;
-			echo json_encode(array('data'=>$this->load->view('admin/lists/prices_list',$this->data,true),
-					       'status'=>($this->data['prices']!=false)));
+			$this->content_model->updatePrice($this->input->post(null),$id);
+			redirect('/dashboard/prices','refresh');
 		}catch(Exception $e)
 		{
-			json_encode(array("status"=>false));
+			redirect('/dashboard/prices','refresh');
 		}
 	}
 }

@@ -339,6 +339,32 @@ footer {
   background: white;
 }
 
+input.has-success
+{
+    border-color: #9EEA64!important;
+}
+
+input.has-error
+{
+    border-color: #a94442;
+}
+
+.text-prices
+{
+  color: #fed136;
+}
+
+ul.text-muted li
+{
+  text-align: left;
+  padding-bottom:3px;
+}
+
+.icon-green
+{
+  color:rgb(63, 225, 52);
+}
+
 .spin-active {
     -webkit-animation: spin 1000ms infinite ease;
     animation: spin 1000ms infinite ease;

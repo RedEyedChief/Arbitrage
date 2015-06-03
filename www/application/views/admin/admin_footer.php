@@ -46,7 +46,7 @@
                 <h4><?=$this->lang->line('list_edit')?></h4>
             </div>
             <div class="modal-body">
-                <div id="editorFields">
+                <div id="editorFields" style="font-family: 'FontAwesome','Helvetica Neue', Helvetica, Arial, sans-serif">
                   
                 </div>
             </div>

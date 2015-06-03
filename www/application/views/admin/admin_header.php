@@ -13,6 +13,7 @@
 		<script src="/static/jquery/jquery.min.js"></script>
 		<script src="/static/jquery/jquery-ui.js"></script>
 		<script src="/static/admin/script/bootstrap.min.js"></script>
+		<script src="/static/jquery/jquery.validate.js"></script>
 				
 		<!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>

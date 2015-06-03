@@ -80,7 +80,7 @@ class Dashboard extends CI_Controller {
 		$this->blocsBefore();
 		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
 		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
-		$this->data['users'] = $this->content_model->getUsers($start,$end);
+		$this->data['users'] = $this->content_model->getUsers($start,$end-$start);
 		$this->data['async']=false;
 		$this->data['num']=$this->content_model->getUsersNum();
 		$this->load->view('admin/lists/users_list',$this->data);
@@ -95,7 +95,7 @@ class Dashboard extends CI_Controller {
 		$this->blocsBefore();
 		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
 		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
-		$this->data['orders'] = $this->content_model->getOrders($start,$end);
+		$this->data['orders'] = $this->content_model->getOrders($start,$end-$start);
 		$this->data['async']=false;
 		$this->data['num']=$this->content_model->getOrdersNum();
 		$this->load->view('admin/lists/orders_list',$this->data);
@@ -125,7 +125,7 @@ class Dashboard extends CI_Controller {
 		$this->blocsBefore();
 		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
 		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
-		$this->data['products'] = $this->content_model->getProducts();
+		$this->data['products'] = $this->content_model->getProducts($start,$end-$start);
 		$this->data['async']=false;
 		$this->data['num']=$this->content_model->getProductsNum();
 		$this->load->view('admin/lists/products_list',$this->data);
@@ -140,7 +140,7 @@ class Dashboard extends CI_Controller {
 		$this->blocsBefore();
 		$start = $this->input->get('start')!=''?$this->input->get('start'):0;
 		$end = $this->input->get('end')!=''?$this->input->get('end'):10;
-		$this->data['items'] = $this->content_model->getItems($start, $end, $idProduct);
+		$this->data['items'] = $this->content_model->getItems($start, $end-$start, $idProduct);
 		$this->data['markets'] = $this->data_model->get_markets();
 		$this->data['products'] = $this->data_model->get_products();
 		$this->data['async']=false;

@@ -4,11 +4,17 @@ $('.confirm-delete').click(function(e) {
 
 $('#formEdit').submit(function() {
     $('#confirm-edit').modal('hide')
+    if (!$('#formEdit').valid()) {
+        return false;
+    }
     editor.save(this)
     return false
 });
 
 $('#formAdd').submit(function(){
+    if (!$('#formAdd').valid()) {
+        return false;
+    }
     $('#addItem').attr('disabled','disabled');
     $("#addItem>span").addClass("spin-active add-item")
     manage.add(this);
@@ -44,8 +50,12 @@ var manage = {
             }
             else
             {
-                $(".remove-icon[element-id="+manage.id+"]").parent().removeClass("newItem");
-                $(".remove-icon[element-id="+manage.id+"]").parent().addClass("removedUser");
+                $(".remove-icon[element-id="+manage.id+"]").parent().addClass("removedUser")
+                $(".remove-icon[element-id="+manage.id+"]").parent().fadeOut(1500, function(){
+                    $(".remove-icon[element-id="+manage.id+"]").parent().remove()
+                })
+                //$(".remove-icon[element-id="+manage.id+"]").parent().remove()//Class("newItem");
+                //$(".remove-icon[element-id="+manage.id+"]").parent().addClass("removedUser");
             }
         })
         $('#confirm-delete').modal('hide')
@@ -95,7 +105,7 @@ var editor = {
     source: null,
     id: "",
     info: null,
-    userTemplate: '<div class="input-group-addon" id="description"></div><input class="form-control" id="data" value="val"></input>',
+    userTemplate: '<div class="input-group-addon" id="description"></div><input class="form-control" data-rule-lettersonly="true" id="data" value="val"></input>',
 
     getInfo: function()
     {
@@ -125,14 +135,31 @@ var editor = {
                             //alert(key+" "+obj);
                             
                             group.find("#description").html(replacer.name)
-                            if(replacer.attr!='')group.find("#data").attr(replacer.attr,replacer.attr)
+                            if(replacer.attr=='readonly')group.find("#data").attr(replacer.attr,replacer.attr)
                             console.log(group.find("#data").val())
                             group.find("#data").attr('value',obj)
                             group.find("#data").attr('name',key)
+                            try{ replacer.attr.forEach(function(e){
+                                group.find("#data").attr('data-rule-'+e+'',true)
+                            })}catch(e){}
+                            
                             $("#editorFields").append(group.html());
                         }
                     }
                 }
+                
+                $("#formEdit").validate({
+                    validClass: 'has-success',
+                    highlight: function (element) {
+                        $(element).removeClass('has-success').addClass('has-error');
+                    },
+                    success: function (element) {
+                        $(element).closest('input').removeClass('has-error').addClass('has-success');
+                    },
+                    errorPlacement: function(error,element) {
+                        return true;
+                    }
+                })
             }
         })
     },
@@ -165,37 +192,35 @@ var editor = {
         
         Users: {
             idProfile: ['ID','readonly'],
-            firstName: ['Name',''],
-            surName: ['Surname',''],
-            lastName: ['Last name',''],
-            role: ['Role',''],
-            mail: ['Email','']
+            firstName: ['Name',['required']],
+            surName: ['Surname',['required']],
+            lastName: ['Last name',['']],
+            role: ['Role',['required'],'role'],
+            mail: ['Email',['required','email']]
         },
         
         Products: {
             idProduct: ['ID','readonly'],
-            nameProduct: ['Name',''],
-            priceProduct: ['Price',''],
-            countProduct: ['Count',''],
-            categoryProduct: ['Category','']
+            nameProduct: ['Name',['required']],
+            categoryProduct: ['Category',['required']]
         },
         
         Prices: {
             idPrice: ['ID','readonly'],
-            namePrice: ['Name',''],
-            costPrice: ['Cost','']
+            namePrice: ['Name',['required']],
+            costPrice: ['Cost',['required']]
         },
         
         Cities: {
             idCity: ['ID','readonly'],
-            nameCity: ['Name','']
+            nameCity: ['Name',['required']]
         },
         
         Items: {
             idItem: ['ID','readonly'],
-            priceItem: ['Name',''],
-            product_idProduct: ['Product','','product_idProduct'],
-            market_idMarket: ['Market','','market_idMarket']
+            priceItem: ['Price',['number','required']],
+            product_idProduct: ['Product',['required'],'product_idProduct'],
+            market_idMarket: ['Market',['required'],'market_idMarket']
         }
     }
 }

@@ -135,7 +135,7 @@ Class Content_model extends CI_Model
     function getPrices($start=0,$end=10,$id=false)
     {
         $where = $id!=false?"WHERE price.idPrice=".$id:"";
-        $query = $this -> db -> query("SELECT * FROM price INNER JOIN area ON idPrice = price_idPrice ".$where." ORDER BY idArea DESC LIMIT ".$start.",".$end);
+        $query = $this -> db -> query("SELECT namePrice AS name, costPrice AS cost FROM price ".$where." ORDER BY idPrice ASC LIMIT ".$start.",".$end);
         
         if($query -> num_rows() > 0)
         {
@@ -242,7 +242,7 @@ Class Content_model extends CI_Model
      * @param Number $end ?????? ????, ??
      * @return var  ????? ????????????
      */
-    function getOrders($start=0,$end=10,$order="profile.isActive DESC, profile.role DESC")
+    function getOrders($start=0,$end=10,$order="idOrder DESC")
     {
         $query = $this -> db -> query("SELECT idOrder AS id, id_start_market AS id_start, nameMarket AS start_market, mail, products, depth, c_dist, orders.id_price AS price
                                       FROM orders LEFT JOIN profile ON idProfile = profile_idProfile LEFT JOIN market ON idMarket = id_start_market"." ORDER BY ".$order." LIMIT ".$start.",".$end);
@@ -296,11 +296,8 @@ Class Content_model extends CI_Model
     
     function removeProduct($id)
     {
-        $data = array(
-               'isActiveProduct' => 0
-            );
         $this->db->where('idProduct',$id);
-        $this->db->update('product',$data);
+        $this->db->delete('product');
     }
     
     function removeItem($id)
@@ -404,7 +401,7 @@ Class Content_model extends CI_Model
     function getProductFields($id)
     {
         $query = $this -> db -> query("SELECT
-                                    idProduct,nameProduct,categoryProduct, isActiveProduct
+                                    idProduct,nameProduct,categoryProduct
                                     FROM product
                                     WHERE idProduct='".$id."'
                                     LIMIT 1");
@@ -489,9 +486,9 @@ Class Content_model extends CI_Model
         $this->db->update('product', $data);
     }
     
-    function updatePrice($data)
+    function updatePrice($data,$id)
     {
-        $this->db->where('idPrice', $data['idPrice']);
+        $this->db->where('idPrice', $id);
         $this->db->update('price', $data);
     }
     

@@ -32,34 +32,64 @@
 			  <li><a href="?start=<?=$i*10?>&end=<?=($i+1)*10?>"><?=$i+1?></a></li>
 			  <?php endfor; ?>
 			</ul>
-			
 
-			<div id="listpoll">
+			<table class="table table-striped">
+			<thead>
+			  <tr><th>ID</th><th>Name</th><th>Category</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
+			</thead>
+			<tbody id="listpoll">
 			  <?php endif;?>
 				<?php $c=1;foreach ($products as $item):?>
-				<?php switch('4'){
-				    case '0':$icon = "fa fa-ban"; break;
-				    case '2':$icon = "fa fa-star-o"; break;
-				    case '3':$icon = "fa fa-shield"; break;
-				    case '4':$icon = "fa fa-certificate"; break;
-				    default: $icon = "";break;
-				}
-				if($item->isActiveProduct==0) $removed = "removedUser"; else $removed = "";
-				if($async) $added = "newItem"; else $added = ""?>
-					<div class="item item-product-table <?=$removed." ".$added?>">
-						<span class="icon remove-icon <?=$icon?>"></span>
-						<span class="id-article itemId"><?=$item->idProduct?></span>
-						<span class="author-article itemName"><?=$item->nameProduct?></span>
-						<span class="icon edit-icon pull-right" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-edit"><i class="fa fa-edit text-muted"></i></span>
-						<span class="icon remove-icon pull-right" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-remove text-muted"></i></span>
-					</div>
+		      		<?php if($async) $added = "newItem"; else $added = ""?>
+					<tr class="item link <?=$added?>">
+						<td class="id-article itemId"><?=$item->idProduct?></td>
+						<td class="author-article"><?=$item->nameProduct?></td>
+						<td class="itemName"><?=$item->categoryProduct?></td>
+						<td class="edit-icon" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-edit"><i class="fa fa-edit text-muted"></i></td>
+						<td class="remove-icon" element-id="<?=$item->idProduct?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-remove text-muted"></i></td>
+					</tr>
 				<?php $c++;endforeach;?>
 				<?php if(!$async):?>
-			</div>
+			</tbody>
+		  </table>
 	    
-	  <div id="newsreaderFooter"><? if(count($products)==10): ?><div class="show-more">Show more ...</div><? endif;?></div>
-			
+	  
 	    </div><!--/panel-body-->
 	    </div><!--/panel-->  
       </div><!--/col-->
+      
+      
+      <script>
+	jQuery.validator.addMethod("lettersonly", function(value, element) {
+	  return this.optional(element) || /^[1234567890àáâãäå¸³¿²¯´¥æçèéêëìíîïğñòóôõö÷øùüûúışÿÀÁÂÃÄÅ¨ÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÜÛÚİŞ@.ßqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-]*$/.test(value);
+	}, "Letters only please");
+	
+	$('#formAdd').validate({
+	validClass: 'has-success',
+        rules: {
+            nameProduct: {
+                minlength: 2,
+                required: true,
+		lettersonly: true
+            },
+	    categoryProduct: {
+                minlength: 2,
+                required: true,
+		lettersonly: true
+            }
+        },
+        highlight: function (element) {
+	  console.log($(element))
+            $(element).removeClass('has-success').addClass('has-error');
+        },
+        success: function (element) {
+	  console.log($(element).closest('.form-control'))
+            $(element).closest('input').removeClass('has-error').addClass('has-success');
+        },
+errorPlacement: function(error,element) {
+    return true;
+  }
+    });
+      </script>
+      
       <?php endif; ?>

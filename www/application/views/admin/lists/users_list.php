@@ -12,24 +12,24 @@
 			    <div class="input-group">
 			      <input style="display:none">
 			      <input type="password" style="display:none">
-			      <select class="form-control" name="role">
-				<option value="1">&#xf007;</option>
-				<option value="2">&#xf006;</option>
-				<option value="3">&#xf132;</option>
-				<option value="4">&#xf0A3;</option>
+			      <select class="form-control has-tooltip" name="role" data-toggle="tooltip" data-placement="top" title="Role">
+				<option value="1">&#xf007; - User</option>
+				<option value="2">&#xf006; - Moderator</option>
+				<option value="3">&#xf132; - Admin</option>
+				<option value="4">&#xf0A3; - Superadmin</option>
 			      </select>
 			      <div class="input-group-addon"></div>
-			      <input type="email" class="form-control" name="mail" id="exampleInputAmount" placeholder="E-mail" autocomplete="off">
+			      <input type="email" class="form-control" name="mail" id="exampleInputAmount" placeholder="E-mail" autocomplete="off" required>
 			      <div class="input-group-addon"></div>
-			      <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off">
+			      <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" required>
 			      <div class="input-group-addon"></div>
 			      <input type="password" class="form-control" name="password2" id="password2" placeholder="" autocomplete="off" style="display: none;">
 			      <div class="input-group-addon" style="display: none;"></div>
-			      <input type="text" class="form-control" name="firstname" id="exampleInputAmount" placeholder="Name" autocomplete="off">
+			      <input type="text" class="form-control" name="firstname" id="exampleInputAmount" placeholder="Name" autocomplete="off" required>
 			      <div class="input-group-addon"></div>
-			      <input type="text" class="form-control" name="surname" id="exampleInputAmount" placeholder="Surname" autocomplete="off">
+			      <input type="text" class="form-control" name="surname" id="exampleInputAmount" placeholder="Surname" autocomplete="off" required>
 			      <div class="input-group-addon"></div>
-			      <button type="submit" class="btn btn-success form-control" id="addItem"><span>&#xf055;</span></button>
+			      <button type="submit" class="btn btn-success form-control has-tooltip" id="addItem" data-toggle="tooltip" data-placement="top" title="Add"><span>&#xf055;</span></button>
 			    </div>
 			  </div>
 			  
@@ -50,10 +50,11 @@
 			
 		  <table class="table table-striped">
 			<thead>
-			  <tr><th style="width: 28px;"></th></th><th>ID</th><th>Email</th><th>Name</th><th>Role</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
+			  <tr><th style="width: 28px;"></th><th>ID</th><th>Email</th><th>Name</th><th>Role</th><th style="width: 30px;"></th><th style="width: 30px;"></th></tr>
 			</thead>
 			<tbody id="listpoll">
 			  <?php endif;?>
+			  <?php if(!empty($users)):?>
 				<?php $c=1;foreach ($users as $item):?>
 				<?php switch($item->role){
 				    case '2':$icon = "fa fa-star-o"; break;
@@ -73,6 +74,7 @@
 						<td class="remove-icon" element-id="<?=$item->idProfile?>" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-remove text-muted"></i></td>
 					</tr>
 				<?php $c++;endforeach;?>
+				<?php endif;?>
 				<?php if(!$async):?>
 			</tbody>
 		  </table>
@@ -81,8 +83,49 @@
 	    </div><!--/panel-body-->
 	    </div><!--/panel-->  
       </div><!--/col-->
-      <?php endif; ?>
+     
       
+      <script>
+	jQuery.validator.addMethod("lettersonly", function(value, element) {
+	  return this.optional(element) || /^[1234567890абвгдеёіїІЇґҐжзийклмнопрстуфхцчшщьыъэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЫЪЭЮ@.ЯqwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-]*$/.test(value);
+	}, "Letters only please");
+	
+	$('#formAdd').validate({
+	validClass: 'has-success',
+        rules: {
+            password: {
+                rangelength: [3,20],
+                required: true,
+            },
+            mail: {
+                required: true,
+                email: true,
+		rangelength: [4,40],
+		lettersonly: true
+            },
+            firstname: {
+                minlength: 2,
+                required: true,
+		lettersonly: true
+            },
+	    surname: {
+                minlength: 2,
+                required: true,
+		lettersonly: true
+            }
+        },
+        highlight: function (element) {
+	  console.log($(element))
+            $(element).removeClass('has-success').addClass('has-error');
+        },
+        success: function (element) {
+	  console.log($(element).closest('.form-control'))
+            $(element).closest('input').removeClass('has-error').addClass('has-success');
+        },
+errorPlacement: function(error,element) {
+    return true;
+  }
+    });
+      </script>
       
-      
-         
+       <?php endif; ?>   
