@@ -85,7 +85,7 @@
                 <?php $count = 1;
                     foreach($orders as $order){
                         print "<tr>";
-                        print "<td>". $count ."</td>";
+                        print "<td>". $order['idOrder'] ."</td>";
                         print "<td>".$order['date']."</td>";
                         $arr=unserialize($order['products']);
                        // print_r( $arr);
@@ -99,7 +99,7 @@
                          print "<td>";
                          $count++; ?>
 
-                        <button id="show_result" name="show_result" class="btn btn-primary" onclick="window.location.href='result/result_ok/<?=$count?> '">Show results</button>
+                        <button id="show_result" name="show_result" class="btn btn-primary" onclick="window.location.href='orders/result/<?=$order['idOrder']?> '">Show results</button>
                         <?php
                         print "</td>";
                         print "</tr>";

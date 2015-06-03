@@ -54,9 +54,9 @@ $("#order_form").on("submit", function(e){
                             // this case `data: 0`.
                             "render": function ( data, type, row ) {
                                 return '<form class="form-inline">' +
-                                        '<div class="form-group">' +
+                                        '<div class="form-groupcheckbox checkbox-success">' +
 
-                                            '<input type="checkbox" value="Order" data-product="'+ row["nameProduct"] +'"> ' +
+                                            '<input type="checkbox-circle" value="Order" data-product="'+ row["nameProduct"] +'"> ' +
                                         '</div>' +
                                         ' </form>';
                             },
@@ -96,4 +96,5 @@ $("#order_form").on("submit", function(e){
     $("#orders").dataTable({
         "dom": 'rt<"bottom"p>',
     });
+
 });

@@ -98,15 +98,17 @@ function getMarket($market_id,$add_empty=false)
         return $query->result_array();
     }
     function loadUserPrice($user_id){
-        $sql = "select namePrice
+        $sql = "select idPrice,namePrice
                 from price p
                 right join profile f on p.idPrice = f.id_price
                 where f.idProfile = ".intval($user_id)." ";
 
         $query = $this->db->query($sql);
         $result = array();
-        foreach ($query->result_array() as $row) {
-            $result[] = $row;
+        foreach ($query->result() as $row) {
+             $price['idPrice'] = $row->idPrice;
+            $price['namePrice'] = $row->namePrice;
+            $result[] = $price;
         }
         return $result;
     }
@@ -139,7 +141,7 @@ function getMarket($market_id,$add_empty=false)
         return $result;
     }
     function loadUserOrders($user_id){
-        $sql = "select DATE_FORMAT(o.date,'%d/%m/%Y %H:%s') as date, products
+        $sql = "select idOrder,DATE_FORMAT(o.date,'%d/%m/%Y %H:%s') as date, products
                 from orders o
                 where o.Profile_idProfile = ".intval($user_id)." 
                 group by o.idOrder";

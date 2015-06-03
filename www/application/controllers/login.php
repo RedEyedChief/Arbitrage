@@ -230,13 +230,18 @@ class Login extends CI_Controller {
 	{
 		try {
 		$this->load->model('user_model');
+		if(!isset($_POST['mail'])||empty($_POST['mail']))
+		{
 		$this->isLogged = $this->user_model->check_logged();
 		
 			$ajax = $this->input->post("ajax");
        		$this->blocsBefore($ajax);
-		 	$this->blocksAfter($ajax);
+       		$this->blocksAfter($ajax);
+		 	
 		//$data = $this->input->post(NULL);
-		if(isset($_POST['mail'])&&!empty($_POST['mail']))
+		 $this->load->view('login/view_reset_pass');
+		}
+		elseif(isset($_POST['mail'])&&!empty($_POST['mail']))
 		{
 			$this->load->library('form_validation');
 			$this->form_validation->set_rules('mail','Email','trim|required|valid_email|xss_clean');
@@ -250,17 +255,17 @@ class Login extends CI_Controller {
 				if($result){
 					$this->send_reset_password_email($mail,$result);
 					//$this->load->view('site_header');
+				//	$this->load->view('login/view_reset_pass_sent',array('mail'=>$mail));
+					print json_encode(array("<li>The email has been sent to ".$mail."</li>"));
 					$this->load->view('login/view_reset_pass_sent',array('mail'=>$mail));
 				}else{
 					//$this->load->view('site_header');
-					$this->load->view('login/view_reset_pass',array('error'=>'Email is not registered'));
+					print json_encode("<li>User with this email dont exist. </li>");
 				}
 				
 			}
-		}else{
-					//$this->load->view('site_header');
-					$this->load->view('login/view_reset_pass');
-				}
+		}
+
 			} catch (Exception $e) {
 			echo $e->getMEssage();
 		}

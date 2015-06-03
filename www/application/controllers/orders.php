@@ -12,7 +12,7 @@ class Orders extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(array('user_model', 'order_model','data_model'));
+        $this->load->model(array('user_model', 'order_model','profile_model', 'data_model','stat_model'));        
         $this->load->database();
         $this->load->library(array('session','Dataloader'));
         $this->load->helper(array("cookie"));
@@ -46,16 +46,39 @@ class Orders extends CI_Controller
     function index()
     {
         $this->isLogged = $this->user_model->check_logged();
-
+        $user_profile = $this->session->userdata("profile");                                                                                                                                                                                   
+        $user_id = $user_profile["idProfile"];
         $this->data["city"] = $this->order_model->getCity(true);
-
+        $price_load = $this->profile_model->loadUserPrice($user_id);
+        $price=$price_load[0]["idPrice"];
         $ajax = $this->input->post("ajax");
         $this->blocsBefore($ajax);
-
+        $num = $this->data_model->get_num_markets();
+        $data['num_city'] = $num[0]->num;
+        $data['markets'] = $this->data_model->get_markets();
+        $data['products'] = $this->data_model->get_products();
+        if(($price == "1") || ($price =="2"))
+        {
         $this->load->view('orders/products_list',$this->data);
-
+        } else
+        {
+        $this->load->view('orders/deluxe_product_list',$data);
+        }
         $this->blocksAfter($ajax);
     }
+    function request()
+        {
+            $this->blocsBefore();
+        $num = $this->data_model->get_num_markets();
+        $data['num_city'] = $num[0]->num;
+        $data['markets'] = $this->data_model->get_markets();
+        $data['products'] = $this->data_model->get_products();
+            $this->load->view('general/map', $data);
+            $this->load->view('admin/splitters/end_row');
+            $this->load->view('admin/admin_footer');
+        
+        $this->stat_model->insertLog("visit","dashboard/request");
+        }
     function getMarkets(){
         try {
         $city = $this->input->post("city");
@@ -87,7 +110,7 @@ class Orders extends CI_Controller
         } else {
             print json_encode(array("result"=>false, "error"=>"Cant place new order!"));
         }
-        
+
         } catch (Exception $e) {
         echo $e->getMEssage();
         }

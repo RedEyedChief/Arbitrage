@@ -1,5 +1,5 @@
  $(document).ready(function () {
-          try{
+        
             $("#factorWeight").slider(
               {
                 min: 0,
@@ -22,7 +22,7 @@
                 slide: showValueDepth,
                 range: "min"
             });
-          }catch(e){}
+      
           
           $("#update").click(function () {
               $("#slider").slider("option", "value", $("#seekTo").val());
