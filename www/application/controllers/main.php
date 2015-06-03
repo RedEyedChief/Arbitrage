@@ -75,7 +75,7 @@ class Main extends CI_Controller {
 		$this->isLogged = $this->user_model->check_logged();
 		
 		$this->stat_model->insertLog("visit","site");
-		
+
 		$ajax = $this->input->post("ajax");
 		$this->blocsBefore($ajax);
 		
